@@ -512,6 +512,23 @@ mark{background:#fff0b8;border-radius:4px}
 
 .pnm-body p,.pnm-body .alist,.pnm-body.pn p,.pnm-body.pn .alist{max-width:none}
 .pnm-body .lede{max-width:none}
+
+.nav a.ni .cnt.pv{background:var(--warn-bg);color:var(--warn);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+
+.sigpad-wrap{position:relative;border:1.5px dashed var(--line-strong);border-radius:12px;background:var(--surface);margin-top:8px;height:170px;overflow:hidden}
+.sigpad-wrap canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;display:block}
+.sigpad-wrap .sig-line{position:absolute;left:20px;right:20px;bottom:40px;border-bottom:1px solid var(--line-strong);pointer-events:none}
+.sigpad-wrap .sig-hint{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;color:var(--fg-3);pointer-events:none;font-size:14px}
+.sigpad-wrap.inked .sig-hint{display:none}
+.sigpad-wrap .btn{position:absolute;right:10px;top:10px}
+.field.invalid .sigpad-wrap{border-color:var(--bad)}
+.field .seg{align-self:flex-start;margin-top:2px}
+.sigimg{max-width:260px;max-height:90px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px;display:block}
+.flow{list-style:none;margin:6px 0 4px;padding:0;display:grid;gap:0}
+.flow li{display:grid;grid-template-columns:30px 1fr;gap:14px;padding-bottom:16px;position:relative}
+.flow li:not(:last-child)::before{content:"";position:absolute;left:14px;top:30px;bottom:2px;width:2px;background:var(--line-strong)}
+.flow .n{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:13px}
+.flow .fh{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:2px}
 </style></head><body><noscript>This prototype needs JavaScript.</noscript><script>
 /* ============ utilities ============ */
 const $=(s,r=document)=>r.querySelector(s);
@@ -1327,6 +1344,7 @@ function signBlock(o){
   const emails=o.stage==='won'?emailDrafts(o):o.stage==='awaiting_client'?clientEmailPreview(o):'';
   return `<section class="sign" style="border-color:var(--ok)"><div class="sigmark">${ic('lock')}<div><b>Signed off by ${esc(f.signedBy)}</b><div class="xs muted">${esc(f.signedAt)} · version ${o.version}</div></div></div>
    <h2>${o.stage==='won'?'Endorsed and converted':o.stage==='awaiting_approval'?'Waiting for approval':'Waiting for the client'}</h2><div class="timeline">${tl}</div>
+   ${o.stage==='won'&&ce.signer&&ce.signer.sig?`<div><div class="xs muted" style="margin-bottom:6px">Client signature: ${esc(ce.signer.name)}, ${esc(ce.signer.title)}</div>${ce.signer.sig.type==='drawn'?`<img class="sigimg" src="${ce.signer.sig.img}" alt="Client's drawn signature">`:`<div class="nm" style="font-family:'Snell Roundhand','Segoe Script','Brush Script MT',cursive;font-size:26px">${esc(ce.signer.name)}</div>`}</div>`:''}
    ${o.stage==='won'?`<div class="notice ok">${ic('check')}<div>Contract <b>${ce.contractNo}</b> is on the account${CO(o.deal.companyId)?` <a href="#/accounts/${o.deal.companyId}">View account</a>`:''}. The renewal pipeline picks it up automatically.</div></div>`:`<div class="proto"><span class="tag">Prototype controls</span>${proto}</div>`}
    ${o.stage!=='won'?`<div><button class="btn sm danger" data-act="revise">Revise and void sign-off</button></div>`:''}</section>${emails}`;
 }
@@ -1500,6 +1518,9 @@ document.addEventListener('input',e=>{
 const ACT={
  'dlg-close':()=>closeDialog(),
  'notes':()=>openNotes(),
+ 'preview-intro':(el,e)=>{e.preventDefault();previewIntro()},
+ 'cl-sig-clear':()=>{CL.sig='';initSigPad(true);const w=$('.sigpad-wrap');if(w)w.classList.remove('inked')},
+ 'cl-sig-mode':el=>{clientVal();CL.sigMode=el.dataset.m;CL.err.sig='';drawClient()},
  'banner-off':()=>{S.bannerOff=true;persist();buildBanner()},
  'reset':()=>{if(confirm('Reset all prototype data and drafts?'))resetDemo()},
  'export':()=>toast('Export is not part of this prototype','info'),
@@ -1546,11 +1567,12 @@ document.addEventListener('click',e=>{
 
 
 /* ============ client-facing endorsement page ============ */
-const CL={o:null,step:'verify',changing:false,err:{},name:'',title:'',agree:false,code:''};
+const CL={sig:'',sigMode:'draw',preview:false,o:null,step:'verify',changing:false,err:{},name:'',title:'',agree:false,code:''};
 const OTP='482915';
 const maskEmail=e=>{const x=String(e||'').split(',')[0].trim(),[u,d]=x.split('@');return u?u[0]+'***@'+(d||''):''};
 function endorseOpp(o,signer){
-  const ce=o.ce;ce.endorsedAt=nowStamp();ce.signer=signer;
+  const ce=o.ce;
+  if(CL.preview){ce.endorsedAt=nowStamp();ce.signer=signer;ce.contractNo='PREVIEW';o.stage='won';return}ce.endorsedAt=nowStamp();ce.signer=signer;
   ce.contractNo='26'+String(TODAY.getMonth()+1).padStart(2,'0')+'-'+String(S.nextContract++).padStart(3,'0');o.stage='won';
   const co=CO(o.deal.companyId);
   if(co){const starts=o.serviceKeys.map(k=>o.services[k].start).filter(Boolean).sort();const start=starts[0]||iso(TODAY);const ends=o.serviceKeys.map(k=>calcSvc(o.services[k]).end).filter(Boolean).sort();const end=ends.pop()||iso(addMonths(pd(start),12));
@@ -1559,16 +1581,37 @@ function endorseOpp(o,signer){
   persist();
 }
 function clientShell(inner,o){
-  return `<div class="cl-proto"><span class="tag">Prototype</span> You are viewing what the client sees. <a href="#/opps/${o?o.id:''}">Back to the CRM</a></div>
+  return `<div class="cl-proto"><span class="tag">Prototype preview only</span> ${CL.preview?'This is how a client will see the booking form. Nothing is saved or sent.':'You are viewing what the client sees.'} <a href="${CL.preview?'#/accounts':'#/opps/'+(o?o.id:'')}">${CL.preview?'Exit preview':'Back to the CRM'}</a></div>
   <div class="cl"><header class="cl-hd"><div class="brand"><div class="mark">O</div><span class="n">OOm</span></div><span class="muted sm">${ic('lock')} Secure signing page</span></header><main class="cl-main">${inner}</main>
   <footer class="cl-ft muted xs">You are receiving this because OOm has prepared a booking form for ${o?esc(o.deal.companyName):'you'}. Questions? Reply to the email you were sent.</footer></div>`;
 }
+function previewOpp(){
+  const keep=S.nextOpp;const o=newOpp();S.nextOpp=keep;
+  demoFill(o,'northwind');o.deal.title='Always-on lead generation FY27';o.deal.contractType='Renewal';o.deal.baseContract='2608-031';
+  o.id='OPP-PREVIEW';o.form.custom='no';o.form.signName=ME.name;sign(o);o.ce.sentAt=nowStamp();return o;
+}
+function previewIntro(){
+  const steps=[
+   ['Sales','You sign off in the CRM','Once every required detail is complete, you sign off by name. If customisation is required, the form goes for approval first.'],
+   ['System','A link is emailed to the client','The system emails a personal link to the client contact on the opportunity (for example, amelia.foster@example.com). It needs no login and expires after 14 days.'],
+   ['Client','They confirm it is them','The client enters a 6-digit one-time code sent to the same email address, so a forwarded link cannot be used by someone else.'],
+   ['Client','They review and sign','They read the same booking form, then sign by drawing with a finger, stylus or mouse, or by typing. They also enter their name and job title. If something is wrong, they can ask for a change instead.'],
+   ['System','The contract is created','On signing, the contract number is issued and the contract appears on the account. A signed copy is emailed to the client, and finance and client emails are drafted for you. A change request returns the form to you as a new version.']];
+  const d=dialog({title:'How the booking form reaches your client',icon:'send',cls:'about',
+   body:`<p class="muted" style="margin:0">The preview shows what the client sees, from the moment they open the link. Here is the full flow:</p>
+   <ol class="flow">${steps.map((s,i)=>`<li><span class="n">${i+1}</span><div><div class="fh"><b>${s[1]}</b><span class="chip ${s[0]==='Client'?'info':s[0]==='Sales'?'accent':''}">${s[0]}</span></div><div class="sm muted">${s[2]}</div></div></li>`).join('')}</ol>
+   <div class="notice">${ic('info')}<div>This is a prototype preview with sample data. Nothing is saved and no email is sent. The verification code is shown on screen.</div></div>`,
+   foot:`<button class="btn" data-act="dlg-close">Cancel</button><button class="btn primary" id="pvgo">View preview${ic('right')}</button>`});
+  $('#pvgo',d).onclick=()=>{closeDialog();location.hash='#/preview/booking-form'};
+}
 function renderClient(root,id){
-  const o=S.opps.find(x=>x.id===id);CL.o=o;
+  CL.preview=id==='PREVIEW';
+  if(CL.preview){if(!CL.o||CL.o.id!=='OPP-PREVIEW'||CL.fresh){CL.o=previewOpp();CL.last=null}CL.fresh=false}
+  const o=CL.preview?CL.o:S.opps.find(x=>x.id===id);if(!CL.preview)CL.o=o;
   if(!o||(o.stage!=='awaiting_client'&&o.stage!=='won')){
     root.innerHTML=clientShell(`<div class="cl-card"><h2>This link is not active</h2><p class="muted">${!o?'We could not find this booking form.':'This booking form has not been sent for signature yet, or has been withdrawn for changes. Please wait for a new link from your OOm contact.'}</p></div>`,o);return}
   if(o.stage==='won'){CL.step='done'}
-  else if(CL.step==='done'||CL.last!==o.id+o.version){CL.step='verify';CL.last=o.id+o.version;CL.changing=false;CL.err={};CL.name='';CL.title='';CL.agree=false;CL.code=''}
+  else if(CL.step==='done'||CL.last!==o.id+o.version){CL.step='verify';CL.last=o.id+o.version;CL.changing=false;CL.err={};CL.name='';CL.title='';CL.agree=false;CL.code='';CL.sig='';CL.sigMode='draw'}
   drawClient(root);
 }
 function stepsBar(cur){
@@ -1599,7 +1642,10 @@ function drawClient(root){
     <div class="cl-card" id="clsign"><h2>Sign</h2>
       <div class="grid g2"><div class="field ${CL.err.name?'invalid':''}"><label for="clname">Your full name <span class="req">*</span></label><input class="in" id="clname" autocomplete="name" value="${esc(CL.name)}" placeholder="As it appears on your ID"><div class="err" style="display:${CL.err.name?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.name||'')}</span></div></div>
       <div class="field ${CL.err.title?'invalid':''}"><label for="cltitle">Your job title <span class="req">*</span></label><input class="in" id="cltitle" autocomplete="organization-title" value="${esc(CL.title)}" placeholder="e.g. Marketing Director"><div class="err" style="display:${CL.err.title?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.title||'')}</span></div></div></div>
-      <div class="cl-sigprev" aria-live="polite"><span class="xs muted">Your signature</span><div class="nm" id="clprev">${CL.name?esc(CL.name):'<span class="muted">Type your name above</span>'}</div></div>
+      <div class="field ${CL.err.sig?'invalid':''}"><label id="siglbl">Your signature <span class="req">*</span></label>
+        <div class="seg" role="group" aria-label="Signature method"><button type="button" data-act="cl-sig-mode" data-m="draw" aria-pressed="${CL.sigMode==='draw'}">${ic('pen')}Draw</button><button type="button" data-act="cl-sig-mode" data-m="type" aria-pressed="${CL.sigMode==='type'}">Type</button></div>
+        ${CL.sigMode==='draw'?`<div class="sigpad-wrap ${CL.sig?'inked':''}"><canvas id="sigpad" role="img" aria-labelledby="siglbl" aria-label="Signature area. Draw with your finger, stylus or mouse."></canvas><span class="sig-hint">Sign here with your finger, stylus or mouse</span><span class="sig-line"></span><button type="button" class="btn sm" data-act="cl-sig-clear">Clear</button></div>`:`<div class="cl-sigprev" aria-live="polite"><span class="xs muted">Your signature</span><div class="nm" id="clprev">${CL.name?esc(CL.name):'<span class="muted">Type your name above</span>'}</div></div>`}
+        <div class="err" style="display:${CL.err.sig?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.sig||'')}</span></div></div>
       <div class="field ${CL.err.agree?'invalid':''}"><label class="cl-agree"><input type="checkbox" id="clagree" ${CL.agree?'checked':''}><span>I confirm that I am authorised to sign on behalf of <b>${esc(o.deal.companyName)}</b>, and that I accept this booking form and OOm's Standard Terms of Service.</span></label><div class="err" style="display:${CL.err.agree?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.agree||'')}</span></div></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn primary lg" data-act="cl-sign">${ic('pen')}Sign and endorse</button><button class="btn" data-act="cl-change">Something is not right</button></div>
       ${CL.changing?`<div class="cl-change"><div class="field ${CL.err.change?'invalid':''}"><label for="clchg">What should we change? <span class="req">*</span></label><textarea class="in" id="clchg" rows="3" placeholder="e.g. The campaign start date should be 1 December.">${esc(CL.changeText||'')}</textarea><div class="err" style="display:${CL.err.change?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.change||'')}</span></div></div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary" data-act="cl-send-change">Send to ${esc(o.owner)}</button><button class="btn ghost" data-act="cl-cancel-change">Cancel</button></div><p class="xs muted" style="margin-top:8px">Nothing is signed. ${esc(o.owner)} will update the form and send you a new link.</p></div>`:''}
@@ -1609,11 +1655,26 @@ function drawClient(root){
   }else{
     const ce=o.ce,sg=ce.signer||{name:'',title:''};
     inner=`${stepsBar('done')}<div class="cl-card"><div class="cl-done ok">${ic('check')}<h1>Thank you. Your booking form is signed.</h1><p class="muted">Your contract reference is <b class="num">${esc(ce.contractNo)}</b>. Your OOm account manager will be in touch shortly to arrange the kick-off meeting.</p></div>
-    <dl class="cl-audit"><dt>Signed by</dt><dd>${esc(sg.name)}, ${esc(sg.title)}</dd><dt>Company</dt><dd>${esc(o.deal.companyName)}</dd><dt>Signed on</dt><dd>${esc(ce.endorsedAt)}</dd><dt>Booking form</dt><dd>${o.id}, version ${o.version}</dd><dt>OOm sign-off</dt><dd>${esc(o.form.signedBy)}, ${esc(o.form.signedAt)}</dd></dl>
+    <dl class="cl-audit"><dt>Signed by</dt><dd>${esc(sg.name)}, ${esc(sg.title)}</dd><dt>Company</dt><dd>${esc(o.deal.companyName)}</dd><dt>Signature</dt><dd>${sg.sig&&sg.sig.type==='drawn'?`<img class="sigimg" src="${sg.sig.img}" alt="Your drawn signature">`:`<span class="nm" style="font-family:'Snell Roundhand','Segoe Script','Brush Script MT',cursive;font-size:22px">${esc(sg.name)}</span>`}</dd><dt>Signed on</dt><dd>${esc(ce.endorsedAt)}</dd><dt>Booking form</dt><dd>${o.id}, version ${o.version}</dd><dt>OOm sign-off</dt><dd>${esc(o.form.signedBy)}, ${esc(o.form.signedAt)}</dd></dl>
     <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-act="cl-download">${ic('file')}Download signed copy</button></div>
     <p class="xs muted" style="margin-top:12px">A signed copy is also emailed to ${esc(o.client.email)}.</p></div>`;
   }
   root.innerHTML=clientShell(inner,o);
+  if(CL.step==='review'&&CL.sigMode==='draw')initSigPad();
+}
+function initSigPad(clearOnly){
+  const cv=$('#sigpad');if(!cv)return;
+  const r=cv.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+  cv.width=Math.max(1,Math.round(r.width*dpr));cv.height=Math.max(1,Math.round(r.height*dpr));
+  const ctx=cv.getContext('2d');ctx.scale(dpr,dpr);ctx.lineWidth=2.4;ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle='#151a2e';ctx.fillStyle='#151a2e';
+  if(CL.sig&&!clearOnly){const im=new Image();im.onload=()=>ctx.drawImage(im,0,0,r.width,r.height);im.src=CL.sig}
+  if(clearOnly)return;
+  let drawing=false,last=null;
+  const pt=e=>{const b=cv.getBoundingClientRect();return{x:e.clientX-b.left,y:e.clientY-b.top}};
+  cv.addEventListener('pointerdown',e=>{e.preventDefault();try{cv.setPointerCapture(e.pointerId)}catch(_){}drawing=true;last=pt(e);ctx.beginPath();ctx.arc(last.x,last.y,1.2,0,Math.PI*2);ctx.fill()});
+  cv.addEventListener('pointermove',e=>{if(!drawing)return;e.preventDefault();const p2=pt(e);ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p2.x,p2.y);ctx.stroke();last=p2});
+  const end=()=>{if(!drawing)return;drawing=false;CL.sig=cv.toDataURL('image/png');CL.err.sig='';const w=cv.closest('.sigpad-wrap');if(w)w.classList.add('inked');const f=cv.closest('.field');if(f)f.classList.remove('invalid')};
+  ['pointerup','pointercancel','lostpointercapture'].forEach(n=>cv.addEventListener(n,end));
 }
 function clientVal(){
   const o=CL.o;CL.name=($('#clname')||{}).value??CL.name;CL.title=($('#cltitle')||{}).value??CL.title;CL.agree=$('#clagree')?$('#clagree').checked:CL.agree;
@@ -1622,13 +1683,14 @@ Object.assign(ACT,{
  'cl-verify':()=>{const v=($('#clcode')||{}).value||'';CL.code=v;if(v.trim()!==OTP){CL.err={code:v.trim()?'That code does not match. Check the email and try again.':'Enter the 6-digit code from your email.'};drawClient();$('#clcode').focus();return}CL.err={};CL.step='review';drawClient();window.scrollTo(0,0)},
  'cl-resend':()=>toast('A new code has been sent (prototype)','send'),
  'cl-terms':(el,e)=>{e.preventDefault();toast('Standard Terms of Service would open here','file')},
- 'cl-sign':()=>{clientVal();const e={};if(CL.name.trim().split(/\s+/).filter(Boolean).length<2)e.name='Enter your full name (first and last name).';if(!CL.title.trim())e.title='Enter your job title.';if(!CL.agree)e.agree='Tick this to confirm you are authorised and accept.';CL.err=e;
+ 'cl-sign':()=>{clientVal();const e={};if(CL.name.trim().split(/\s+/).filter(Boolean).length<2)e.name='Enter your full name (first and last name).';if(!CL.title.trim())e.title='Enter your job title.';if(CL.sigMode==='draw'&&!CL.sig)e.sig='Draw your signature in the box, or choose Type.';if(!CL.agree)e.agree='Tick this to confirm you are authorised and accept.';CL.err=e;
    if(Object.keys(e).length){drawClient();const first=$('.cl-card .invalid input,.cl-card .invalid textarea');if(first)first.focus();return}
-   endorseOpp(CL.o,{name:CL.name.trim(),title:CL.title.trim()});CL.step='done';drawClient();window.scrollTo(0,0)},
+   endorseOpp(CL.o,{name:CL.name.trim(),title:CL.title.trim(),sig:CL.sigMode==='draw'?{type:'drawn',img:CL.sig}:{type:'typed'}});CL.step='done';drawClient();window.scrollTo(0,0)},
  'cl-change':()=>{clientVal();CL.changing=true;CL.err={};drawClient();const t=$('#clchg');if(t)t.focus()},
  'cl-cancel-change':()=>{clientVal();CL.changing=false;CL.err={};drawClient()},
  'cl-send-change':()=>{clientVal();const t=($('#clchg')||{}).value||'';CL.changeText=t;if(!t.trim()){CL.err={change:'Tell us what to change.'};drawClient();return}
-   const o=CL.o;o.changeRequest={text:t.trim(),by:(o.client.first+' '+o.client.last).trim(),at:nowStamp()};o.stage='draft';o.version++;o.form.signName='';o.form.signedAt='';o.form.signedBy='';o.form.approvedAt='';o.ce={sentAt:'',viewedAt:'',endorsedAt:'',contractNo:'',financeSent:false,clientSent:false};persist();CL.changeText='';CL.step='changes';CL.changing=false;CL.err={};drawClient()},
+   const o=CL.o;if(CL.preview){CL.changeText='';CL.step='changes';CL.changing=false;CL.err={};drawClient();return}
+   o.changeRequest={text:t.trim(),by:(o.client.first+' '+o.client.last).trim(),at:nowStamp()};o.stage='draft';o.version++;o.form.signName='';o.form.signedAt='';o.form.signedBy='';o.form.approvedAt='';o.ce={sentAt:'',viewedAt:'',endorsedAt:'',contractNo:'',financeSent:false,clientSent:false};persist();CL.changeText='';CL.step='changes';CL.changing=false;CL.err={};drawClient()},
  'cl-download':()=>toast('Download is not part of this prototype','file')
 });
 document.addEventListener('input',e=>{if(e.target.id==='clname'){CL.name=e.target.value;const p=$('#clprev');if(p)p.innerHTML=CL.name?esc(CL.name):'<span class="muted">Type your name above</span>'}});
@@ -1639,6 +1701,7 @@ function buildNav(hash){
   const item=(href,icon,label,key,cnt)=>`<a class="ni" href="${href}" ${hash.startsWith(key)?'aria-current="page"':''}>${ic(icon)}<span class="t">${label}</span>${cnt!=null?`<span class="cnt">${cnt}</span>`:''}</a>`;
   $('#nav').innerHTML=`<div class="brand"><div class="mark">O</div><span class="n">Agency CRM</span></div>
    <div class="nav-sec">Clients</div>${item('#/accounts','building','Accounts','#/accounts',COMPANIES.length)}${item('#/opps','board','Opportunities','#/opps',open)}${item('#/recon','chart','Budget reconciliation','#/recon')}
+   <div class="nav-sec">Prototype preview</div><a class="ni" href="#/preview/booking-form" data-act="preview-intro" ${hash.startsWith('#/preview')?'aria-current="page"':''}>${ic('file')}<span class="t">Booking form</span><span class="cnt pv">Preview</span></a>
    <div class="foot"><button class="btn sm ghost" data-act="reset" style="padding:2px 6px">Reset demo data</button><div style="margin-top:6px">Sample data only. Dates are fixed to ${fd(TODAY)}.</div></div>`;
 }
 function buildTop(){
@@ -1699,8 +1762,8 @@ function route(){
   closeDialog();
   const full=location.hash||'#/accounts',h=full.split('?')[0],root=$('#page');let m;
   W.root=null;
-  const cm=h.startsWith('#/client/');$('.app').classList.toggle('client',cm);
-  if(cm){const mm=h.match(/^#\/client\/([\w-]+)$/);renderClient(root,mm?mm[1]:'');window.scrollTo(0,0);document.title='Booking form';return}
+  const pv=h==='#/preview/booking-form';const cm=h.startsWith('#/client/')||pv;$('.app').classList.toggle('client',cm);
+  if(cm){if(pv)CL.fresh=true;const mm=h.match(/^#\/client\/([\w-]+)$/);renderClient(root,pv?'PREVIEW':(mm?mm[1]:''));window.scrollTo(0,0);document.title='Booking form';return}
   buildNav(h);
   if(h==='#/product-notes'){location.replace('#/accounts');return}
   if((m=h.match(/^#\/accounts\/([\w-]+)$/))){renderCompany(root,m[1])}
@@ -1720,7 +1783,7 @@ function boot(){
   document.documentElement.dataset.theme='light';
   document.body.innerHTML=`<div class="app"><nav class="nav" id="nav" aria-label="Main"></nav><div class="main"><header class="top" id="top"></header><div id="banner"></div><main class="page" id="page"></main></div></div>`;
   buildTop();buildBanner();route();
-  if(!location.hash.startsWith('#/client/'))setTimeout(()=>openNotes(),350);
+  if(!location.hash.startsWith('#/client/')&&!location.hash.startsWith('#/preview'))setTimeout(()=>openNotes(),350);
 }
 boot();
 </script></body></html>
