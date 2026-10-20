@@ -529,6 +529,48 @@ mark{background:#fff0b8;border-radius:4px}
 .flow li:not(:last-child)::before{content:"";position:absolute;left:14px;top:30px;bottom:2px;width:2px;background:var(--line-strong)}
 .flow .n{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-weight:700;font-size:13px}
 .flow .fh{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:2px}
+/* PRD alignment additions */
+.stagebar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:-4px 0 18px;padding:12px 16px;background:var(--surface);border:1px solid var(--line-strong);border-radius:14px}
+.stagepath{list-style:none;display:flex;gap:6px;margin:0;padding:0;flex-wrap:wrap}
+.stagepath li{display:flex;align-items:center;gap:8px;padding:5px 12px;border-radius:99px;background:var(--surface-2);color:var(--fg-3);font-weight:600;font-size:13px}
+.stagepath li span{width:20px;height:20px;border-radius:50%;background:var(--surface-3);display:grid;place-items:center;font-size:11px}
+.stagepath li.cur{background:var(--accent);color:var(--accent-fg)}.stagepath li.cur span{background:rgba(255,255,255,.25);color:#fff}
+.stagepath li.done{background:var(--accent-soft);color:var(--accent-ink)}.stagepath li.done span{background:var(--accent);color:#fff}
+.stagepath.closed li{opacity:.55}
+.stage-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.glance>div{background:var(--surface-2);border-radius:12px;padding:10px 14px;display:grid;gap:2px}
+.enqrow{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-bottom:8px;cursor:pointer}
+.enqrow input{margin-top:4px;accent-color:var(--accent)}
+.pkgcard{display:flex;gap:14px;justify-content:space-between;align-items:flex-start;padding:12px 14px;border:1px solid var(--line-strong);border-radius:12px;background:var(--surface)}
+.catlist{display:grid;gap:10px}
+.catrow{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1.5px solid var(--line-strong);border-radius:12px;cursor:pointer;background:var(--surface)}
+.catrow:hover{border-color:var(--fg-3)}.catrow.sel{border-color:var(--accent);background:var(--accent-soft)}
+.catrow input[type=radio]{margin-top:4px;accent-color:var(--accent)}
+.aprow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--line)}
+.aprow:first-child{border-top:0}.aprow>div{flex:1;min-width:220px}
+.tag-proto{background:var(--surface-3);border-radius:6px;padding:1px 7px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--fg-2)}
+.bfhead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.vrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-radius:10px;background:var(--surface)}
+.vrow.cur{background:var(--accent-soft)}
+.offbox{background:var(--surface);border-radius:12px;padding:16px}
+.cl-who{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;background:var(--surface-2);border-radius:12px;padding:12px 16px}
+.dlg.wide{width:min(980px,96vw)}
+@media print{
+  body.printing .app>*:not(.main),body.printing #nav,body.printing .top,body.printing #banner,body.printing #page{display:none!important}
+  body.printing .scrim{position:static;background:none;padding:0;backdrop-filter:none}
+  body.printing .dlg{box-shadow:none;border:0;max-height:none;width:100%}
+  body.printing .dlg .ft,body.printing .dlg .hd button{display:none}
+}
+
+.tbl.bi td{vertical-align:top;padding:10px 12px}
+.tbl.bi th{white-space:nowrap}
+
+.tbl.bi .bi-it{display:flex;justify-content:space-between;gap:16px;padding:1px 0}
+.tbl.bi th:nth-child(1){width:150px}.tbl.bi th:nth-child(2){width:120px}.tbl.bi th:nth-child(4){width:150px}.tbl.bi th:nth-child(5){width:130px}
+.tbl.bi td:first-child,.tbl.bi th:first-child{min-width:0}
+.tbl.bi .bi-it span:first-child{white-space:nowrap}
+.tbl.bi .chip{white-space:nowrap}
 </style></head><body><noscript>This prototype needs JavaScript.</noscript><script>
 /* ============ utilities ============ */
 const $=(s,r=document)=>r.querySelector(s);
@@ -617,25 +659,25 @@ const PWP=['PWP Type 1','PWP Type 2'];
 const SPLIT_USERS=['Hannah Tan','Jia Wen Lim','Rahul Menon','Siti Aminah'];
 
 const COMPANIES=[
- {id:'northwind',name:'Northwind Foods Pte Ltd',aliases:['Northwind','Fresh Harbour Market'],industry:'F&B',am:'Priya Nair',tl:'Daniel Ong',
-  contacts:[{id:'c1',first:'Amelia',last:'Foster',email:'amelia.foster@example.com',phone:'+65 6000 0101',designation:'Marketing Director',role:'Main PIC'},{id:'c2',first:'Ravi',last:'Pillai',email:'ravi.pillai@example.com',phone:'+65 6000 0102',designation:'Finance Manager',role:'Finance PIC'}],
+ {id:'northwind',name:'Northwind Foods Pte Ltd',aliases:['Northwind','Fresh Harbour Market'],industry:'F&B',uen:'201912345K',address:'12 Sample Road, #03-01, Singapore 000001',country:'Singapore',enquiries:[{id:'ENQ-2204',date:'2026-08-12',source:'Referral',svc:'Facebook, SEM',note:'Asked about always-on paid media for FY27'},{id:'ENQ-2198',date:'2026-06-03',source:'Website (SEO)',svc:'Content Marketing',note:'Asked about blog content'}],am:'Priya Nair',tl:'Daniel Ong',
+  contacts:[{id:'c1',first:'Amelia',last:'Foster',email:'amelia.foster@example.com',phone:'+65 6000 0101',designation:'Marketing Director',role:'Main PIC',signatory:true},{id:'c2',first:'Ravi',last:'Pillai',email:'ravi.pillai@example.com',phone:'+65 6000 0102',designation:'Finance Manager',role:'Finance PIC',signatory:false}],
   billing:[{id:'b1',company:'Northwind Foods Pte Ltd',first:'Ravi',last:'Pillai',email:'accounts@northwind.example.com',phone:'+65 6000 0102',address:'12 Sample Road, #03-01',postal:'000001'}],
   contracts:[
    {no:'2509-014',type:'New',title:'Always-on performance 2025/26',start:'2025-09-01',end:'2026-08-31',value:36000,invoice:'Paid',svcs:[{k:'facebook',st:'Ended',paid:9000},{k:'sem',st:'Ended',paid:18000}]},
    {no:'2608-031',type:'Renewal',parent:'2509-014',title:'Always-on performance 2026/27',start:'2026-09-01',end:'2027-08-31',value:42000,invoice:'Paid',svcs:[{k:'facebook',st:'Active',paid:12000},{k:'sem',st:'Active',paid:24000}]},
    {no:'2609-044',type:'Top-up',parent:'2608-031',title:'Festive push top-up',start:'2026-09-15',end:'2027-08-31',value:6000,invoice:'Partial',svcs:[{k:'facebook',st:'Active',paid:3000}]}]},
- {id:'lumen',name:'Lumen Dental Group Pte Ltd',aliases:['Lumen Dental','Smile Atelier'],industry:'Health and Fitness',am:'Marcus Lee',tl:'Daniel Ong',
-  contacts:[{id:'c1',first:'Grace',last:'Tay',email:'grace.tay@example.com',phone:'+65 6000 0201',designation:'Practice Manager',role:'Main PIC'}],
+ {id:'lumen',name:'Lumen Dental Group Pte Ltd',aliases:['Lumen Dental','Smile Atelier'],industry:'Health and Fitness',uen:'201845678D',address:'88 Example Avenue, #01-12, Singapore 000002',country:'Singapore',enquiries:[{id:'ENQ-2190',date:'2026-04-02',source:'Inbound Call',svc:'SEO',note:'Local SEO for three clinics'}],am:'Marcus Lee',tl:'Daniel Ong',
+  contacts:[{id:'c1',first:'Grace',last:'Tay',email:'grace.tay@example.com',phone:'+65 6000 0201',designation:'Practice Manager',role:'Main PIC',signatory:true}],
   billing:[{id:'b1',company:'Lumen Dental Group Pte Ltd',first:'Grace',last:'Tay',email:'billing@lumen.example.com',phone:'+65 6000 0201',address:'88 Example Avenue, #01-12',postal:'000002'}],
   contracts:[{no:'2604-012',type:'New',title:'Local SEO and content programme',start:'2026-05-01',end:'2026-10-31',value:21600,invoice:'Overdue',svcs:[{k:'seo',st:'Active',paid:0},{k:'content',st:'Active',paid:0}]}]},
- {id:'cedar',name:'Cedar & Pine Furniture Pte Ltd',aliases:['Cedar Pine','C&P Living'],industry:'Furniture',am:'Elena Koh',tl:'Daniel Ong',
-  contacts:[{id:'c1',first:'Marcus',last:'Wee',email:'marcus.wee@example.com',phone:'+65 6000 0301',designation:'Head of E-commerce',role:'Main PIC'}],
+ {id:'cedar',name:'Cedar & Pine Furniture Pte Ltd',aliases:['Cedar Pine','C&P Living'],industry:'Furniture',uen:'202011223Z',address:'5 Sample Lane, Singapore 000003',country:'Singapore',enquiries:[{id:'ENQ-2210',date:'2026-09-20',source:'WhatsApp',svc:'Social Media',note:'Social retainer for the new showroom'},{id:'ENQ-2175',date:'2026-03-10',source:'Google Ads',svc:'SEM, Facebook',note:'Showroom launch campaigns'}],am:'Elena Koh',tl:'Daniel Ong',
+  contacts:[{id:'c1',first:'Marcus',last:'Wee',email:'marcus.wee@example.com',phone:'+65 6000 0301',designation:'Head of E-commerce',role:'Main PIC',signatory:false}],
   billing:[{id:'b1',company:'Cedar & Pine Furniture Pte Ltd',first:'Accounts',last:'Team',email:'ap@cedarpine.example.com',phone:'+65 6000 0300',address:'5 Sample Lane',postal:'000003'}],
   contracts:[
    {no:'2603-020',type:'New',title:'Showroom launch campaigns',start:'2026-04-01',end:'2027-03-31',value:64800,invoice:'Paid',extended:'PSG 2605-033 inserted mid-cycle: original end 31/12/2026 extended by 3 months',svcs:[{k:'sem',st:'Active',paid:30000},{k:'facebook',st:'Active',paid:18000,carry:-600},{k:'social',st:'Active',paid:0}]},
    {no:'2605-033',type:'New',psg:true,title:'PSG Digital Marketing (3 months)',start:'2026-06-01',end:'2026-08-31',value:9000,invoice:'Paid',svcs:[{k:'sem',st:'Ended',paid:3000}]}]},
- {id:'orbit',name:'Orbit Logistics Sdn Bhd',aliases:['Orbit Freight','OLS'],industry:'Logistics',am:'Marcus Lee',tl:'Daniel Ong',
-  contacts:[{id:'c1',first:'Hui Min',last:'Chong',email:'huimin.chong@example.com',phone:'+60 3 0000 0401',designation:'Commercial Director',role:'Main PIC'}],
+ {id:'orbit',name:'Orbit Logistics Sdn Bhd',aliases:['Orbit Freight','OLS'],industry:'Logistics',uen:'',address:'Lot 1, Sample Industrial Park, 00001 Selangor, Malaysia',country:'Malaysia',enquiries:[{id:'ENQ-2215',date:'2026-10-01',source:'Email',svc:'SEO',note:'Wants SEO across freight service pages'}],am:'Marcus Lee',tl:'Daniel Ong',
+  contacts:[{id:'c1',first:'Hui Min',last:'Chong',email:'huimin.chong@example.com',phone:'+60 3 0000 0401',designation:'Commercial Director',role:'Main PIC',signatory:true}],
   billing:[{id:'b1',company:'Orbit Logistics Sdn Bhd',first:'Finance',last:'Desk',email:'finance@orbit.example.com',phone:'+60 3 0000 0400',address:'Lot 1, Sample Industrial Park',postal:'00001'},{id:'b2',company:'Orbit Freight Services Sdn Bhd',first:'Finance',last:'Desk',email:'finance2@orbit.example.com',phone:'+60 3 0000 0402',address:'Lot 9, Sample Industrial Park',postal:'00002'}],
   contracts:[
    {no:'2512-009',type:'New',title:'Regional freight lead generation',start:'2025-12-01',end:'2026-11-30',value:96000,invoice:'Paid',svcs:[{k:'sem',st:'Active',paid:36000},{k:'facebook',st:'Active',paid:14400},{k:'linkedin',st:'Active',paid:12000}]},
@@ -644,14 +686,14 @@ const COMPANIES=[
    {no:'2603-056',type:'Cross-sell',title:'Website maintenance and add-ons',start:'2026-03-01',end:'2027-02-28',value:4800,invoice:'Paid',svcs:[{k:'webmaint',st:'Active',paid:0},{k:'others',st:'Active',paid:0}]},
    {no:'2607-051',type:'Cross-sell',title:'SEO add-on',start:'2026-07-01',end:'2027-06-30',value:18000,invoice:'Partial',svcs:[{k:'seo',st:'Active',paid:0}]},
    {no:'2606-029',type:'Ad-Hoc',title:'Brochure translation',start:'2026-06-01',end:'2026-06-30',value:1200,invoice:'Paid',svcs:[{k:'others',st:'Ended',paid:0}]}]},
- {id:'harbour',name:'Harbourline Finance Pte Ltd',aliases:['Harbourline','HL Finance','65th Anniversary'],industry:'Banking and Finance',am:'Elena Koh',tl:'Daniel Ong',
-  contacts:[{id:'c1',first:'Joel',last:'Ng',email:'joel.ng@example.com',phone:'+65 6000 0501',designation:'Brand Manager',role:'Main PIC'}],
+ {id:'harbour',name:'Harbourline Finance Pte Ltd',aliases:['Harbourline','HL Finance','65th Anniversary'],industry:'Banking and Finance',uen:'196400123M',address:'1 Sample Quay, #20-01, Singapore 000005',country:'Singapore',enquiries:[{id:'ENQ-2209',date:'2026-09-18',source:'Direct',svc:'SEM',note:'Renewing always-on SEM'}],am:'Elena Koh',tl:'Daniel Ong',
+  contacts:[{id:'c1',first:'Joel',last:'Ng',email:'joel.ng@example.com',phone:'+65 6000 0501',designation:'Brand Manager',role:'Main PIC',signatory:true}],
   billing:[{id:'b1',company:'Harbourline Finance Pte Ltd',first:'Joel',last:'Ng',email:'ap@harbourline.example.com',phone:'+65 6000 0501',address:'1 Sample Quay, #20-01',postal:'000005'}],
   contracts:[
    {no:'2511-004',type:'New',title:'Always-on SEM',start:'2025-11-26',end:'2026-11-25',value:48000,invoice:'Paid',svcs:[{k:'sem',st:'Active',paid:30000}]},
    {no:'2610-002',type:'Ad-Hoc',title:'65th anniversary visual adapts',start:'2026-10-01',end:'2026-10-31',value:150,invoice:'Paid',svcs:[{k:'others',st:'Active',paid:0}]}]},
- {id:'greenleaf',name:'Greenleaf Wellness Pte Ltd',aliases:['Greenleaf','GL Spa'],industry:'Health and Fitness',am:'Priya Nair',tl:'Daniel Ong',
-  contacts:[{id:'c1',first:'Sofia',last:'Lim',email:'sofia.lim@example.com',phone:'+65 6000 0601',designation:'Owner',role:'Main PIC'}],
+ {id:'greenleaf',name:'Greenleaf Wellness Pte Ltd',aliases:['Greenleaf','GL Spa'],industry:'Health and Fitness',uen:'201734567H',address:'30 Sample Street, Singapore 000006',country:'Singapore',enquiries:[{id:'ENQ-2212',date:'2026-09-25',source:'Referral',svc:'SEO',note:'Year-two SEO programme'}],am:'Priya Nair',tl:'Daniel Ong',
+  contacts:[{id:'c1',first:'Sofia',last:'Lim',email:'sofia.lim@example.com',phone:'+65 6000 0601',designation:'Owner',role:'Main PIC',signatory:true}],
   billing:[{id:'b1',company:'Greenleaf Wellness Pte Ltd',first:'Sofia',last:'Lim',email:'sofia.lim@example.com',phone:'+65 6000 0601',address:'30 Sample Street',postal:'000006'}],
   contracts:[{no:'2410-021',type:'New',title:'SEO programme',start:'2025-10-01',end:'2026-09-30',value:30000,invoice:'Partial',svcs:[{k:'seo',st:'Ended',paid:0}]}]}
 ];
@@ -677,8 +719,8 @@ function accountFacts(co){
 }
 
 /* ============ persistent store ============ */
-const KEY='agency-crm-revamp-v1';
-let S={theme:null,opps:null,recon:{},nextOpp:1043,nextContract:62,activity:{}};
+const KEY='agency-crm-revamp-v2';
+let S={theme:null,opps:null,recon:{},nextOpp:1043,nextContract:59,activity:{}};
 try{const raw=localStorage.getItem(KEY);if(raw)S={...S,...JSON.parse(raw)}}catch(e){}
 const persist=debounce(()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}},250);
 function resetDemo(){try{localStorage.removeItem(KEY)}catch(e){}location.hash='#/accounts';location.reload()}
@@ -849,7 +891,7 @@ function cycleHTML(co,{compact=false}={}){
   return cycles.map(c=>{
     const b=c.base,total=daysBetween(pd(b.start),pd(b.end))+1,el=Math.max(0,Math.min(total,daysBetween(pd(b.start),TODAY)+1)),pct=Math.round(el/total*100);
     const live=isLive(b)||c.kids.some(isLive);
-    return `<article class="cycle ${live?'':'closed'}" aria-label="Cycle ${c.n}"><header class="cyc-hd"><div style="min-width:0;flex:1"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip outline">Cycle ${c.n}</span><span class="no">${b.no}</span><span class="chip accent">${esc(typeLabel(b))}</span>${b.psg?'<span class="chip info">PSG</span>':''}${live?'':'<span class="chip">Closed</span>'}</div><div class="cname" style="margin-top:4px">${esc(b.title)}</div>${b.extended?`<div class="xs" style="margin-top:3px;color:var(--warn)">${ic('info')} ${esc(b.extended)}</div>`:''}</div>
+    return `<article class="cycle ${live?'':'closed'}" aria-label="Cycle ${c.n}"><header class="cyc-hd"><div style="min-width:0;flex:1"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="chip outline">Cycle ${c.n}</span><span class="no">${b.no}</span><span class="chip accent">${esc(typeLabel(b))}</span>${b.psg?'<span class="chip info">PSG</span>':''}${b.bf?`<span class="chip outline" title="Contract references the exact endorsed booking form version">Booking form v${b.bf.v}</span>`:''}${live?'':'<span class="chip">Closed</span>'}</div><div class="cname" style="margin-top:4px">${esc(b.title)}</div>${b.extended?`<div class="xs" style="margin-top:3px;color:var(--warn)">${ic('info')} ${esc(b.extended)}</div>`:''}</div>
       <div class="sm" style="min-width:150px"><div class="num">${money(b.value+c.kids.reduce((a,t)=>a+t.value,0))}${c.kids.length?' <span class="muted xs">incl. top-ups</span>':''}</div><div class="xs muted">${fd(b.start)} – ${fd(b.end)}</div></div>
       <div style="width:120px"><div class="prog" title="${pct}% of cycle elapsed"><i style="width:${pct}%"></i></div><div class="xs muted" style="margin-top:3px">${live?pct+'% elapsed':'Completed'}</div></div>${invChip(b.invoice)}</header>
       ${b.svcs.map(s=>svcRow(co,b,s,false,compact)).join('')}
@@ -910,7 +952,7 @@ function renderCompany(root,id){
    <div class="kpi"><div class="xs muted">Invoices</div><div class="v">${f.overdue?'Overdue':f.partial?'Part-paid':'Paid'}</div><div style="margin-top:3px">${f.overdue?invChip('Overdue'):f.partial?invChip('Partial'):invChip('Paid')}</div></div>
    <div class="kpi"><div class="xs muted">Media reconciliation</div><div class="v">${esc(f.rc.label)}</div><div class="xs muted" style="margin-top:3px">${f.rc.needs?f.rc.needs+' service(s) due':'Up to date'}</div></div></div>
   <div style="display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start" class="co-grid">
-   <section aria-label="Contract cycles"><h2 style="margin-bottom:10px">Contract cycles</h2>${cycleHTML(co)}</section>
+   <section aria-label="Contract cycles"><h2 style="margin-bottom:10px">Contract cycles</h2>${cycleHTML(co)}${billingSection(co)}</section>
    <aside style="display:grid;gap:14px">
     <div class="card"><div class="hd"><h3>Team</h3></div><div class="bd sm" style="display:grid;gap:6px"><div style="display:flex;justify-content:space-between"><span class="muted">Account manager</span><b>${esc(co.am)}</b></div><div style="display:flex;justify-content:space-between"><span class="muted">Team lead</span><b>${esc(co.tl)}</b></div></div></div>
     <div class="card"><div class="hd"><h3>Client contacts</h3></div><div class="bd" style="display:grid;gap:10px">${co.contacts.map(c=>`<div><div><b>${esc(c.first)} ${esc(c.last)}</b> <span class="chip">${esc(c.role)}</span></div><div class="sm muted">${esc(c.designation)} · ${esc(c.email)} · ${esc(c.phone)}</div></div>`).join('')}</div></div>
@@ -919,15 +961,20 @@ function renderCompany(root,id){
    </aside></div>
   <style>@media (max-width:1100px){.co-grid{grid-template-columns:1fr!important}}</style>`;
 }
+function billingSection(co){
+  const cs=co.contracts.filter(k=>k.billingInstr&&k.billingInstr.length);
+  if(!cs.length)return '';
+  return `<h2 style="margin:22px 0 4px">Billing instructions</h2><p class="sm muted" style="margin-bottom:10px">Generated from each contract's agreed payment terms and reviewed by Finance. Official invoices and payment status stay in QBB.</p>${cs.map(k=>`<div class="card" style="margin-bottom:12px"><div class="hd"><span class="chip outline">${esc(typeLabel(k))}</span><b class="num">${k.no}</b><span class="muted">${esc(k.title)}</span></div><div class="bd">${billingTable(k.billingInstr)}</div></div>`).join('')}`;
+}
 function svcDialog(kind,no,k){
   const found=findContract(no);if(!found)return;
   const label={pause:'Pause',resume:'Resume',end:'End'}[kind];
   const reasons={pause:['Client request','Awaiting payment','PSG contract inserted mid-cycle','Budget freeze','Other'],end:['Contract completed','Client did not renew','Early termination','Moved to another service','Other'],resume:['Client request','Payment received','PSG period ended','Other']}[kind];
   const d=dialog({title:`${label} ${svcName(k)} · ${no}`,icon:kind==='pause'?'pause':'info',
-   body:`<div class="notice"><div>This is recorded on the account so the next account manager can see what happened and why.</div></div>
+   body:`<div class="notice warn">${ic('info')}<div><b>In the live system this is a request, not an instant change.</b> ${kind==='pause'?'Suspending a service needs approval from the Service HOD or CEO/COO, and the status only changes once it is approved. Early resumption needs Service HOD acknowledgement (PRD 6.6.3).':kind==='end'?'Ending a service early (a cancellation) needs COO approval, and the status only changes once it is approved (PRD 6.6.2). Reaching the natural end of a contract needs no approval.':'Early resumption needs Service HOD acknowledgement (PRD 6.6.3).'} The prototype applies the change straight away.</div></div>
+   <div class="notice"><div>This is recorded on the account so the next account manager can see what happened and why.${kind!=='resume'?' Eligible future billing instructions are flagged for Finance review. Invoices already issued in QBB are not changed.':''}</div></div>
    <div class="field" id="f-why"><label for="why">Reason <span class="req">*</span></label><select class="in" id="why"><option value="">Select a reason</option>${reasons.map(r=>`<option>${r}</option>`).join('')}</select><div class="err">${ic('alert')}Choose a reason.</div></div>
    <div class="grid g2"><div class="field"><label for="eff">Effective date</label><input type="date" class="in" id="eff" value="${iso(TODAY)}"></div>${kind==='pause'?`<div class="field"><label for="res">Expected resume date</label><input type="date" class="in" id="res"></div>`:'<div></div>'}</div>
-   ${kind==='pause'?`<label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="inv" checked> Hold invoice triggers while paused</label>`:''}
    <div class="field"><label for="nt">Note for the next account manager</label><textarea class="in" id="nt" placeholder="What happened, and what should the next person know?"></textarea></div>`,
    foot:`<button class="btn" data-act="dlg-close">Cancel</button><button class="btn primary" id="svc-ok">${label} service</button>`});
   $('#svc-ok',d).onclick=()=>{
@@ -939,19 +986,44 @@ function svcDialog(kind,no,k){
     persist();closeDialog();toast(`${svcName(k)} ${ns.toLowerCase()}`);route();
   };
 }
+/* ============ PRD-aligned reference data ============ */
+const STAGES=[['prep','Proposal Preparation','Commercial requirements and proposal being developed'],['presented','Presented / Consideration','Proposal presented; client evaluating or negotiating'],['bfpending','Booking Form Pending','Issued, awaiting verified endorsement'],['won','Won','Verified endorsement and contract created']];
+const CLOSED_STAGES=[['lost','Lost'],['deferred','Deferred'],['decayed','Decayed']];
+const STAGE_LABEL=Object.fromEntries([...STAGES,...CLOSED_STAGES].map(s=>[s[0],s[1]]));
+const STAGE_CLS={prep:'',presented:'accent',bfpending:'info',won:'ok',lost:'bad',deferred:'warn',decayed:'bad'};
+const LOST_REASONS=['Client chose another agency','Budget or pricing','Requirement changed','No response','Brought in-house','Other'];
+const DEFAULT_NOCHANGE='No changes from the standard package';
+const DEPT={facebook:'Paid Media',linkedin:'Paid Media',sem:'Paid Media',baidu:'Paid Media',wechat:'Paid Media',weibo:'Paid Media',postpaid:'Paid Media',seo:'SEO and Content',content:'SEO and Content',social:'Social Media',hosting:'Web',webdev:'Web',webmaint:'Web',others:'Creative'};
+const hodFor=k=>'Service HOD, '+(DEPT[k]||'relevant department');
+const fm2=n=>n.toLocaleString('en-SG',{minimumFractionDigits:2,maximumFractionDigits:2});
+const PK=(id,name,desc,items,fee,setup,cap,version,basis)=>({id,name,desc,items,fee,setup,cap,version,basis:basis||'Monthly fee',eff:'2026-07-01',combo:name,status:'Published'});
+const CAT_META=[PK('SP-S','Social Performance Starter','One channel, always on','1 campaign; 10 ad variations a month; monthly report',250,0,10,'v2'),PK('SP-G','Social Performance Growth','Two channels with fortnightly check-ins','2 campaigns; 20 ad variations a month; monthly report; fortnightly check-in',400,200,10,'v3'),PK('SP-X','Social Performance Scale','Three or more channels','4 campaigns; 40 ad variations a month; weekly report; dedicated strategist',650,500,5,'v1')];
+const CAT_SEM=[PK('SEM-S','Search Starter','Core search campaigns','1 account; up to 3 campaigns; monthly report',300,0,10,'v2'),PK('SEM-G','Search Growth','Search plus display','1 account; up to 8 campaigns; remarketing; monthly report',500,250,10,'v2'),PK('SEM-X','Search Scale','Multi-market search','Multi-market; shopping and performance max; weekly report',800,600,5,'v1')];
+const CAT_SEO=[PK('SEO-E','SEO Essentials','Foundations and local presence','Technical audit; 10 keywords; 2 blogs a month; monthly report',1200,500,10,'v2'),PK('SEO-G','SEO Growth','Growth programme','25 keywords; 4 blogs a month; 2 backlinks a month; monthly report',3000,800,8,'v4'),PK('SEO-A','SEO Authority','Competitive categories','50 keywords; 8 blogs a month; 6 backlinks a month; quarterly review',4500,1000,5,'v1')];
+const CAT_CONTENT=[PK('CT-L','Content Lite','Regular articles','4 articles a month; one round of edits',800,0,10,'v1'),PK('CT-P','Content Plus','Articles and assets','8 articles a month; 2 skyscrapers; two rounds of edits',1500,300,8,'v2')];
+const CAT_SOCIAL=[PK('SO-E','Social Organic Essentials','Regular posting','12 posts a month; community replies',900,0,10,'v2'),PK('SO-P','Social Organic Plus','Posting and creative','20 posts a month; 4 short videos; monthly report',1600,400,8,'v1')];
+const CAT_DEFAULT=[PK('GN-S','Standard service','Standard scope','As described in the service brief',500,0,10,'v1'),PK('GN-X','Standard service, extended','Extended scope','As described in the service brief; extended support',900,200,8,'v1')];
+const CAT={facebook:CAT_META,linkedin:CAT_META,sem:CAT_SEM,seo:CAT_SEO,content:CAT_CONTENT,social:CAT_SOCIAL};
+const catFor=k=>CAT[k]||CAT_DEFAULT;
+const customPkg=(k,scope)=>({id:'CUSTOM',name:'Custom package',desc:scope||'',items:scope||'',fee:0,setup:0,cap:0,version:'n/a',basis:'Monthly fee',combo:'Custom',custom:true});
+
 /* ============ opportunity model ============ */
-function newSvc(){return {package:'',combo:'',comboItems:'',custom:'',addon:'',alias:'',accountType:'',cms:'',cmsOther:'',countries:['Singapore'],status:'Pending',payment:'',channels:[],channelOther:'',gender:'All',ageFrom:'18',ageTo:'65',interest:'',adSched:'',adSchedRemarks:'',duration:'',durUnit:'Months',durLen:'',dateSet:'',start:'',partner:'',auto:true,discount:'',discType:'',total:'',schedule:'Monthly',mgmt:'',mgmtSchedule:'Monthly',setup:'',brief:'',core:{loc:'',demo:'',beh:'',conn:'',int:'',oth:''},cust:{contacts:'',app:'',site:'',oth:''},like:{aud:'',oth:''}}}
+function newSvc(){return {pkg:'',package:'',combo:'',comboItems:'',custom:'',addon:'',alias:'',accountType:'',cms:'',cmsOther:'',countries:['Singapore'],status:'Pending',payment:'',channels:[],channelOther:'',gender:'All',ageFrom:'18',ageTo:'65',interest:'',adSched:'',adSchedRemarks:'',duration:'',durUnit:'Months',durLen:'',dateSet:'',start:'',partner:'',auto:true,discPct:'',discount:'',discType:'',total:'',schedule:'Monthly',mgmt:'',mgmtSchedule:'Monthly',setup:'',brief:'',core:{loc:'',demo:'',beh:'',conn:'',int:'',oth:''},cust:{contacts:'',app:'',site:'',oth:''},like:{aud:'',oth:''}}}
+const FRESH_CE=()=>({sentAt:'',viewedAt:'',endorsedAt:'',contractNo:'',financeSent:false,clientSent:false,offline:null,signer:null});
 function newOpp(){
   const id='OPP-'+(S.nextOpp++);
-  return {id,stage:'draft',version:1,owner:ME.name,created:iso(TODAY),step:1,tab:'',
-   deal:{companyId:'',companyName:'',contractType:'New',baseContract:'',status:'Hot',title:'',psg:'No',psgType:'',psgPackage:'',psgPay:'',psgBudget:'',psgGrant:'No',mediaByOom:'No',pwp:[],package:'',aurix:''},
-   client:{id:'',first:'',last:'',email:'',cc:'',phone:'',designation:''},
+  return {id,stage:'prep',stageLog:[{t:nowStamp(),who:ME.name,from:'',to:'prep',note:'Opportunity created'}],version:1,owner:ME.name,created:iso(TODAY),step:1,tab:'',
+   deal:{companyId:'',companyName:'',contractType:'New',baseContract:'',status:'',title:'',psg:'No',psgType:'',psgPackage:'',psgPay:'',psgBudget:'',psgGrant:'No',mediaByOom:'No',pwp:[],package:'',aurix:''},
+   opp:{expectedClose:'',nextAction:'',nextDue:'',enquiries:[],presentedOn:'',lostReason:'',lostNote:'',closedAt:'',deferNote:'',prevStage:''},
+   legal:{name:'',uen:'',noUen:false,address:'',confirmed:false},
+   client:{id:'',first:'',last:'',email:'',cc:'',phone:'',designation:'',isSignatory:false},
    serviceKeys:[],services:{},
    comm:{currency:'Singapore Dollar',payMode:'',payTerm:'Monthly',credit:'14 Days',creditLen:'',gst:'Yes',shared:'No',merge:'No',billDay:'',discType:'',schedule:[],mediaPay:{}},
    billing:{id:'',company:'',first:'',last:'',email:'',cc:'',phone:'',address:'',country:'Singapore',postal:'',notes:''},
    conv:{source:'',sourceOther:'',industry:'',sub:'',model:'',ecom:'',restrict:'',nda:'',ndaFrom:'',ndaTo:'',ndaFile:'',serviceIds:[],split:[],remFinance:'',msgBU:'',attach:[]},
-   form:{custom:'',customDesc:'',customFile:'',psgQuote:'',psgSla:'',signName:'',signedAt:'',signedBy:'',approvedAt:''},
-   ce:{sentAt:'',viewedAt:'',endorsedAt:'',contractNo:'',financeSent:false,clientSent:false}};
+   form:{custom:'',customWhat:[],customDesc:'',customFile:'',psgQuote:'',psgSla:'',signName:'',signedAt:'',signedBy:'',approvedAt:''},
+   approvals:{},bf:{state:'draft',method:'digital',versions:[]},
+   ce:FRESH_CE()};
 }
 function addService(o,k){if(!o.serviceKeys.includes(k)){o.serviceKeys.push(k);o.services[k]=o.services[k]||newSvc();if(!o.conv.serviceIds.includes(k))o.conv.serviceIds.push(k)}o.tab=k}
 function removeService(o,k){o.serviceKeys=o.serviceKeys.filter(x=>x!==k);delete o.services[k];o.conv.serviceIds=o.conv.serviceIds.filter(x=>x!==k);delete o.comm.mediaPay[k];if(o.tab===k)o.tab=o.serviceKeys[0]||''}
@@ -964,6 +1036,36 @@ function calcSvc(s){
 }
 const oppRevenue=o=>o.serviceKeys.reduce((a,k)=>a+calcSvc(o.services[k]).rev,0);
 const oppGst=o=>o.comm.gst==='Yes'?oppRevenue(o)*0.09:0;
+/* catalogue pricing: fees come from the published package, discount is a percentage within its cap */
+function syncFees(s){
+  const p=s.pkg;if(!p||p.custom){const base=num(s.mgmt)+num(s.setup);s.discount=base&&num(s.discPct)?fm2(base*num(s.discPct)/100):'';return}
+  const m=p.basis==='One-time'?1:Math.max(svcMonths(s),0);
+  const fee=p.fee*m,setup=p.setup;
+  s.mgmt=fee?fm2(fee):'';s.setup=setup?fm2(setup):'';
+  const pct=num(s.discPct);s.discount=pct&&(fee+setup)?fm2((fee+setup)*pct/100):'';
+}
+function applyPkg(s,pkg){s.pkg=pkg;s.combo=pkg.combo||pkg.name;s.comboItems=pkg.items||'';s.package=pkg.name;if(!pkg.custom&&!s.custom)s.custom=DEFAULT_NOCHANGE;if(pkg.custom){s.mgmt='';s.setup='';s.discPct='';s.discount=''}syncFees(s)}
+const isCustomPkg=s=>!!(s.pkg&&s.pkg.custom)||(!!s.custom&&s.custom.trim()!==''&&s.custom.trim()!==DEFAULT_NOCHANGE);
+const overCap=s=>!!(s.pkg&&!s.pkg.custom&&num(s.discPct)>s.pkg.cap);
+
+/* ============ approvals (PRD 2.3.5, 5.3.6, 12.3.4) ============ */
+function approvalKey(o){
+  return JSON.stringify({s:o.serviceKeys.map(k=>{const s=o.services[k];return [k,s.pkg&&s.pkg.id,s.pkg&&s.pkg.name,s.custom,s.comboItems,s.mgmt,s.setup,s.discPct,s.duration,s.durLen]}),c:[o.comm.payTerm,o.comm.credit,o.comm.creditLen,o.comm.schedule.length,JSON.stringify(o.comm.schedule)],f:[o.form.custom,o.form.customWhat,o.form.customDesc]});
+}
+const nonStandardTerms=o=>o.comm.schedule.length>0||(o.comm.credit==='Others'?num(o.comm.creditLen)>30:parseInt(o.comm.credit)>30);
+function approvalsFor(o){
+  const a=[];
+  o.serviceKeys.forEach(k=>{const s=o.services[k];
+    if(isCustomPkg(s))a.push({id:'pkg:'+k,label:`Custom package: ${svcName(k)}`,approver:hodFor(k),why:s.pkg&&s.pkg.custom?'Custom package':'Customised package details differ from the standard package'});
+    if(overCap(s))a.push({id:'disc:'+k,label:`Discount above cap: ${svcName(k)} (${s.discPct}% against a ${s.pkg.cap}% cap)`,approver:'To be confirmed (open decision in PRD 5.6)',why:'Discount exceeds the standard package cap'});
+  });
+  if(nonStandardTerms(o)||(o.form.custom==='yes'&&o.form.customWhat.includes('terms')))a.push({id:'terms',label:'Non-standard payment terms',approver:'Head of Sales or CEO/COO',why:o.comm.schedule.length?'Customised payment schedule':'Credit term above 30 days or other non-standard terms'});
+  if(o.form.custom==='yes'&&o.form.customWhat.includes('scope')){[...new Set(o.serviceKeys.map(k=>DEPT[k]||'relevant department'))].forEach(d=>a.push({id:'scope:'+d,label:`Customised scope: ${d}`,approver:'Service HOD, '+d,why:'Customisation stated on the booking form'}))}
+  if(o.form.custom==='yes'&&o.form.customWhat.includes('other'))a.push({id:'other',label:'Other customisation',approver:'To be confirmed (not specified in the PRD)',why:'Customisation stated on the booking form'});
+  return a;
+}
+function approvalStatus(o,a){const r=o.approvals[a.id];if(!r)return 'pending';return r.key===approvalKey(o)?'approved':'revalidate'}
+const approvalsOutstanding=o=>approvalsFor(o).filter(a=>approvalStatus(o,a)!=='approved');
 
 /* ============ field rendering & visibility ============ */
 function evalShow(o,expr){return expr.split('&&').every(t=>{t=t.trim();let m;
@@ -975,17 +1077,23 @@ const fid=p=>'f_'+p.replace(/[^\w]/g,'_');
 function optsHTML(opts,val,blank){return (blank===false?'':`<option value="">${esc(blank||'Select…')}</option>`)+opts.map(x=>{const v=Array.isArray(x)?x[0]:x,l=Array.isArray(x)?x[1]:x;return `<option value="${esc(v)}" ${String(val)===String(v)?'selected':''}>${esc(l)}</option>`}).join('')}
 function multiInner(o,p,opts){const vals=getP(o,p)||[];const rest=opts.filter(x=>!vals.includes(x));
   return vals.map(v=>`<span class="chip">${esc(v)}<button type="button" data-act="multi-rm" data-p="${p}" data-v="${esc(v)}" aria-label="Remove ${esc(v)}">${ic('x')}</button></span>`).join('')+`<select data-multi-add="${p}" aria-label="Add" ${rest.length?'':'disabled'}><option value="">${vals.length?'Add another…':'Select…'}</option>${rest.map(x=>`<option>${esc(x)}</option>`).join('')}</select>`}
+function catField(o,p,d){
+  const k=p.split('.')[1],s=o.services[k],pkg=s.pkg;
+  const card=pkg?`<div class="pkgcard"><div style="min-width:0"><div><b>${esc(pkg.name)}</b> ${pkg.custom?'<span class="chip warn">Custom package</span>':`<span class="chip">${esc(pkg.version)}</span> <span class="chip ok">Published</span>`}</div><div class="sm muted">${esc(pkg.desc||'Scope described below.')}</div><div class="xs muted" style="margin-top:4px">${pkg.custom?`Needs approval from ${esc(hodFor(k))} before the booking form can be issued.`:`${money(pkg.fee)}${pkg.basis==='One-time'?' one-time':' a month'}${pkg.setup?' + '+money(pkg.setup)+' setup':''} · discount cap ${pkg.cap}% · effective ${fd(pkg.eff)}`}</div></div><button type="button" class="btn sm" data-act="cat-open" data-k="${k}">Change package</button></div>`:`<button type="button" class="btn" data-act="cat-open" data-k="${k}">${ic('layers')}Choose from catalogue</button>`;
+  return `<div class="field ${d.cls||''}" data-fp="${p}"><label>${esc(d.label)}${d.req?' <span class="req" title="Required">*</span>':''}</label>${card}<div class="hint">Prices, deliverables and discount caps come from the published catalogue. The package version is kept on the booking form.</div><div class="err" data-err>${ic('alert')}<span></span></div></div>`;
+}
 function fld(o,d){
   const {p,label,type='text',req=false,opts=[],ph='',hint='',cls='',show,blank,quick,rows,ro=false,multiple=false}=d;
+  if(type==='catalogue')return catField(o,p,d);
   const v=getP(o,p),id=fid(p);
   let ctl='';
   if(type==='select')ctl=`<select class="in" id="${id}" data-bind="${p}">${optsHTML(opts,v,blank)}</select>`;
   else if(type==='radio')ctl=`<div class="radios" role="radiogroup" aria-labelledby="${id}_l">${opts.map((x,i)=>`<label class="radio"><input type="radio" name="${p}" data-bind="${p}" value="${esc(x)}" ${v===x?'checked':''}><span>${esc(x)}</span></label>`).join('')}</div>`;
-  else if(type==='textarea')ctl=`<textarea class="in" id="${id}" data-bind="${p}" placeholder="${esc(ph)}" rows="${rows||3}">${esc(v)}</textarea>`;
+  else if(type==='textarea')ctl=`<textarea class="in" id="${id}" data-bind="${p}" placeholder="${esc(ph)}" rows="${rows||3}" ${ro?'readonly':''}>${esc(v)}</textarea>`;
   else if(type==='money')ctl=`<div class="pre"><span>S$</span><input class="in num" id="${id}" inputmode="decimal" data-bind="${p}" data-fmt="money" value="${esc(v)}" placeholder="0.00" ${ro?'readonly':''}></div>`;
   else if(type==='multi')ctl=`<div class="multi" data-multi="${p}" data-opts='${esc(JSON.stringify(opts))}'>${multiInner(o,p,opts)}</div>`;
   else if(type==='file'){const has=Array.isArray(v)?v.length:!!v;ctl=`<label class="file ${has?'has':''}"><input type="file" data-bind="${p}" data-file="1" ${multiple?'multiple':''}><span class="fn">${esc(Array.isArray(v)?v.join(', '):v)||esc(ph||'Choose a file…')}</span><span class="btn sm" aria-hidden="true">${ic('clip')}Browse</span></label>`}
-  else if(type==='check')return `<label class="${cls}" ${show?`data-show="${esc(show)}"`:''} style="display:flex;gap:8px;align-items:center"><input type="checkbox" data-bind="${p}" ${v?'checked':''}> ${esc(label)}</label>`;
+  else if(type==='check')return `<label class="${cls}" ${show?`data-show="${esc(show)}"`:''} style="display:flex;gap:8px;align-items:center"><input type="checkbox" data-bind="${p}" ${v?'checked':''} ${ro?'disabled':''}> ${esc(label)}</label>`;
   else ctl=`<input class="in ${type==='number'?'num':''}" id="${id}" type="${type}" data-bind="${p}" value="${esc(v)}" placeholder="${esc(ph)}" ${ro?'readonly':''}>`;
   return `<div class="field ${cls}" data-fp="${p}" ${show?`data-show="${esc(show)}"`:''}><label ${type==='radio'?`id="${id}_l"`:`for="${id}"`}>${esc(label)}${req?' <span class="req" title="Required">*</span>':''}</label>${ctl}${quick?`<div><button type="button" class="btn sm" data-act="quick" data-p="${p}" data-v="${esc(quick)}">${esc(quick)}</button></div>`:''}${hint?`<div class="hint">${hint}</div>`:''}<div class="err" data-err>${ic('alert')}<span></span></div></div>`;
 }
@@ -993,14 +1101,13 @@ const sec=(id,title,body,{open=true,badge='',key}={})=>`<section class="sec coll
 
 /* ============ service field layout (single source for render + validation) ============ */
 function svcSections(k,o){
-  const g=SVC[k].group,b=`services.${k}.`,s=o.services[k];
-  const combos=s.package?(COMBOS[s.package]||[]):Object.values(COMBOS).flat();
+  const g=SVC[k].group,b=`services.${k}.`,s=o.services[k],cust=!!(s.pkg&&s.pkg.custom),cap=s.pkg&&!s.pkg.custom?s.pkg.cap:null;
   const S1=[
-   {p:b+'package',label:'Package',type:'select',opts:PACKAGES},
-   {p:b+'combo',label:'Combo',type:'select',opts:combos,req:true},
+   {p:b+'pkg',label:'Package',type:'catalogue',req:true,cls:'span2'},
+   {p:b+'combo',label:'Combo',ro:true,hint:'Set by the chosen package.'},
    ...(g==='sem'?[{p:b+'alias',label:'Alias name',hint:'Shown on invoices and in search when different from the company name.'}]:[]),
-   {p:b+'comboItems',label:'Combo items',type:'textarea',req:true,cls:'span2',ph:'e.g. 1 campaign, 20 ad variations a month'},
-   {p:b+'custom',label:'Customised package details',type:'textarea',req:true,cls:'span2',quick:'No changes from the standard package',ph:'Describe any change from the standard package'},
+   {p:b+'comboItems',label:cust?'Scope and deliverables (custom package)':'Combo items (package deliverables)',type:'textarea',req:true,cls:'span2',ro:!cust,ph:'Describe the custom scope and deliverables'},
+   {p:b+'custom',label:'Customised package details',type:'textarea',req:true,cls:'span2',quick:DEFAULT_NOCHANGE,ph:'Describe any change from the standard package',hint:'Anything other than "no changes" needs Service HOD approval before the booking form can be issued.'},
    {p:b+'addon',label:'Add-on',type:'textarea',cls:'span2'},
    {p:b+'accountType',label:'Account type',type:'radio',opts:['New','Existing'],req:true},
    {p:b+'cms',label:'CMS platform',type:'select',opts:CMS,req:true},
@@ -1027,15 +1134,16 @@ function svcSections(k,o){
    {p:b+'start',label:'Start date',type:'date',show:b+'dateSet=Yes',req:true},
    {p:b+'__end',label:'End date',type:'out',show:b+'dateSet=Yes'}];
   const S4=[
-   {p:b+'partner',label:'Partner budget',type:'money'},
-   {p:b+'auto',label:'Automatic compute (total budget follows partner budget)',type:'check'},
-   {p:b+'discount',label:'Discount',type:'money'},
+   {p:b+'partner',label:'Media budget (client ad spend)',type:'money',hint:'Typed by sales. This is the client\'s spend, not a catalogue price.'},
+   {p:b+'auto',label:'Automatic compute (total budget follows media budget)',type:'check'},
+   {p:b+'mgmt',label:cust?'Account management fee (custom, needs approval)':'Account management fee (from catalogue)',type:'money',ro:!cust},
+   {p:b+'setup',label:cust?'Setup fee (custom, needs approval)':'Setup fee (from catalogue)',type:'money',ro:!cust},
+   {p:b+'discPct',label:'Discount (%)',type:'number',hint:cap!=null?`Cap for this package: ${cap}%. Above the cap needs an exception approval.`:cust?'Custom package: discounts go through the same approval.':'Choose a package to see its discount cap.'},
+   {p:b+'discount',label:'Discount amount',type:'money',ro:true},
    {p:b+'discType',label:'Discount applies to',type:'select',opts:DISC_TYPES},
    {p:b+'total',label:'Total campaign budget',type:'money',ro:!s.auto},
    {p:b+'schedule',label:'Budget payment schedule',type:'select',opts:SCHEDULES,blank:false},
-   {p:b+'mgmt',label:'Account management fee',type:'money'},
-   {p:b+'mgmtSchedule',label:'Fee payment schedule',type:'select',opts:SCHEDULES,blank:false},
-   {p:b+'setup',label:'Setup fee',type:'money'}];
+   {p:b+'mgmtSchedule',label:'Fee payment schedule',type:'select',opts:SCHEDULES,blank:false}];
   const S5=[{p:b+'brief',label:'Brief and expectations',type:'textarea',rows:4,cls:'spanall',ph:'What did the client ask for? What outcomes were discussed?'}];
   const S6=g==='meta'?[
    {p:b+'core.loc',label:'Core: location'},{p:b+'core.demo',label:'Core: demographics'},{p:b+'core.beh',label:'Core: behaviour'},{p:b+'core.conn',label:'Core: connections'},{p:b+'core.int',label:'Core: interests'},{p:b+'core.oth',label:'Core: others'},
@@ -1053,25 +1161,31 @@ function validate(o){
   const I=[];let total=0;
   const chk=(step,p,label,ok,msg)=>{total++;if(!ok)I.push({step,p,label,msg:msg||'Required'})};
   const has=v=>String(v??'').trim()!=='';
-  const d=o.deal,c=o.client,m=o.comm,bl=o.billing,cv=o.conv,f=o.form;
-  chk(1,d.companyId==='__new'?'deal.companyName':'deal.companyId','Company',has(d.companyName),'Choose a company or add a new one');
+  const d=o.deal,c=o.client,m=o.comm,bl=o.billing,cv=o.conv,f=o.form,op=o.opp,lg=o.legal;
+  chk(1,'deal.companyId','Organisation',has(d.companyId),'Choose an existing organisation');
   chk(1,'deal.contractType','Contract type',has(d.contractType));
   if(NEEDS_BASE.includes(d.contractType))chk(1,'deal.baseContract','Base contract',has(d.baseContract),'Link this to the base contract so it joins the right cycle');
-  chk(1,'deal.status','Opportunity status',has(d.status));
-  chk(1,'deal.title','Opportunity title',has(d.title));
+  chk(1,'deal.title','Opportunity name',has(d.title));
+  chk(1,'opp.expectedClose','Expected close date',has(op.expectedClose),'Enter your forecast close date');
   chk(1,'deal.aurix','Aurix add-on',has(d.aurix),'Choose Yes or No');
   chk(1,'deal.psg','PSG project',has(d.psg));
   if(d.psg==='Yes'){chk(1,'deal.psgType','PSG project type',has(d.psgType));chk(1,'deal.psgPackage','PSG package',has(d.psgPackage));chk(1,'deal.psgPay','PSG payment type',has(d.psgPay));chk(1,'deal.psgBudget','PSG media budget',has(d.psgBudget))}
-  chk(1,'client.first','Client first name',has(c.first));
-  chk(1,'client.email','Client email',emailsOk(c.email),has(c.email)?'Enter valid email addresses, separated by commas':'Required');
-  if(has(c.cc))chk(1,'client.cc','Client cc email',emailsOk(c.cc),'Enter valid email addresses, separated by commas');
-  chk(1,'client.phone','Client contact number',has(c.phone));
+  chk(1,'legal.confirmed','Legal contracting entity confirmed',lg.confirmed===true,'Confirm the legal contracting entity');
+  chk(1,'client.isSignatory','Authorised signatory designated',c.isSignatory===true,'Choose the authorised signatory for this company');
+  chk(1,'client.first','Signatory first name',has(c.first));
+  chk(1,'client.designation','Signatory job title',has(c.designation));
+  chk(1,'client.email','Signatory email',emailsOk(c.email),has(c.email)?'Enter valid email addresses, separated by commas':'Required');
+  if(has(c.cc))chk(1,'client.cc','Signatory cc email',emailsOk(c.cc),'Enter valid email addresses, separated by commas');
+  chk(1,'client.phone','Signatory contact number',has(c.phone));
   chk(2,'serviceKeys','At least one service',o.serviceKeys.length>0,'Add at least one service');
   o.serviceKeys.forEach(k=>svcSections(k,o).forEach(sc=>sc.fields.forEach(fl=>{
     if(!fl.req)return;if(fl.show&&!evalShow(o,fl.show))return;
-    const v=getP(o,fl.p);chk(2,fl.p,`${svcName(k)}: ${fl.label}`,Array.isArray(v)?v.length>0:has(v));
+    const v=getP(o,fl.p);chk(2,fl.p,`${svcName(k)}: ${fl.label.replace(' (custom package)','')}`,Array.isArray(v)?v.length>0:has(v));
   })));
-  if(o.serviceKeys.length)chk(2,'serviceKeys','Contract value above S$0',oppRevenue(o)>0,'Enter a budget or fee on at least one service');
+  o.serviceKeys.forEach(k=>{const s=o.services[k];if(s.pkg&&s.pkg.custom){chk(2,`services.${k}.mgmt`,`${svcName(k)}: Custom package fee`,has(s.mgmt)||has(s.setup),'Enter the fees for the custom package')}
+    if(has(s.discPct))chk(2,`services.${k}.discPct`,`${svcName(k)}: Discount`,num(s.discPct)>=0&&num(s.discPct)<=100,'Enter a percentage between 0 and 100');
+    if(s.pkg&&!s.pkg.custom&&s.duration===''){}});
+  if(o.serviceKeys.length)chk(2,'serviceKeys','Contract value above S$0',oppRevenue(o)>0,'Choose a package and duration, or enter a media budget');
   chk(3,'comm.payMode','Payment mode',has(m.payMode));chk(3,'comm.payTerm','Payment term',has(m.payTerm));chk(3,'comm.credit','Credit term',has(m.credit));
   if(m.credit==='Others')chk(3,'comm.creditLen','Credit term length',has(m.creditLen));
   o.serviceKeys.forEach(k=>{const s=o.services[k];if(calcSvc(s).budget>0){const mp=m.mediaPay[k]||{};chk(3,`comm.mediaPay.${k}.mode`,`${svcName(k)} media payment mode`,has(mp.mode));chk(3,`comm.mediaPay.${k}.term`,`${svcName(k)} media payment term`,has(mp.term));chk(3,`comm.mediaPay.${k}.credit`,`${svcName(k)} media credit term`,has(mp.credit))}});
@@ -1085,26 +1199,90 @@ function validate(o){
   if(cv.nda==='Yes'){chk(4,'conv.ndaFrom','NDA valid from',has(cv.ndaFrom));chk(4,'conv.ndaTo','NDA valid to',has(cv.ndaTo)&&(!has(cv.ndaFrom)||cv.ndaTo>=cv.ndaFrom),has(cv.ndaTo)?'Must be on or after the start date':'Required');chk(4,'conv.ndaFile','NDA file',has(cv.ndaFile),'Attach the signed NDA')}
   chk(4,'conv.serviceIds','Services included in conversion',cv.serviceIds.length>0,'Select at least one service');
   chk(5,'form.custom','Customisation statement',has(f.custom),'Choose one of the two statements');
-  if(f.custom==='yes'){chk(5,'form.customDesc','Customisation description',has(f.customDesc));chk(5,'form.customFile','Customised quotation or attachment',has(f.customFile),'Attach the customised quotation or terms')}
+  if(f.custom==='yes'){chk(5,'form.customWhat','What is customised',f.customWhat.length>0,'Say what is customised so the right approver is chosen');chk(5,'form.customDesc','Customisation description',has(f.customDesc));chk(5,'form.customFile','Customised quotation or attachment',has(f.customFile),'Attach the customised quotation or terms')}
   if(d.psg==='Yes'){chk(5,'form.psgQuote','PSG quotation',has(f.psgQuote),'PSG submissions need the quotation');chk(5,'form.psgSla','PSG service level agreement',has(f.psgSla),'PSG submissions need the signed SLA')}
   return {issues:I,total};
 }
-const STEPS=[[1,'Deal and client','Company, package, contact'],[2,'Services','What is being sold'],[3,'Commercials and billing','Payment and invoicing'],[4,'Conversion details','Source, industry, NDA'],[5,'Booking form and sign-off','Review, sign, send']];
-function stageInfo(o){
-  if(o.stage==='won')return {key:'won',label:'Won',cls:'ok'};
-  if(o.stage==='awaiting_client')return {key:'client',label:o.ce.viewedAt?'Client viewed':'Awaiting client',cls:'info'};
-  if(o.stage==='awaiting_approval')return {key:'client',label:'Awaiting approval',cls:'warn'};
-  const ready=validate(o).issues.every(i=>i.step===5);
-  return ready?{key:'ready',label:'Ready to sign',cls:'accent'}:{key:'draft',label:'Draft',cls:''};
+const STEPS=[[1,'Opportunity and parties','Organisation, entity, signatory'],[2,'Services','What is being sold'],[3,'Commercials and billing','Payment and invoicing'],[4,'Conversion details','Source, industry, NDA'],[5,'Booking form and sign-off','Review, approve, issue']];
+const stageInfo=o=>({key:o.stage,label:STAGE_LABEL[o.stage]||o.stage,cls:STAGE_CLS[o.stage]||''});
+function bfInfo(o){
+  const st=o.bf.state;
+  if(st==='contracted')return {key:'contracted',label:'Verified / Contracted',cls:'ok'};
+  if(st==='pending_verification')return {key:'pv',label:'Endorsed, Pending Verification',cls:'warn'};
+  if(st==='issued')return {key:'issued',label:'Issued',cls:'info'};
+  if(validate(o).issues.length)return {key:'draft',label:'Draft',cls:''};
+  if(approvalsOutstanding(o).length)return {key:'pending_approval',label:'Pending Approval',cls:'warn'};
+  return {key:'ready',label:'Ready for Issuance',cls:'accent'};
 }
+const VSTATUS_CLS={'Issued':'info','Endorsed, Pending Verification':'warn','Verified / Contracted':'ok','Superseded':'','Withdrawn':'bad'};
 const nameOk=(o)=>o.form.signName.trim().replace(/\s+/g,' ').toLowerCase()===ME.name.toLowerCase();
+function setStage(o,to,note){o.stageLog.push({t:nowStamp(),who:ME.name,from:o.stage,to,note:note||''});o.stage=to}
+
+/* ============ issue, revise, contract creation, billing instructions ============ */
+function issueBF(o,method){
+  const f=o.form;f.signedAt=nowStamp();f.signedBy=ME.name;o.changeRequest=null;o.bf.method=method||'digital';
+  o.bf.versions.forEach(v=>{if(v.status==='Withdrawn')v.status='Superseded'});
+  const snap=JSON.parse(JSON.stringify({id:o.id,version:o.version,deal:o.deal,legal:o.legal,client:o.client,serviceKeys:o.serviceKeys,services:o.services,comm:o.comm,billing:o.billing,conv:o.conv,form:o.form,ce:{contractNo:''}}));
+  o.bf.versions.push({v:o.version,status:'Issued',issuedAt:nowStamp(),issuedBy:ME.name,method:o.bf.method,total:oppRevenue(o)+oppGst(o),snap});
+  o.bf.state='issued';setStage(o,'bfpending',`Booking form v${o.version} issued (${o.bf.method==='offline'?'offline signature':'digital link'})`);
+  o.ce=FRESH_CE();if(o.bf.method==='digital')o.ce.sentAt=nowStamp();
+}
+function reviseBF(o,reason,note){
+  const cur=o.bf.versions.find(v=>v.v===o.version);if(cur&&cur.status!=='Verified / Contracted')cur.status='Withdrawn';
+  o.version++;o.form.signName='';o.form.signedAt='';o.form.signedBy='';o.form.approvedAt='';o.bf.state='draft';o.ce=FRESH_CE();
+  if(o.stage==='bfpending')setStage(o,'presented',note||reason||'Booking form withdrawn for revision');
+}
+function instalments(term,months){
+  months=Math.max(1,Math.round(months)||1);
+  const mk=a=>a.map(([off,f])=>({off:Math.round(off),f}));
+  switch(term){
+    case '100%':return mk([[0,1]]);
+    case '50-50%':return mk([[0,.5],[months/2,.5]]);
+    case '60-20-20%':return mk([[0,.6],[months/3,.2],[2*months/3,.2]]);
+    case '50-30-20%':return mk([[0,.5],[months/3,.3],[2*months/3,.2]]);
+    case 'Quarterly':{const n=Math.ceil(months/3);return mk(Array.from({length:n},(_,i)=>[i*3,1/n]))}
+    default:return mk(Array.from({length:months},(_,i)=>[i,1/months]));
+  }
+}
+const creditDays=(c,len)=>c==='Others'?num(len):(parseInt(c)||14);
+function genBilling(o){
+  const rows=[],cd=creditDays(o.comm.credit,o.comm.creditLen);
+  const first=o.serviceKeys.map(k=>o.services[k].start).filter(Boolean).sort()[0];
+  if(o.comm.schedule.length){
+    const start=first?pd(first):TODAY;
+    o.comm.schedule.forEach((r,i)=>{const amt=['media','am','setup','seo','other'].reduce((a,c)=>a+num(r[c]),0);if(amt<=0)return;const inv=addMonths(start,i),due=new Date(inv);due.setDate(due.getDate()+cd);rows.push({svc:'all',desc:'Customised schedule',n:i+1,of:o.comm.schedule.length,amount:+amt.toFixed(2),invoiceOn:iso(inv),due:iso(due),cond:i===0?'On commencement':'Per customised schedule',status:'Pending Finance review'})});
+    return rows;
+  }
+  o.serviceKeys.forEach(k=>{const s=o.services[k],c=calcSvc(s),start=s.start?pd(s.start):TODAY;
+    const mk=(desc,total,term,cr)=>{if(total<=0)return;let acc=0;const ins=instalments(term,c.months||1);
+      ins.forEach((x,i)=>{const amt=i===ins.length-1?+(total-acc).toFixed(2):+(total*x.f).toFixed(2);acc+=amt;const inv=addMonths(start,x.off),due=new Date(inv);due.setDate(due.getDate()+cr);
+        rows.push({svc:k,desc,n:i+1,of:ins.length,amount:amt,invoiceOn:iso(inv),due:iso(due),cond:i===0?'On commencement':'Per agreed payment term',status:'Pending Finance review'})})};
+    mk('Fees',c.mgmt+c.setup-c.disc,o.comm.payTerm,cd);
+    if(s.payment==='Pay via OOm'){const mp=o.comm.mediaPay[k]||{};mk('Media budget',c.budget,mp.term||o.comm.payTerm,creditDays(mp.credit||o.comm.credit,o.comm.creditLen))}
+  });
+  return rows.sort((a,b)=>a.invoiceOn.localeCompare(b.invoiceOn));
+}
+function createContractFor(o,signer){
+  if(o.ce.contractNo)return null;
+  const ce=o.ce;ce.endorsedAt=nowStamp();ce.signer=signer;
+  ce.contractNo='26'+String(TODAY.getMonth()+1).padStart(2,'0')+'-'+String(S.nextContract++).padStart(3,'0');
+  o.bf.state='contracted';const ver=o.bf.versions.find(v=>v.v===o.version);if(ver)ver.status='Verified / Contracted';
+  setStage(o,'won',`Endorsement verified, contract ${ce.contractNo} created from booking form v${o.version}`);
+  const co=CO(o.deal.companyId);
+  if(co){const starts=o.serviceKeys.map(k=>o.services[k].start).filter(Boolean).sort();const start=starts[0]||iso(TODAY);const ends=o.serviceKeys.map(k=>calcSvc(o.services[k]).end).filter(Boolean).sort();const end=ends.pop()||iso(addMonths(pd(start),12));
+    const bi=genBilling(o);ce.billing=bi;const contract={no:ce.contractNo,type:o.deal.contractType,parent:o.deal.baseContract||undefined,title:o.deal.title,start,end,value:oppRevenue(o),invoice:'Unpaid',psg:o.deal.psg==='Yes',bf:{opp:o.id,v:o.version},billingInstr:bi,svcs:o.serviceKeys.map(k=>({k,st:'Pending',paid:calcSvc(o.services[k]).budget}))};
+    co.contracts.push(contract);S.added=(S.added||[]).concat([{companyId:co.id,contract}])}
+  return ce.contractNo;
+}
 
 /* ============ sample data fill (prototype aid) ============ */
 function demoFill(o,coId){
   const co=CO(coId)||CO('northwind');
-  const d=o.deal;d.companyId=co.id;d.companyName=co.name;d.title=d.title||'Always-on lead generation FY27';d.status='Hot';d.aurix='No';d.psg='No';
-  const ct=co.contacts[0];Object.assign(o.client,{id:ct.id,first:ct.first,last:ct.last,email:ct.email,phone:ct.phone,designation:ct.designation});
-  ['facebook','sem'].forEach(k=>{addService(o,k);const s=o.services[k];Object.assign(s,{package:'Performance Marketing',combo:'Growth (2 channels)',comboItems:'2 campaigns, 20 ad variations a month, monthly report',custom:'No changes from the standard package',accountType:'Existing',cms:'Shopify',payment:'Pay via OOm',duration:'12 Months',dateSet:'Yes',start:'2026-11-01',partner:k==='sem'?'24,000.00':'12,000.00',mgmt:k==='sem'?'6,000.00':'3,000.00',setup:'0.00',brief:'Increase qualified enquiries while holding cost per lead steady.',adSched:'No',gender:'All'});s.channels=k==='sem'?['Search']:['Lead Generation']});
+  const d=o.deal;d.companyId=co.id;d.companyName=co.name;d.title=d.title||'Always-on lead generation FY27';d.aurix='No';d.psg='No';
+  Object.assign(o.opp,{expectedClose:'2026-11-15',nextAction:'Send booking form to client',nextDue:'2026-10-26',enquiries:co.enquiries.slice(0,1).map(e=>e.id)});
+  Object.assign(o.legal,{name:co.name,uen:co.uen,noUen:!co.uen,address:co.address,confirmed:true});
+  const ct=co.contacts.find(c=>c.signatory)||co.contacts[0];Object.assign(o.client,{id:ct.id,first:ct.first,last:ct.last,email:ct.email,phone:ct.phone,designation:ct.designation,isSignatory:true});
+  ['facebook','sem'].forEach(k=>{addService(o,k);const s=o.services[k];Object.assign(s,{accountType:'Existing',cms:'Shopify',payment:'Pay via OOm',duration:'12 Months',dateSet:'Yes',start:'2026-11-01',partner:k==='sem'?'24,000.00':'12,000.00',brief:'Increase qualified enquiries while holding cost per lead steady.',adSched:'No',gender:'All'});s.channels=k==='sem'?['Search']:['Lead Generation'];applyPkg(s,catFor(k)[1])});
   o.tab='facebook';
   Object.assign(o.comm,{payMode:'Cheque / Bank Transfer',payTerm:'Monthly',credit:'14 Days',gst:'Yes'});
   o.serviceKeys.forEach(k=>o.comm.mediaPay[k]={mode:'Cheque / Bank Transfer',term:'Monthly',credit:'14 Days'});
@@ -1112,17 +1290,18 @@ function demoFill(o,coId){
   Object.assign(o.conv,{source:'Referral',industry:co.industry in INDUSTRIES?co.industry:'Retail',model:'B2C (Business to Consumer)',ecom:'No',restrict:'No',nda:'No'});
   o.conv.sub=INDUSTRIES[o.conv.industry][0];o.conv.serviceIds=o.serviceKeys.slice();o.conv.split=[ME.name];
 }
-function sign(o){const f=o.form;f.signedAt=nowStamp();f.signedBy=ME.name;o.changeRequest=null;
-  if(f.custom==='yes')o.stage='awaiting_approval';else{o.stage='awaiting_client';o.ce.sentAt=nowStamp()}}
+const approveAll=o=>approvalsFor(o).forEach(a=>{o.approvals[a.id]={status:'approved',key:approvalKey(o),by:'Approver (prototype)',at:nowStamp()}});
 function seedOpps(){
-  const mk=(coId,title,fn)=>{const o=newOpp();o.deal.title=title;fn(o);return o};
-  const a=mk('northwind','Festive season push',o=>{o.deal.companyId='northwind';o.deal.companyName=CO('northwind').name;o.deal.contractType='Top-up';o.deal.baseContract='2608-031';o.deal.status='Super Hot';const c=CO('northwind').contacts[0];Object.assign(o.client,{id:c.id,first:c.first,last:c.last,email:c.email,phone:c.phone})});
-  const b=mk('cedar','Showroom expansion: social retainer',o=>{demoFill(o,'cedar');o.deal.title='Showroom expansion: social retainer';o.deal.status='Hot'});
-  const c=mk('lumen','Lumen renewal: SEO and content',o=>{demoFill(o,'lumen');o.deal.title='Lumen renewal: SEO and content';o.deal.contractType='Renewal';o.deal.baseContract='2604-012';o.form.custom='no';o.form.signName=ME.name;sign(o);o.ce.viewedAt=nowStamp()});
-  const d=mk('harbour','Harbourline SEM renewal',o=>{demoFill(o,'harbour');o.deal.title='Harbourline SEM renewal';o.deal.contractType='Renewal';o.deal.baseContract='2511-004';o.form.custom='yes';o.form.customDesc='Client asked for a quarterly review clause.';o.form.customFile='customised-terms.pdf';o.form.signName=ME.name;sign(o)});
-  const e=mk('orbit','Orbit SEO add-on',o=>{demoFill(o,'orbit');o.deal.title='Orbit SEO add-on';o.deal.contractType='Cross-sell';o.deal.baseContract='2512-009';o.form.custom='no';o.form.signName=ME.name;sign(o);o.ce.viewedAt=nowStamp();o.ce.endorsedAt=nowStamp();o.ce.contractNo='2610-059';o.ce.signer={name:'Hui Min Chong',title:'Commercial Director'};o.stage='won'});
-  const g=mk('greenleaf','Greenleaf SEO programme year 2',o=>{demoFill(o,'greenleaf');o.deal.title='Greenleaf SEO programme year 2';o.deal.contractType='Renewal';o.deal.baseContract='2410-021'});
-  return [a,b,c,d,e,g];
+  const mk=(title,fn)=>{const o=newOpp();o.deal.title=title;fn(o);return o};
+  const a=mk('Festive season push',o=>{const co=CO('northwind');o.deal.companyId='northwind';o.deal.companyName=co.name;o.deal.contractType='Top-up';o.deal.baseContract='2608-031';o.deal.status='Super Hot';o.opp.expectedClose='2026-11-30';o.opp.nextAction='Draft top-up proposal';o.opp.nextDue='2026-10-23';o.opp.enquiries=['ENQ-2204'];const c=co.contacts[0];Object.assign(o.client,{id:c.id,first:c.first,last:c.last,email:c.email,phone:c.phone,designation:c.designation,isSignatory:true})});
+  const b=mk('Showroom expansion: social retainer',o=>{demoFill(o,'cedar');o.deal.status='Hot';o.client.isSignatory=false;o.stage='presented';o.opp.presentedOn='2026-10-14';o.stageLog.push({t:'14/10/2026 11:20 SGT',who:ME.name,from:'prep',to:'presented',note:'Proposal presented to client'})});
+  const c=mk('Lumen renewal: SEO and content',o=>{demoFill(o,'lumen');o.deal.contractType='Renewal';o.deal.baseContract='2604-012';o.form.custom='no';o.form.signName=ME.name;issueBF(o,'digital');o.ce.viewedAt=nowStamp()});
+  const d=mk('Harbourline SEM renewal',o=>{demoFill(o,'harbour');o.deal.contractType='Renewal';o.deal.baseContract='2511-004';o.stage='presented';o.form.custom='yes';o.form.customWhat=['terms'];o.form.customDesc='Client asked for a quarterly review clause and a 60-day credit term.';o.form.customFile='customised-terms.pdf';o.comm.credit='60 Days'});
+  const e=mk('Orbit SEO add-on',o=>{demoFill(o,'orbit');o.deal.contractType='Cross-sell';o.deal.baseContract='2512-009';o.form.custom='no';o.form.signName=ME.name;issueBF(o,'digital');o.ce.viewedAt=nowStamp();createContractFor(o,{name:'Hui Min Chong',title:'Commercial Director',sig:{type:'typed'}})});
+  const g=mk('Greenleaf SEO programme year 2',o=>{demoFill(o,'greenleaf');o.deal.contractType='Renewal';o.deal.baseContract='2410-021'});
+  const h=mk('Cedar & Pine: website rebuild',o=>{const co=CO('cedar');o.deal.companyId='cedar';o.deal.companyName=co.name;o.deal.status='Warm';o.stage='deferred';o.opp.prevStage='presented';o.opp.deferNote='Client waiting for budget approval next quarter';o.opp.expectedClose='2027-02-28';o.stageLog.push({t:'08/10/2026 16:05 SGT',who:ME.name,from:'presented',to:'deferred',note:'Client waiting for budget approval next quarter'})});
+  const i=mk('Greenleaf: social media management',o=>{const co=CO('greenleaf');o.deal.companyId='greenleaf';o.deal.companyName=co.name;o.stage='lost';o.opp.lostReason='Budget or pricing';o.opp.closedAt='2026-09-30';o.stageLog.push({t:'30/09/2026 10:42 SGT',who:ME.name,from:'presented',to:'lost',note:'Budget or pricing'})});
+  return [a,b,c,d,e,g,h,i];
 }
 if(!S.opps)S.opps=seedOpps();
 if(S.svcOver)Object.entries(S.svcOver).forEach(([key,st])=>{const [no,k]=key.split(':');const f=findContract(no);const sv=f&&f.c.svcs.find(s=>s.k===k);if(sv)sv.st=st});
@@ -1130,24 +1309,36 @@ if(S.svcOver)Object.entries(S.svcOver).forEach(([key,st])=>{const [no,k]=key.spl
 
 /* ============ opportunities list ============ */
 const OV={mode:'board',q:''};
+function oppNext(o){
+  const bf=bfInfo(o);
+  if(o.stage==='won')return ['View contract',''];
+  if(o.stage==='lost'||o.stage==='decayed')return ['View',''];
+  if(o.stage==='deferred')return ['Resume pursuit',''];
+  if(bf.key==='issued')return [o.bf.method==='offline'?'View signing status':'View signing status',''];
+  if(bf.key==='pv')return ['Verify endorsement','primary'];
+  if(bf.key==='ready')return ['Review and issue','primary'];
+  if(bf.key==='pending_approval')return ['View approvals',''];
+  return ['Continue','primary'];
+}
 function oppCard(o){
-  const si=stageInfo(o),rev=oppRevenue(o),co=o.deal.companyName||'No company yet';
-  const next={draft:['Continue draft','primary'],ready:['Review and sign off','primary'],client:[o.stage==='awaiting_approval'?'View approval':'Resend endorsement link',''],won:['View contract','']}[si.key];
-  return `<article class="ocard"><div class="meta"><span class="chip ${si.cls}">${si.label}</span><span class="chip outline">${esc(o.deal.status)}</span></div><div><div class="t">${esc(o.deal.title||'Untitled opportunity')}</div><div class="sm muted">${esc(co)} · ${esc(o.deal.contractType)}${o.deal.baseContract?' of '+o.deal.baseContract:''}</div></div>
+  const si=stageInfo(o),bf=bfInfo(o),rev=oppRevenue(o),co=o.deal.companyName||'No organisation yet',next=oppNext(o);
+  const miss=bf.key==='draft'&&['prep','presented'].includes(o.stage)?validate(o).issues.length:0;
+  return `<article class="ocard"><div class="meta"><span class="chip ${bf.cls}" title="Booking form status">${bf.label}</span>${o.deal.status?`<span class="chip outline" title="Deal temperature">${esc(o.deal.status)}</span>`:''}</div><div><div class="t">${esc(o.deal.title||'Untitled opportunity')}</div><div class="sm muted">${esc(co)} · ${esc(o.deal.contractType)}${o.deal.baseContract?' of '+o.deal.baseContract:''}</div></div>
    <div class="chips">${o.serviceKeys.map(k=>`<span class="chip">${esc(svcName(k))}</span>`).join('')||'<span class="xs muted">No services yet</span>'}</div>
+   ${o.opp.nextAction?`<div class="xs muted">Next: ${esc(o.opp.nextAction)}${o.opp.nextDue?' · due '+fd(o.opp.nextDue):''}</div>`:''}
    <div class="meta"><b class="num">${rev?money(rev):'–'}</b><a class="btn sm ${next[1]}" href="#/opps/${o.id}">${next[0]}</a></div>
-   ${si.key==='draft'?`<div class="xs muted">${validate(o).issues.length} item${validate(o).issues.length===1?'':'s'} missing</div>`:''}</article>`;
+   ${miss?`<div class="xs muted">${miss} item${miss===1?'':'s'} missing</div>`:''}</article>`;
 }
 function renderOpps(root){
-  const list=(S.opps||[]).filter(o=>!OV.q||[o.deal.companyName,o.deal.title,o.id].join(' ').toLowerCase().includes(OV.q.toLowerCase()));
-  const cols=[['draft','Draft','Missing required details'],['ready','Ready to sign','Complete, waiting for sign-off'],['client','Awaiting client','Signed, link sent'],['won','Won','Contract issued']];
-  root.innerHTML=`<div class="pagehead"><div><h1>Opportunities</h1><div class="sub">Every opportunity shows what is blocking it and one next action.</div></div><div style="display:flex;gap:8px;align-items:center"><div class="seg" role="group" aria-label="View"><button data-act="omode" data-m="board" aria-pressed="${OV.mode==='board'}">${ic('board')}Board</button><button data-act="omode" data-m="list" aria-pressed="${OV.mode==='list'}">${ic('list')}List</button></div><a class="btn primary" href="#/opps/new">${ic('plus')}New opportunity</a></div></div>
+  root.innerHTML=`<div class="pagehead"><div><h1>Opportunities</h1><div class="sub">Pipeline stages follow the PRD. Each card shows its booking form status and next action.</div></div><div style="display:flex;gap:8px;align-items:center"><div class="seg" role="group" aria-label="View"><button data-act="omode" data-m="board" aria-pressed="${OV.mode==='board'}">${ic('board')}Board</button><button data-act="omode" data-m="list" aria-pressed="${OV.mode==='list'}">${ic('list')}List</button></div><a class="btn primary" href="#/opps/new">${ic('plus')}New opportunity</a></div></div>
   <div class="toolbar"><label class="search">${ic('search')}<input id="oq" placeholder="Search opportunities" value="${esc(OV.q)}" aria-label="Search opportunities"></label></div>
   <div id="obody"></div>`;
   const draw=()=>{
     const L=(S.opps||[]).filter(o=>!OV.q||[o.deal.companyName,o.deal.title,o.id].join(' ').toLowerCase().includes(OV.q.toLowerCase()));
-    if(OV.mode==='board')$('#obody').innerHTML=`<div class="board">${cols.map(c=>{const items=L.filter(o=>stageInfo(o).key===c[0]);return `<section class="col" aria-label="${c[1]}"><div class="ch">${c[1]}<span class="n">${items.length}</span></div><div class="xs muted" style="padding:0 4px;margin-top:-6px">${c[2]}</div>${items.map(oppCard).join('')||'<div class="empty xs">Nothing here</div>'}</section>`}).join('')}</div>`;
-    else $('#obody').innerHTML=`<div class="card"><div class="tblwrap"><table class="tbl"><thead><tr><th>Opportunity</th><th>Company</th><th>Type</th><th>Stage</th><th class="r">Value</th><th></th></tr></thead><tbody>${L.map(o=>{const si=stageInfo(o);return `<tr><td><b>${esc(o.deal.title||'Untitled')}</b><div class="xs muted">${o.id}</div></td><td>${esc(o.deal.companyName||'–')}</td><td>${esc(o.deal.contractType)}</td><td><span class="chip ${si.cls}">${si.label}</span></td><td class="r num">${oppRevenue(o)?money(oppRevenue(o)):'–'}</td><td class="r"><a class="btn sm" href="#/opps/${o.id}">View</a></td></tr>`}).join('')}</tbody></table></div></div>`;
+    const closed=L.filter(o=>['lost','deferred','decayed'].includes(o.stage));
+    if(OV.mode==='board')$('#obody').innerHTML=`<div class="board">${STAGES.map(c=>{const items=L.filter(o=>o.stage===c[0]);return `<section class="col" aria-label="${c[1]}"><div class="ch">${c[1]}<span class="n">${items.length}</span></div><div class="xs muted" style="padding:0 4px;margin-top:-6px">${c[2]}</div>${items.map(oppCard).join('')||'<div class="empty xs">Nothing here</div>'}</section>`}).join('')}</div>
+      <section style="margin-top:22px"><h2 style="margin-bottom:4px">Closed and paused</h2><p class="sm muted" style="margin-bottom:10px">Lost needs a reason. Deferred opportunities are excluded from the forecast. Decayed opportunities are closed automatically after 90 days without meaningful engagement, with approved extensions of up to 90 days (PRD 5.3.4). Decay is not part of this prototype.</p><div class="board" style="grid-template-columns:repeat(3,minmax(240px,1fr))">${CLOSED_STAGES.map(c=>{const items=closed.filter(o=>o.stage===c[0]);return `<section class="col" aria-label="${c[1]}"><div class="ch">${c[1]}<span class="n">${items.length}</span></div>${items.map(o=>`<article class="ocard"><div class="meta"><span class="chip ${STAGE_CLS[o.stage]}">${c[1]}</span></div><div><div class="t">${esc(o.deal.title)}</div><div class="sm muted">${esc(o.deal.companyName)}</div></div><div class="xs muted">${o.stage==='lost'?'Reason: '+esc(o.opp.lostReason):o.stage==='deferred'?esc(o.opp.deferNote||'Deferred'):'Closed by decay policy'}</div><div class="meta"><span></span><a class="btn sm" href="#/opps/${o.id}">${o.stage==='deferred'?'Resume pursuit':'View'}</a></div></article>`).join('')||'<div class="empty xs">Nothing here</div>'}</section>`}).join('')}</div></section>`;
+    else $('#obody').innerHTML=`<div class="card"><div class="tblwrap"><table class="tbl"><thead><tr><th>Opportunity</th><th>Organisation</th><th>Stage</th><th>Booking form</th><th class="r">Value</th><th></th></tr></thead><tbody>${L.map(o=>{const si=stageInfo(o),bf=bfInfo(o);return `<tr><td><b>${esc(o.deal.title||'Untitled')}</b><div class="xs muted">${o.id} · ${esc(o.deal.contractType)}</div></td><td>${esc(o.deal.companyName||'–')}</td><td><span class="chip ${si.cls}">${si.label}</span></td><td><span class="chip ${bf.cls}">${bf.label}</span></td><td class="r num">${oppRevenue(o)?money(oppRevenue(o)):'–'}</td><td class="r"><a class="btn sm" href="#/opps/${o.id}">View</a></td></tr>`}).join('')}</tbody></table></div></div>`;
   };
   draw();OV.draw=draw;
   $('#oq').addEventListener('input',e=>{OV.q=e.target.value;draw()});
@@ -1155,14 +1346,22 @@ function renderOpps(root){
 /* ============ wizard ============ */
 const W={o:null,touched:new Set(),showAll:false,closed:{},root:null};
 const saveOpp=()=>{persist();const el=$('#savestate');if(el)el.innerHTML=ic('check')+' Draft saved '+new Date().toTimeString().slice(0,5)};
-const locked=o=>o.stage!=='draft';
-
+const locked=o=>o.bf.state!=='draft';
+const stampDate=t=>{const m=String(t||'').match(/^(\d\d)\/(\d\d)\/(\d{4})/);return m?`${m[3]}-${m[2]}-${m[1]}`:''};
+const lastEngagement=o=>[o.created,o.opp.presentedOn,...o.stageLog.map(l=>stampDate(l.t))].filter(Boolean).sort().pop();
+function fillOrg(o,co,keepClient){
+  const d=o.deal;d.companyId=co.id;d.companyName=co.name;d.baseContract='';
+  Object.assign(o.legal,{name:co.name,uen:co.uen||'',noUen:!co.uen,address:co.address||'',confirmed:false});
+  o.opp.enquiries=[];
+  const c=co.contacts.find(x=>x.signatory)||co.contacts[0];
+  Object.assign(o.client,{id:c.id,first:c.first,last:c.last,email:c.email,cc:'',phone:c.phone,designation:c.designation,isSignatory:!!c.signatory});
+  const b=co.billing[0];Object.assign(o.billing,{id:b.id,company:b.company,first:b.first,last:b.last,email:b.email,cc:'',phone:b.phone,address:b.address,postal:b.postal});
+}
 function renderWizard(root,id){
   if(id==='new'){
     const o=newOpp(),q=new URLSearchParams((location.hash.split('?')[1]||''));
     const co=CO(q.get('co')),type=q.get('type');
-    if(co){o.deal.companyId=co.id;o.deal.companyName=co.name;const c=co.contacts[0];Object.assign(o.client,{id:c.id,first:c.first,last:c.last,email:c.email,phone:c.phone,designation:c.designation});
-      const b=co.billing[0];Object.assign(o.billing,{id:b.id,company:b.company,first:b.first,last:b.last,email:b.email,phone:b.phone,address:b.address,postal:b.postal});
+    if(co){fillOrg(o,co);
       if(type&&CONTRACT_TYPES.includes(type)){o.deal.contractType=type;const bases=co.contracts.filter(k=>k.type!=='Top-up'&&isLive(k)).sort((a,b)=>b.start.localeCompare(a.start));
         if(bases[0]&&NEEDS_BASE.includes(type)){o.deal.baseContract=bases[0].no;if(type==='Renewal')bases[0].svcs.forEach(s=>addService(o,s.k));o.tab=o.serviceKeys[0]||''}}}
     S.opps.unshift(o);persist();history.replaceState(null,'','#/opps/'+o.id);return renderWizard(root,o.id);
@@ -1170,43 +1369,67 @@ function renderWizard(root,id){
   const o=S.opps.find(x=>x.id===id);
   if(!o){root.innerHTML='<div class="empty">Opportunity not found. <a href="#/opps">Back to opportunities</a></div>';return}
   W.o=o;W.root=root;W.touched=new Set();W.showAll=false;
+  if(locked(o)||['lost','deferred','decayed'].includes(o.stage)&&o.step<1)o.step=5;
   if(locked(o))o.step=5;
   root.innerHTML=`<div class="crumbs"><a href="#/opps">Opportunities</a>${ic('right')}<span>${o.id}</span></div>
-  <div class="pagehead"><div><h1 id="wtitle">${esc(o.deal.title||'New opportunity')}</h1><div class="sub">${esc(o.deal.companyName||'No company yet')} · ${o.id} · Version ${o.version}</div></div>
+  <div class="pagehead"><div><h1 id="wtitle">${esc(o.deal.title||'New opportunity')}</h1><div class="sub">${esc(o.deal.companyName||'No organisation yet')} · ${o.id} · Booking form version ${o.version}</div></div>
    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="savestate" id="savestate">${ic('check')} Changes save automatically</span>${locked(o)?'':`<button class="btn sm" data-act="demo-fill" title="Prototype aid">${ic('pen')}Fill sample data</button>`}</div></div>
+  <div id="stagebar"></div>
   <div class="wiz"><nav class="stepper" id="stepper" aria-label="Steps"></nav><div id="wmain"><div id="wstep"></div><div class="wiz-foot" id="wfoot"></div></div><aside class="side-r" id="wside" aria-label="Readiness"></aside></div>`;
   root.onclick=null;
   drawStep();
 }
+/* ---- stage bar (PRD 5.2, 5.3.2) ---- */
+function drawStageBar(){
+  const o=W.o,el=$('#stagebar');if(!el)return;
+  const idx=STAGES.findIndex(s=>s[0]===o.stage),closed=['lost','deferred','decayed'].includes(o.stage);
+  const path=STAGES.map((s,i)=>`<li class="${!closed&&i<idx?'done':!closed&&i===idx?'cur':''}"><span>${!closed&&i<idx?ic('check'):i+1}</span>${s[1]}</li>`).join('');
+  let acts='';
+  if(o.stage==='prep')acts+=`<button class="btn sm" data-act="st-presented">Mark as presented</button>`;
+  if(['prep','presented'].includes(o.stage))acts+=`<button class="btn sm" data-act="st-defer">Defer</button><button class="btn sm danger" data-act="st-lost">Mark as lost</button>`;
+  if(o.stage==='deferred')acts+=`<button class="btn sm primary" data-act="st-resume">Resume pursuit</button>`;
+  const note=o.stage==='bfpending'?'Booking form issued. To change the stage, withdraw the booking form first.':o.stage==='won'?'Won follows verified endorsement only.':o.stage==='lost'?`Lost: ${esc(o.opp.lostReason)}${o.opp.lostNote?' · '+esc(o.opp.lostNote):''}. To pursue this client again, create a new opportunity.`:o.stage==='deferred'?`Deferred: ${esc(o.opp.deferNote||'no note')}. Excluded from the active forecast.`:'';
+  el.innerHTML=`<div class="stagebar"><ol class="stagepath ${closed?'closed':''}" aria-label="Opportunity stage">${path}</ol>${closed?`<span class="chip ${STAGE_CLS[o.stage]}">${STAGE_LABEL[o.stage]}</span>`:''}<div class="stage-actions">${acts}</div>${note?`<div class="xs muted" style="flex-basis:100%">${note}</div>`:''}</div>`;
+}
 function drawStep(keepScroll){
   const o=W.o,y=window.scrollY;
   const fn=[null,stepDeal,stepServices,stepCommercials,stepConversion,stepForm][o.step];
-  const cr=o.changeRequest&&!locked(o)?`<div class="notice warn" style="margin-bottom:14px">${ic('alert')}<div><b>${esc(o.changeRequest.by)} asked for a change on ${esc(o.changeRequest.at)}:</b> ${esc(o.changeRequest.text)}<div class="xs muted" style="margin-top:4px">Update the details, then sign off again. The client will receive a new link.</div></div></div>`:'';
+  const cr=o.changeRequest&&!locked(o)?`<div class="notice warn" style="margin-bottom:14px">${ic('alert')}<div><b>${esc(o.changeRequest.by)} asked for a change on ${esc(o.changeRequest.at)}${o.changeRequest.kind==='signatory'?' (different signatory)':''}:</b> ${esc(o.changeRequest.text)}<div class="xs muted" style="margin-top:4px">Update the details, then issue the booking form again. It is a new version, and the previous link no longer works.</div></div></div>`:'';
   $('#wstep').innerHTML=cr+`<fieldset ${locked(o)&&o.step<5?'disabled':''} style="border:0;margin:0;padding:0;min-width:0">${fn(o)}</fieldset>`;
   $('#wfoot').innerHTML=`<button class="btn" data-act="wstep" data-d="-1" ${o.step===1?'disabled':''}>Back</button>${o.step<5?`<button class="btn primary" data-act="wstep" data-d="1">Continue to ${esc(STEPS[o.step][1])}${ic('right')}</button>`:'<span></span>'}`;
-  refresh();if(keepScroll)window.scrollTo(0,y);else window.scrollTo({top:0});
+  drawStageBar();refresh();if(keepScroll)window.scrollTo(0,y);else window.scrollTo({top:0});
 }
-function sectionBadge(o,ids){return ''}
-/* ---- step 1 ---- */
+/* ---- step 1: opportunity, parties (PRD 5.3.1, 3.3.1, 3.3.2, 6.4.1) ---- */
 function stepDeal(o){
   const co=CO(o.deal.companyId),bases=co?co.contracts.map(k=>[k.no,`${k.no} · ${typeLabel(k)} · ${k.title} (${fd(k.start)} – ${fd(k.end)})`]):[];
-  const cl=co?[...co.contacts.map(c=>[c.id,`${c.first} ${c.last} · ${c.role}`]),['__new','Add a new contact']]:[];
+  const cl=co?[...co.contacts.map(c=>[c.id,`${c.first} ${c.last} · ${c.role}${c.signatory?' · Authorised signatory':''}`]),['__new','Add a new contact']]:[];
   const base=co&&o.deal.baseContract?findContract(o.deal.baseContract):null;
-  return `${locked(o)?`<div class="notice warn" style="margin-bottom:14px">${ic('lock')}<div>This opportunity was signed off, so it is read-only. Use <b>Revise</b> on the last step to void the sign-off and edit.</div></div>`:''}
-  ${sec('deal','Deal',`<div class="grid g2">
-    ${fld(o,{p:'deal.companyId',label:'Company',type:'select',req:true,opts:[...COMPANIES.map(c=>[c.id,c.name]),['__new','New company…']],ph:''})}
-    ${fld(o,{p:'deal.companyName',label:'New company name',req:true,show:'deal.companyId=__new',ph:'Registered business name'})}
+  const selContact=co&&co.contacts.find(c=>c.id===o.client.id);
+  const already=!!(selContact&&selContact.signatory);
+  const others=(S.opps||[]).filter(x=>x.id!==o.id&&x.deal.companyId&&x.deal.companyId===o.deal.companyId&&['prep','presented','bfpending'].includes(x.stage));
+  const enq=co?co.enquiries.map(e=>`<label class="enqrow"><input type="checkbox" data-act="enq-toggle" data-id="${e.id}" ${o.opp.enquiries.includes(e.id)?'checked':''}><div><b>${e.id}</b> · ${fd(e.date)} · ${esc(e.source)}<div class="sm muted">${esc(e.svc)}: ${esc(e.note)}</div></div></label>`).join('')||'<div class="muted sm">No enquiries recorded for this organisation.</div>':'<div class="muted sm">Choose an organisation first.</div>';
+  return `${locked(o)?`<div class="notice warn" style="margin-bottom:14px">${ic('lock')}<div>This booking form has been issued, so the details are read-only. Withdraw it on the last step to edit. That creates a new version.</div></div>`:''}
+  <div class="glance"><div><span class="xs muted">Stage</span><b>${esc(STAGE_LABEL[o.stage])}</b></div><div><span class="xs muted">Commercial owner</span><b>${esc(o.owner)}</b></div><div><span class="xs muted">Estimated value</span><b class="num">${oppRevenue(o)?money(oppRevenue(o)):'–'}</b></div><div><span class="xs muted">Last meaningful engagement</span><b>${fd(lastEngagement(o))}</b></div><div><span class="xs muted">Created</span><b>${fd(o.created)} by ${esc(o.owner)}</b></div></div>
+  ${sec('deal','Opportunity',`<div class="grid g2">
+    ${fld(o,{p:'deal.companyId',label:'Organisation',type:'select',req:true,opts:COMPANIES.map(c=>[c.id,c.name]),hint:'Existing organisations only. New organisations are created through the lead and enquiry flow (PRD section 4), which is not shown in this prototype.'})}
+    ${fld(o,{p:'deal.title',label:'Opportunity name',req:true,ph:'e.g. Always-on lead generation FY27'})}
     ${fld(o,{p:'deal.contractType',label:'Contract type',type:'select',req:true,opts:CONTRACT_TYPES,blank:false})}
-    ${fld(o,{p:'deal.baseContract',label:'Base contract',type:'select',req:true,opts:bases,show:'deal.contractType in '+NEEDS_BASE.join('|'),hint:co?'The cycle this joins. Top-ups and renewals tie to it automatically.':'Choose a company first.'})}
-    ${fld(o,{p:'deal.title',label:'Opportunity title',req:true,cls:'span2',ph:'e.g. Always-on lead generation FY27'})}
-    ${fld(o,{p:'deal.status',label:'Opportunity status',type:'radio',req:true,opts:HOT})}
-   </div>${base?`<div class="notice ok">${ic('link')}<div>Joins <b>${base.c.no}</b>: ${esc(base.c.title)}, ${fd(base.c.start)} – ${fd(base.c.end)}.</div></div>`:''}`)}
+    ${fld(o,{p:'deal.baseContract',label:'Base contract',type:'select',req:true,opts:bases,show:'deal.contractType in '+NEEDS_BASE.join('|'),hint:co?'The cycle this joins. Top-ups and renewals tie to it automatically.':'Choose an organisation first.'})}
+    ${fld(o,{p:'opp.expectedClose',label:'Expected close date',type:'date',req:true,hint:'Your forecast. Kept by you, not derived.'})}
+    ${fld(o,{p:'opp.nextAction',label:'Next action',ph:'e.g. Present proposal'})}
+    ${fld(o,{p:'opp.nextDue',label:'Next action due',type:'date'})}
+    ${fld(o,{p:'deal.status',label:'Deal temperature (optional, legacy)',type:'radio',opts:['Super Hot','Hot','Warm','Cold'],hint:'Kept from the current CRM for now. It will be mapped to the pipeline stages later.'})}
+   </div>
+   <div class="notice"><div class="xs">${ic('info')} <b>Commercial owner</b> is determined by the Sales and AM entitlement rules when the opportunity is opened (PRD 4.3.5). This prototype shows the creator. The entitlement rules are not part of it.</div></div>
+   ${base?`<div class="notice ok">${ic('link')}<div>Joins <b>${base.c.no}</b>: ${esc(base.c.title)}, ${fd(base.c.start)} – ${fd(base.c.end)}.</div></div>`:''}
+   ${others.length?`<div class="notice warn">${ic('alert')}<div><b>Possible overlap.</b> ${esc(o.deal.companyName)} already has ${others.length} active opportunit${others.length>1?'ies':'y'}: ${others.map(x=>`<a href="#/opps/${x.id}">${esc(x.deal.title)}</a>`).join(', ')}. Check this is a distinct commercial pursuit.</div></div>`:''}`)}
+  ${sec('enq','Originating enquiries',`<p class="sm muted">Optional. Link the enquiries that led to this opportunity. The original enquiry records are not changed.</p><div class="fp-enq">${enq}</div>`,{open:true})}
   ${sec('prog','Package and programme',`<div class="grid g2">
-    ${fld(o,{p:'deal.package',label:'Package',type:'select',opts:PACKAGES})}
+    ${fld(o,{p:'deal.package',label:'Package family (optional)',type:'select',opts:PACKAGES})}
     ${fld(o,{p:'deal.aurix',label:'Aurix add-on',type:'radio',req:true,opts:['Yes','No']})}
     ${fld(o,{p:'deal.psg',label:'PSG project',type:'radio',req:true,opts:['Yes','No']})}
     ${fld(o,{p:'deal.mediaByOom',label:'Media budget by OOm',type:'radio',opts:['Yes','No']})}
-    <div class="spanall notice" data-show="deal.psg=Yes">${ic('info')}<div>PSG projects need a quotation and a signed service level agreement at sign-off. Your configured services are kept if you change this.</div></div>
+    <div class="spanall notice" data-show="deal.psg=Yes">${ic('info')}<div>PSG projects need a quotation and a signed service level agreement before the booking form can be issued. A PSG amendment is handled as a replacement contract (PRD 10.3.6), which is not shown here.</div></div>
     ${fld(o,{p:'deal.psgType',label:'PSG project type',type:'select',opts:PSG_TYPES,req:true,show:'deal.psg=Yes'})}
     ${fld(o,{p:'deal.psgPackage',label:'PSG package',type:'select',opts:PSG_PACKAGES,req:true,show:'deal.psg=Yes'})}
     ${fld(o,{p:'deal.psgPay',label:'PSG payment type',type:'select',opts:PSG_PAY,req:true,show:'deal.psg=Yes'})}
@@ -1214,13 +1437,22 @@ function stepDeal(o){
     ${fld(o,{p:'deal.psgGrant',label:'PSG grant submitted',type:'radio',opts:['Yes','No'],show:'deal.psg=Yes'})}
     ${fld(o,{p:'deal.pwp',label:'Purchase with purchase',type:'multi',opts:PWP})}
    </div>`)}
-  ${sec('client','Client contact',`<div class="grid g2">
-    ${co?fld(o,{p:'client.id',label:'Existing contact',type:'select',opts:cl,cls:'spanall',hint:'Choosing a contact fills the fields below. You can still edit them.'}):''}
+  ${sec('legal','Legal contracting entity',`<p class="sm muted">The booking form is issued to this legal entity. It is pre-filled from the organisation record. A missing UEN does not block the opportunity, as the PRD allows overseas entities.</p><div class="grid g2">
+    ${fld(o,{p:'legal.name',label:'Legal organisation name',ro:true,hint:'Change it on the organisation record. The history is kept.'})}
+    <div class="field"><label>UEN</label><div class="pre"><input class="in" id="f_legal_uen" data-bind="legal.uen" value="${esc(o.legal.uen)}" placeholder="${o.legal.noUen?'No UEN':'e.g. 201912345K'}" ${o.legal.noUen?'disabled':''}></div><label style="display:flex;gap:8px;align-items:center;margin-top:6px;font-weight:500"><input type="checkbox" data-bind="legal.noUen" ${o.legal.noUen?'checked':''}> No UEN (overseas entity)</label></div>
+    ${fld(o,{p:'legal.address',label:'Registered or operating address',cls:'spanall'})}
+    <div class="field spanall" data-fp="legal.confirmed"><label class="cl-agree"><input type="checkbox" data-bind="legal.confirmed" ${o.legal.confirmed?'checked':''}><span>I have confirmed that <b>${esc(o.legal.name||'this organisation')}</b> is the correct legal contracting entity for this booking form. <span class="req">*</span></span></label><div class="err" data-err>${ic('alert')}<span></span></div></div>
+   </div>`)}
+  ${sec('client','Authorised signatory',`<p class="sm muted">The person authorised to sign for ${esc(o.legal.name||'the organisation')}. The signing link and one-time code go to this person's email, and they sign under their own name.</p><div class="grid g2">
+    ${co?fld(o,{p:'client.id',label:'Contact',type:'select',opts:cl,cls:'spanall',hint:'Contacts already designated as an authorised signatory are marked. Choosing a contact fills the fields below.'}):''}
     ${fld(o,{p:'client.first',label:'First name',req:true})}${fld(o,{p:'client.last',label:'Last name'})}
-    ${fld(o,{p:'client.email',label:'Email address',type:'email',req:true,hint:'Separate several addresses with commas. The endorsement link goes to these.'})}
+    ${fld(o,{p:'client.designation',label:'Job title',req:true})}
+    ${fld(o,{p:'client.email',label:'Email address',type:'email',req:true,hint:'Separate several addresses with commas.'})}
     ${fld(o,{p:'client.cc',label:'Email cc',type:'email'})}
-    ${fld(o,{p:'client.phone',label:'Contact number',type:'tel',req:true})}${fld(o,{p:'client.designation',label:'Designation'})}
-   </div>`)}`;
+    ${fld(o,{p:'client.phone',label:'Contact number',type:'tel',req:true})}
+    <div class="field spanall" data-fp="client.isSignatory"><label class="cl-agree"><input type="checkbox" data-bind="client.isSignatory" ${o.client.isSignatory?'checked':''} ${already?'disabled':''}><span>${already?'Already designated as an authorised signatory for this organisation.':`This person is an authorised signatory for <b>${esc(o.legal.name||'this organisation')}</b>. The designation is saved on their record for this organisation.`} <span class="req">*</span></span></label><div class="err" data-err>${ic('alert')}<span></span></div></div>
+   </div>`)}
+  ${sec('hist','Stage history',`<div class="timeline">${o.stageLog.slice().reverse().map(l=>`<div class="tl done"><div class="b">${ic('check')}</div><div><b>${l.to?esc(STAGE_LABEL[l.to]):''}</b>${l.from?` <span class="muted xs">from ${esc(STAGE_LABEL[l.from])}</span>`:''}<div class="xs muted">${esc(l.t)} · ${esc(l.who)}${l.note?' · '+esc(l.note):''}</div></div></div>`).join('')}</div>`,{open:false})}`;
 }
 /* ---- step 2 ---- */
 function svcMissing(o,k){return validate(o).issues.filter(i=>i.p.startsWith(`services.${k}.`)).length}
@@ -1231,8 +1463,7 @@ function stepServices(o){
     <div class="chips">${o.serviceKeys.map(k=>`<span class="chip accent">${esc(svcName(k))}<button class="iconbtn" style="width:18px;height:18px" data-act="svc-del" data-k="${k}" aria-label="Remove ${esc(svcName(k))}">${ic('x')}</button></span>`).join('')||'<span class="muted">None yet</span>'}</div>
     <span style="flex:1"></span><select class="in" id="addsvc" style="width:auto" aria-label="Add a service"><option value="">Add a service…</option>${avail.map(k=>`<option value="${k}">${esc(svcName(k))}</option>`).join('')}</select></div>
     <div data-fp="serviceKeys" class="field" style="padding:0 16px 12px"><div class="err" data-err>${ic('alert')}<span></span></div></div></div>`;
-  if(!tab)return head+`<div class="card"><div class="empty"><b>Add the first service</b><div class="sm" style="margin:4px 0 12px">Services keep their own state. You can switch between them without losing anything.</div><div class="chips" style="justify-content:center">${['facebook','linkedin','sem','seo','content'].map(k=>`<button class="btn" data-act="svc-add" data-k="${k}">${ic('plus')}${esc(svcName(k))}</button>`).join('')}</div></div></div>`;
-  const s=o.services[tab],calc=calcSvc(s);
+  if(!tab)return head+`<div class="card"><div class="empty"><b>Add the first service</b><div class="sm" style="margin:4px 0 12px">Each service has its own package from the catalogue and keeps its own state. You can switch between them without losing anything.</div><div class="chips" style="justify-content:center">${['facebook','linkedin','sem','seo','content'].map(k=>`<button class="btn" data-act="svc-add" data-k="${k}">${ic('plus')}${esc(svcName(k))}</button>`).join('')}</div></div></div>`;
   const tabs=`<div class="tabs" role="tablist" id="svctabs">${o.serviceKeys.map(k=>`<button class="tab" role="tab" data-act="svc-tab" data-k="${k}" aria-selected="${k===tab}"><span>${esc(svcName(k))}</span><span class="chip" data-tabchip="${k}"></span></button>`).join('')}</div>`;
   const secs=svcSections(tab,o).map(sc=>{
     const key=tab+':'+sc.id,open=W.closed[key]===undefined?sc.open:!W.closed[key];
@@ -1259,13 +1490,13 @@ function stepCommercials(o){
    ${fld(o,{p:'comm.shared',label:'Shared media budget',type:'radio',opts:['Yes','No']})}
    ${fld(o,{p:'comm.merge',label:'Merge invoices',type:'radio',opts:['Yes','No'],hint:'Consolidate all service invoices.'})}
    ${fld(o,{p:'comm.discType',label:'Discount type',type:'select',opts:DISC_TYPES})}
-  </div>`)}
-  ${sec('sched','Customised payment schedule',`<p class="sm muted">Optional. Leave empty to invoice by the payment term above.</p>
+  </div><div id="terms-note"></div>`)}
+  ${sec('sched','Customised payment schedule',`<p class="sm muted">Optional. Leave empty to invoice by the payment term above. A customised schedule counts as non-standard payment terms and needs approval before the booking form is issued.</p>
    ${sched.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>No.</th><th>Media budget</th><th>AM fee</th><th>Setup fee</th><th>SEO fee</th><th>Other</th><th class="r">Subtotal</th><th></th></tr></thead><tbody>${sched.map((r,i)=>`<tr><td>${i+1}</td>${['media','am','setup','seo','other'].map(c=>`<td><input class="in num" style="min-width:90px" inputmode="decimal" data-bind="comm.schedule.${i}.${c}" data-fmt="money" value="${esc(r[c])}" placeholder="0.00" aria-label="${c} for instalment ${i+1}"></td>`).join('')}<td class="r num" data-out="sched:${i}"></td><td><button class="iconbtn" data-act="sched-del" data-i="${i}" aria-label="Remove instalment ${i+1}">${ic('trash')}</button></td></tr>`).join('')}</tbody><tfoot><tr><td colspan="6" class="r"><b>Total</b></td><td class="r num"><b data-out="sched:total"></b></td><td></td></tr></tfoot></table></div>`:''}
    <div><button class="btn sm" data-act="sched-add">${ic('plus')}Add instalment</button></div>`,{open:sched.length>0})}
   ${mediaSvcs.length?sec('media','Media budget payment',`<div style="display:grid;gap:14px">${mediaSvcs.map(k=>`<div><div class="sub-h">${esc(svcName(k))} · <span class="num" data-out="mp:${k}"></span></div><div class="grid g3" style="margin-top:8px">${fld(o,{p:`comm.mediaPay.${k}.mode`,label:'Payment mode',type:'select',opts:PAY_MODES,req:true})}${fld(o,{p:`comm.mediaPay.${k}.term`,label:'Payment term',type:'select',opts:PAY_TERMS,req:true})}${fld(o,{p:`comm.mediaPay.${k}.credit`,label:'Credit term',type:'select',opts:CREDIT,req:true})}</div></div>`).join('')}</div>`):''}
-  ${sec('bill','Billing details',`<div class="grid g2">
-   ${co?fld(o,{p:'billing.id',label:'Billing entity',type:'select',opts:bil,cls:'spanall',hint:'Reuse a billing entity from this account. Editing it here updates every contract that uses it.'}):''}
+  ${sec('bill','Billing details (billing entity)',`<div class="grid g2">
+   ${co?fld(o,{p:'billing.id',label:'Billing entity',type:'select',opts:bil,cls:'spanall',hint:'The legal entity responsible for payment. Reuse one from this account. Editing it here updates every contract that uses it.'}):''}
    ${fld(o,{p:'billing.company',label:'Billing company name',req:true})}
    ${fld(o,{p:'billing.first',label:'Contact first name',req:true})}${fld(o,{p:'billing.last',label:'Contact last name'})}
    ${fld(o,{p:'billing.email',label:'Email address',type:'email',req:true,hint:'Separate several addresses with commas.'})}
@@ -1274,7 +1505,7 @@ function stepCommercials(o){
    ${fld(o,{p:'billing.address',label:'Address',cls:'span2'})}
    ${fld(o,{p:'billing.country',label:'Country',type:'select',opts:COUNTRIES,blank:false})}${fld(o,{p:'billing.postal',label:'Postal code'})}
    ${fld(o,{p:'billing.notes',label:'Notes',type:'textarea',cls:'spanall'})}
-   <div class="spanall"><button class="btn sm" data-act="bill-same">${ic('user')}Use the client contact as billing contact</button></div>
+   <div class="spanall"><button class="btn sm" data-act="bill-same">${ic('user')}Use the authorised signatory as billing contact</button></div>
   </div>`)}`;
 }
 /* ---- step 4 ---- */
@@ -1301,65 +1532,113 @@ function stepConversion(o){
    ${fld(o,{p:'conv.attach',label:'Other attachments (max 5 MB in total)',type:'file',multiple:true,cls:'spanall'})}
   </div>`)}`;
 }
-/* ---- step 5 ---- */
+/* ---- step 5: booking form ---- */
 function bookingDoc(o){
-  const cur=o.comm.currency==='Singapore Dollar'?'S$':'';
-  const rows=o.serviceKeys.map(k=>{const s=o.services[k],c=calcSvc(s);return `<tr><td><b>${esc(svcName(k))}</b><div class="xs muted">${esc(s.package||'')} ${s.combo?'· '+esc(s.combo):''}</div></td><td>${esc(s.duration==='Others'?s.durLen+' '+s.durUnit.toLowerCase():s.duration||'–')}${s.dateSet==='Yes'&&s.start?`<div class="xs muted">${fd(s.start)} – ${fd(c.end)}</div>`:''}</td><td class="r num">${money2(c.budget)}</td><td class="r num">${money2(c.mgmt)}</td><td class="r num">${money2(c.setup)}</td><td class="r num">${money2(c.rev)}</td></tr>`}).join('');
-  const rev=oppRevenue(o),gst=oppGst(o);
+  const rows=o.serviceKeys.map(k=>{const s=o.services[k],c=calcSvc(s);return `<tr><td><b>${esc(svcName(k))}</b><div class="xs muted">${esc(s.pkg?s.pkg.name:'')}${s.pkg&&!s.pkg.custom?' · '+esc(s.pkg.version):s.pkg?' · custom':''}</div>${c.disc>0?`<div class="xs muted">Discount ${esc(s.discPct)}%: −${money2(c.disc)}</div>`:''}</td><td>${esc(s.duration==='Others'?s.durLen+' '+s.durUnit.toLowerCase():s.duration||'–')}${s.dateSet==='Yes'&&s.start?`<div class="xs muted">${fd(s.start)} – ${fd(c.end)}</div>`:''}</td><td class="r num">${money2(c.budget)}</td><td class="r num">${money2(c.mgmt)}</td><td class="r num">${money2(c.setup)}</td><td class="r num">${money2(c.rev)}</td></tr>`}).join('');
+  const rev=oppRevenue(o),gst=oppGst(o),lg=o.legal||{},cl=o.client;
   return `<article class="doc" aria-label="Booking form preview"><div class="dh"><div><div style="font-weight:800;letter-spacing:-.02em;font-size:18px">OOm</div><h2>Booking form</h2></div><div class="sm" style="text-align:right"><div><b>${o.id}</b> · version ${o.version}</div><div class="muted">${fd(TODAY)}</div><div class="muted">${o.ce.contractNo?'Contract '+o.ce.contractNo:'Contract number issued after endorsement'}</div></div></div>
-  <dl><dt>Client</dt><dd>${esc(o.deal.companyName||'–')}</dd><dt>Contact</dt><dd>${esc((o.client.first+' '+o.client.last).trim()||'–')} · ${esc(o.client.email||'–')} · ${esc(o.client.phone||'–')}</dd><dt>Contract type</dt><dd>${esc(o.deal.contractType)}${o.deal.baseContract?' of '+esc(o.deal.baseContract):''}${o.deal.psg==='Yes'?' · PSG project':''}</dd><dt>Opportunity</dt><dd>${esc(o.deal.title||'–')}</dd></dl>
+  <dl><dt>Contracting entity</dt><dd>${esc(lg.name||o.deal.companyName||'–')}<div class="xs muted" style="font-weight:400">${lg.noUen?'No UEN (overseas entity)':lg.uen?'UEN '+esc(lg.uen):''}${lg.address?' · '+esc(lg.address):''}</div></dd><dt>Authorised signatory</dt><dd>${esc((cl.first+' '+cl.last).trim()||'–')}${cl.designation?', '+esc(cl.designation):''}<div class="xs muted" style="font-weight:400">${esc(cl.email||'–')} · ${esc(cl.phone||'–')}</div></dd><dt>Contract type</dt><dd>${esc(o.deal.contractType)}${o.deal.baseContract?' of '+esc(o.deal.baseContract):''}${o.deal.psg==='Yes'?' · PSG project':''}</dd><dt>Opportunity</dt><dd>${esc(o.deal.title||'–')}</dd></dl>
   <table><thead><tr><th>Service</th><th>Term</th><th class="r">Media budget</th><th class="r">AM fee</th><th class="r">Setup fee</th><th class="r">Subtotal</th></tr></thead><tbody>${rows||'<tr><td colspan="6" class="muted">No services added</td></tr>'}</tbody><tfoot><tr><td colspan="5" class="r">Total before GST</td><td class="r num"><b>${money2(rev)}</b></td></tr><tr><td colspan="5" class="r">GST (9%)${o.comm.gst==='Yes'?'':' · not applied'}</td><td class="r num">${money2(gst)}</td></tr><tr><td colspan="5" class="r"><b>Total payable</b></td><td class="r num"><b>${money2(rev+gst)}</b></td></tr></tfoot></table>
   <dl><dt>Payment</dt><dd>${esc(o.comm.payMode||'–')} · ${esc(o.comm.payTerm||'–')} · credit ${esc(o.comm.credit==='Others'?o.comm.creditLen+' days':o.comm.credit||'–')}</dd><dt>Bill to</dt><dd>${esc(o.billing.company||'–')} · ${esc(o.billing.email||'–')}</dd><dt>NDA</dt><dd>${o.conv.nda==='Yes'?`Yes, ${fd(o.conv.ndaFrom)} – ${fd(o.conv.ndaTo)}`:o.conv.nda||'–'}</dd></dl></article>`;
 }
+function approvalsHTML(o){
+  const list=approvalsFor(o);
+  const rows=list.map(a=>{const st=approvalStatus(o,a);return `<div class="aprow"><div style="min-width:0"><b>${esc(a.label)}</b><div class="xs muted">${esc(a.why)} · Goes to: <b>${esc(a.approver)}</b></div></div><span class="chip ${st==='approved'?'ok':st==='revalidate'?'bad':'warn'}">${st==='approved'?'Approved':st==='revalidate'?'Needs revalidation':'Pending'}</span>${locked(o)?'':`<button class="btn sm" data-act="ap-approve" data-id="${esc(a.id)}" title="Prototype control">${st==='approved'?'Approved':/^To be confirmed/.test(a.approver)?'Mark as approved':'Approve as '+esc(a.approver)}</button>`}</div>`}).join('');
+  return `${rows||`<div class="notice ok">${ic('check')}<div>No approvals required: standard package, discounts within cap, and standard payment terms.</div></div>`}
+   ${list.length?`<p class="xs muted" style="margin-top:8px"><span class="tag-proto">Prototype</span> Approval buttons mark an approval as given. In the live system the request is sent to the approver named, and the booking form stays blocked until they decide. A change to an approved scope, price, discount or payment term makes the approval need revalidation.</p>`:''}
+   <p class="xs muted">What counts as non-standard payment terms is still to be defined. This prototype assumes a customised schedule or a credit term above 30 days. The central approval queue and delegation (PRD 12.3.4) are not part of it.</p>`;
+}
+function versionsCard(o){
+  const vs=o.bf.versions.slice().reverse(),latest=o.bf.versions.length?o.bf.versions[o.bf.versions.length-1].v:0;
+  const rows=[];
+  if(o.bf.state==='draft')rows.push(`<div class="vrow cur"><b>v${o.version}</b><span class="chip">Draft</span><span class="sm muted">Current working version, not yet issued</span></div>`);
+  vs.forEach(v=>rows.push(`<div class="vrow"><b>v${v.v}</b><span class="chip ${VSTATUS_CLS[v.status]||''}">${esc(v.status)}</span>${v.v===latest?'<span class="chip outline">Latest issued</span>':''}<span class="sm muted">${esc(v.issuedAt)} · ${esc(v.issuedBy)} · ${v.method==='offline'?'offline':'digital'} · <span class="num">${money2(v.total)}</span></span><span style="flex:1"></span><button class="btn sm" data-act="ver-view" data-v="${v.v}">View</button>${['Superseded','Withdrawn'].includes(v.status)&&v.method==='digital'?`<a class="btn sm ghost" href="#/client/${o.id}/v${v.v}" title="Prototype control">Open its old client link</a>`:''}</div>`));
+  return `<div class="card" style="margin-top:16px"><div class="hd"><h3>Version history</h3><span class="xs muted">Every issued version stays viewable with its original pricing, scope and payment terms.</span></div><div class="bd" style="display:grid;gap:8px">${rows.join('')||'<span class="muted sm">No versions yet.</span>'}</div></div>`;
+}
 function stepForm(o){
-  const L=locked(o),f=o.form;
-  const cust=`<div class="field ${''}" data-fp="form.custom"><label id="cust_l">Customisation statement <span class="req" title="Required">*</span></label><div class="optcards" role="radiogroup" aria-labelledby="cust_l" style="display:grid;gap:10px">
+  const L=locked(o),f=o.form,bf=bfInfo(o),latest=o.bf.versions.length?o.bf.versions[o.bf.versions.length-1].v:null;
+  const what=[['scope','Custom package or scope'],['terms','Non-standard payment terms'],['other','Other commercial terms']];
+  const cust=`<div class="field" data-fp="form.custom"><label id="cust_l">Customisation statement <span class="req" title="Required">*</span></label><div class="optcards" role="radiogroup" aria-labelledby="cust_l" style="display:grid;gap:10px">
    <label class="optcard" data-card="no"><input type="radio" name="form.custom" data-bind="form.custom" value="no" ${f.custom==='no'?'checked':''}><div><b>Strictly no customisation</b><span class="sm muted">The client has agreed to our standard terms only. No customised quotation, scope or clause was promised. Signing off confirms this.</span></div></label>
-   <label class="optcard" data-card="yes"><input type="radio" name="form.custom" data-bind="form.custom" value="yes" ${f.custom==='yes'?'checked':''}><div><b>Customisation required</b><span class="sm muted">The client was promised something that differs from standard terms. Describe it and attach the evidence. It goes to the Head of Department for approval before the client link is sent.</span></div></label></div><div class="err" data-err>${ic('alert')}<span></span></div></div>
-   <div class="grid g2" data-show="form.custom=yes">${fld(o,{p:'form.customDesc',label:'What is customised?',type:'textarea',req:true,cls:'spanall'})}${fld(o,{p:'form.customFile',label:'Customised quotation or terms',type:'file',req:true,cls:'spanall'})}</div>`;
+   <label class="optcard" data-card="yes"><input type="radio" name="form.custom" data-bind="form.custom" value="yes" ${f.custom==='yes'?'checked':''}><div><b>Customisation required</b><span class="sm muted">The client was promised something that differs from standard terms. Say what, and attach the evidence. The booking form cannot be issued until the right approvers agree.</span></div></label></div><div class="err" data-err>${ic('alert')}<span></span></div></div>
+   <div data-show="form.custom=yes" style="display:grid;gap:14px"><div class="field" data-fp="form.customWhat"><label>What is customised? <span class="req">*</span></label><div class="radios">${what.map(w=>`<label class="radio"><input type="checkbox" data-act="cwhat" data-v="${w[0]}" ${f.customWhat.includes(w[0])?'checked':''}><span>${w[1]}</span></label>`).join('')}</div><div class="hint">This decides who approves: custom scope goes to the relevant Service HOD(s), and payment terms go to the Head of Sales or CEO/COO.</div><div class="err" data-err>${ic('alert')}<span></span></div></div>
+   <div class="grid g2">${fld(o,{p:'form.customDesc',label:'What is customised?',type:'textarea',req:true,cls:'spanall'})}${fld(o,{p:'form.customFile',label:'Customised quotation or terms',type:'file',req:true,cls:'spanall'})}</div></div>`;
   const psg=o.deal.psg==='Yes'?`<div class="grid g2">${fld(o,{p:'form.psgQuote',label:'PSG quotation',type:'file',req:true})}${fld(o,{p:'form.psgSla',label:'Signed service level agreement',type:'file',req:true})}<div class="hint spanall">The booking form is generated here, so it does not need uploading.</div></div>`:'';
-  return `${bookingDoc(o)}
-  ${L?'':`<div style="margin-top:16px">${sec('cust','Customisation',cust)}</div>${o.deal.psg==='Yes'?sec('psgd','PSG documents',psg):''}`}
-  ${L?`<div style="margin-top:16px">${sec('cust','Customisation',`<div class="notice ${f.custom==='yes'?'warn':'ok'}">${ic(f.custom==='yes'?'alert':'check')}<div>${f.custom==='yes'?`<b>Customisation required.</b> ${esc(f.customDesc)} <span class="muted">(${esc(f.customFile)})</span>`:'<b>Strictly no customisation.</b> Standard terms only.'}</div></div>`)}</div>`:''}
-  <div id="signblock" style="margin-top:16px">${signBlock(o)}</div>`;
+  const methods=`<div class="field"><label id="meth_l">How will the client sign?</label><div class="optcards" role="radiogroup" aria-labelledby="meth_l" style="display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+   <label class="optcard" data-mcard="digital"><input type="radio" name="bf.method" data-bind="bf.method" value="digital" ${o.bf.method==='digital'?'checked':''}><div><b>Digital link</b><span class="sm muted">The client gets a secure link by email and signs online. No CRM account needed.</span></div></label>
+   <label class="optcard" data-mcard="offline"><input type="radio" name="bf.method" data-bind="bf.method" value="offline" ${o.bf.method==='offline'?'checked':''}><div><b>Offline signature</b><span class="sm muted">Print the form, get it signed, then upload the signed copy. Authorised staff verify it before the contract is created.</span></div></label></div></div>`;
+  return `<div class="bfhead"><span class="chip ${bf.cls}" id="bfchip">${bf.label}</span><b>Booking form ${o.id}</b><span class="muted">Version ${o.version}</span><span class="muted">Latest issued: ${latest?'v'+latest:'none yet'}</span></div>
+  ${bookingDoc(o)}
+  ${L?`<div style="margin-top:16px">${sec('cust','Customisation',`<div class="notice ${f.custom==='yes'?'warn':'ok'}">${ic(f.custom==='yes'?'alert':'check')}<div>${f.custom==='yes'?`<b>Customisation required.</b> ${esc(f.customDesc)} <span class="muted">(${esc(f.customFile)})</span>`:'<b>Strictly no customisation.</b> Standard terms only.'}</div></div>`)}</div>`
+   :`<div style="margin-top:16px">${sec('cust','Customisation',cust)}</div>${o.deal.psg==='Yes'?sec('psgd','PSG documents',psg):''}${sec('apr','Approvals required before issuing','<div id="approvals-panel"></div>')}${sec('meth','Signing method',methods)}`}
+  <div id="signblock" style="margin-top:16px">${signBlock(o)}</div>
+  ${versionsCard(o)}`;
+}
+const NOTICE_FIN=o=>`<div class="notice ok">${ic('check')}<div><b>Finance has been notified.</b> ${o.ce.billing?o.ce.billing.length:0} billing instruction${(o.ce.billing||[]).length===1?'':'s'} were generated from the agreed payment terms and are in the Finance review queue. Invoices and payment status stay in QBB, which remains the authority for official accounting records.</div></div>`;
+function billingTable(rows){
+  const groups=[];const idx={};
+  rows.forEach(r=>{const k=r.invoiceOn+'|'+r.due;if(!(k in idx)){idx[k]=groups.length;groups.push({invoiceOn:r.invoiceOn,due:r.due,cond:r.cond,items:[]})}groups[idx[k]].items.push(r)});
+  const row=(g,i)=>`<tr class="${i>=6?'bi-more':''}" ${i>=6?'hidden':''}><td><b class="num">${i+1} of ${groups.length}</b><div class="xs muted">${esc(g.cond)}</div></td><td class="num">${fd(g.invoiceOn)}<div class="xs muted">due ${fd(g.due)}</div></td><td>${g.items.map(r=>`<div class="sm bi-it"><span>${r.svc==='all'?'All services':esc(svcName(r.svc))} · ${esc(r.desc)}</span><span class="num">${money2(r.amount)}</span></div>`).join('')}</td><td class="r num"><b>${money2(g.items.reduce((a,r)=>a+r.amount,0))}</b></td><td><span class="chip warn">Pending review</span></td></tr>`;
+  const total=rows.reduce((a,r)=>a+r.amount,0);
+  return `<div class="tblwrap"><table class="tbl bi"><thead><tr><th>Invoice</th><th>Invoice on</th><th>Includes</th><th class="r">Amount (before GST)</th><th>Status</th></tr></thead><tbody>${groups.map(row).join('')}</tbody><tfoot><tr><td colspan="3" class="r"><b>Total of ${rows.length} billing instructions</b></td><td class="r num"><b>${money2(total)}</b></td><td></td></tr></tfoot></table></div>${groups.length>6?`<div style="margin-top:8px"><button class="btn sm" data-act="bi-more">Show all ${groups.length} invoices</button></div>`:''}`;
 }
 function signBlock(o){
-  const f=o.form;
-  if(!locked(o))return `<section class="sign" aria-label="Sign-off"><h2>Sign-off</h2>
-   <p class="stmt">I, <b>${esc(ME.name)}</b>, confirm that every detail on this booking form is accurate and complete, that I have checked it against what the client agreed, and that the customisation statement above is true.</p>
+  const f=o.form,ce=o.ce,st=o.bf.state;
+  if(st==='draft'){
+    const rcv=o.bf.method==='offline'?'for offline signature':`to ${esc(o.client.first)} ${esc(o.client.last)} (${esc(o.client.email||'no email yet')}) for endorsement`;
+    return `<section class="sign" aria-label="Sign-off"><h2>Sign off and issue</h2>
+   <p class="stmt">I, <b>${esc(ME.name)}</b>, confirm that every detail on this booking form is accurate and complete, that I have checked it against what the client agreed, and that the customisation statement above is true. I am issuing version <b>${o.version}</b> ${rcv}.</p>
    <div class="field" data-fp="form.signName"><label for="f_form_signName">Type your full name to sign as ${esc(ME.name)}</label><input class="in" id="f_form_signName" data-bind="form.signName" value="${esc(f.signName)}" placeholder="${esc(ME.name)}" autocomplete="off"><div class="err" data-err>${ic('alert')}<span></span></div></div>
-   <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn primary lg" id="signbtn" data-act="do-sign" disabled>${ic('pen')}Sign off as ${esc(ME.name)} and send to client</button><span class="sm muted" id="signwhy"></span></div>
-   <p class="xs muted">Your name, the time and this version are recorded against the contract. Any later change needs a new version and a fresh sign-off.</p></section>`;
-  const ce=o.ce,custom=f.custom==='yes';
-  const steps=[
-   {t:`Signed off by ${f.signedBy}`,d:f.signedAt,done:true},
-   ...(custom?[{t:'Approved by Head of Department',d:f.approvedAt,done:!!f.approvedAt}]:[]),
+   <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="btn primary lg" id="signbtn" data-act="do-sign" disabled>${ic('pen')}Sign off and issue</button><span class="sm muted" id="signwhy"></span></div>
+   <p class="xs muted">Your name, the time and this version are recorded. Once issued, the version cannot be edited. A change needs a new version, which supersedes this one.</p></section>`;
+  }
+  const off=o.bf.method==='offline',of=ce.offline;
+  const steps=off?[
+   {t:`Signed off and issued by ${f.signedBy} (version ${o.version})`,d:f.signedAt,done:true},
+   {t:'Signed copy uploaded',d:of?`${of.uploadedAt} · signed by ${of.name}, ${of.title}`:'',done:!!of},
+   {t:'Verified by authorised staff',d:ce.verifiedAt||'',done:!!ce.verifiedAt},
+   {t:ce.contractNo?`Contract ${ce.contractNo} created`:'Contract number issued',d:ce.contractNo?ce.endorsedAt:'',done:!!ce.contractNo}]:[
+   {t:`Signed off and issued by ${f.signedBy} (version ${o.version})`,d:f.signedAt,done:true},
    {t:`Endorsement link sent to ${o.client.email}`,d:ce.sentAt,done:!!ce.sentAt},
-   {t:'Client opened the link',d:ce.viewedAt,done:!!ce.viewedAt},
-   {t:ce.signer?`Client endorsed: ${ce.signer.name}, ${ce.signer.title}`:'Client endorsed',d:ce.endorsedAt,done:!!ce.endorsedAt},
-   {t:ce.contractNo?`Contract ${ce.contractNo} issued`:'Contract number issued',d:ce.contractNo?ce.endorsedAt:'',done:!!ce.contractNo}];
+   {t:'Signatory opened the link',d:ce.viewedAt,done:!!ce.viewedAt},
+   {t:ce.signer?`Endorsed by ${ce.signer.name}, ${ce.signer.title}`:'Signatory endorsed',d:ce.endorsedAt,done:!!ce.endorsedAt},
+   {t:ce.contractNo?`Contract ${ce.contractNo} created`:'Contract number issued',d:ce.contractNo?ce.endorsedAt:'',done:!!ce.contractNo}];
   const cur=steps.findIndex(s=>!s.done);
   const tl=steps.map((s,i)=>`<div class="tl ${s.done?'done':i===cur?'cur':''}"><div class="b">${s.done?ic('check'):''}</div><div><b>${esc(s.t)}</b><div class="xs muted">${s.d?esc(s.d):'Waiting'}</div></div></div>`).join('');
-  const proto=o.stage==='awaiting_approval'?`<button class="btn sm" data-act="p-approve">Approve as Head of Department</button>`:o.stage==='awaiting_client'?`<a class="btn sm primary" href="#/client/${o.id}">${ic('eye')}Preview what the client sees</a><button class="btn sm ghost" data-act="p-resend">${ic('send')}Resend endorsement link</button>`:'';
-  const emails=o.stage==='won'?emailDrafts(o):o.stage==='awaiting_client'?clientEmailPreview(o):'';
-  return `<section class="sign" style="border-color:var(--ok)"><div class="sigmark">${ic('lock')}<div><b>Signed off by ${esc(f.signedBy)}</b><div class="xs muted">${esc(f.signedAt)} · version ${o.version}</div></div></div>
-   <h2>${o.stage==='won'?'Endorsed and converted':o.stage==='awaiting_approval'?'Waiting for approval':'Waiting for the client'}</h2><div class="timeline">${tl}</div>
-   ${o.stage==='won'&&ce.signer&&ce.signer.sig?`<div><div class="xs muted" style="margin-bottom:6px">Client signature: ${esc(ce.signer.name)}, ${esc(ce.signer.title)}</div>${ce.signer.sig.type==='drawn'?`<img class="sigimg" src="${ce.signer.sig.img}" alt="Client's drawn signature">`:`<div class="nm" style="font-family:'Snell Roundhand','Segoe Script','Brush Script MT',cursive;font-size:26px">${esc(ce.signer.name)}</div>`}</div>`:''}
-   ${o.stage==='won'?`<div class="notice ok">${ic('check')}<div>Contract <b>${ce.contractNo}</b> is on the account${CO(o.deal.companyId)?` <a href="#/accounts/${o.deal.companyId}">View account</a>`:''}. The renewal pipeline picks it up automatically.</div></div>`:`<div class="proto"><span class="tag">Prototype controls</span>${proto}</div>`}
-   ${o.stage!=='won'?`<div><button class="btn sm danger" data-act="revise">Revise and void sign-off</button></div>`:''}</section>${emails}`;
+  let proto='',extra='';
+  if(st==='issued'&&!off)proto=`<a class="btn sm primary" href="#/client/${o.id}">${ic('eye')}Preview what the signatory sees</a><button class="btn sm ghost" data-act="p-resend">${ic('send')}Resend endorsement link</button>`;
+  if(st==='issued'&&off){
+    extra=`<div class="offbox"><h3>Offline signing</h3><ol class="sm" style="margin:6px 0 10px;padding-left:18px;display:grid;gap:4px"><li>Print the booking form or save it as a PDF, and have <b>${esc(o.client.first)} ${esc(o.client.last)}</b> sign it.</li><li>Upload the signed copy below.</li><li>Authorised staff verify it before the contract is created.</li></ol>
+     <div style="margin-bottom:12px"><button class="btn" data-act="print-bf">${ic('file')}Print or save as PDF</button></div>
+     <div class="grid g2" id="offform"><div class="field" id="of-name"><label for="ofn">Signed by</label><input class="in" id="ofn" value="${esc((o.client.first+' '+o.client.last).trim())}"><div class="err">${ic('alert')}<span></span></div></div><div class="field" id="of-title"><label for="oft">Job title</label><input class="in" id="oft" value="${esc(o.client.designation)}"><div class="err">${ic('alert')}<span></span></div></div><div class="field" id="of-date"><label for="ofd">Date signed</label><input class="in" type="date" id="ofd" value="${iso(TODAY)}"><div class="err">${ic('alert')}<span></span></div></div><div class="field" id="of-file"><label>Signed copy</label><label class="file" id="offile"><input type="file" id="off-input"><span class="fn">Choose the scanned or photographed signed form…</span><span class="btn sm" aria-hidden="true">${ic('clip')}Browse</span></label><div class="err">${ic('alert')}<span></span></div></div></div>
+     <div style="margin-top:12px"><button class="btn primary" data-act="off-submit">Submit for verification</button></div></div>`;
+  }
+  if(st==='pending_verification'){
+    proto=`<button class="btn sm primary" data-act="off-verify">Verify as authorised staff</button>`;
+    extra=`<div class="notice warn">${ic('alert')}<div><b>Waiting for verification.</b> The signed copy (${esc(of.file)}) must be verified by authorised staff before the contract is created. The PRD does not yet specify who counts as authorised staff.</div></div>`;
+  }
+  const sigImg=st==='contracted'&&ce.signer&&ce.signer.sig&&ce.signer.sig.type!=='offline'?`<div><div class="xs muted" style="margin-bottom:6px">Signature of ${esc(ce.signer.name)}, ${esc(ce.signer.title)}</div>${ce.signer.sig.type==='drawn'?`<img class="sigimg" src="${ce.signer.sig.img}" alt="Drawn signature">`:`<div class="nm" style="font-family:'Snell Roundhand','Segoe Script','Brush Script MT',cursive;font-size:26px">${esc(ce.signer.name)}</div>`}</div>`:'';
+  const won=st==='contracted';
+  const billing=won&&ce.billing?`<div><h3 style="margin:4px 0 8px">Billing instructions</h3>${billingTable(ce.billing)}</div>${NOTICE_FIN(o)}`:'';
+  const emails=won?emailDrafts(o):st==='issued'&&!off?clientEmailPreview(o):'';
+  return `<section class="sign" style="border-color:var(--ok)"><div class="sigmark">${ic('lock')}<div><b>Issued by ${esc(f.signedBy)}</b><div class="xs muted">${esc(f.signedAt)} · version ${o.version} · ${off?'offline signature':'digital link'}</div></div></div>
+   <h2>${won?'Endorsed, verified and contracted':st==='pending_verification'?'Endorsed, pending verification':off?'Waiting for the signed copy':'Waiting for the signatory'}</h2><div class="timeline">${tl}</div>
+   ${extra}${sigImg}
+   ${won?`<div class="notice ok">${ic('check')}<div>Contract <b>${ce.contractNo}</b> was created from booking form version ${o.version} and is on the account${CO(o.deal.companyId)?` <a href="#/accounts/${o.deal.companyId}">View account</a>`:''}. The opportunity is Won.</div></div>${billing}`:`${proto?`<div class="proto"><span class="tag">Prototype controls</span>${proto}</div>`:''}`}
+   ${!won?`<div><button class="btn sm danger" data-act="revise">Withdraw and revise (new version)</button></div>`:''}</section>${emails}`;
 }
-const clientLink=o=>'https://sign.oom.example/e/'+o.id.toLowerCase()+'-'+(o.version||1);
+const clientLink=o=>'https://sign.oom.example/e/'+o.id.toLowerCase()+'-v'+(o.version||1);
 function clientEmailPreview(o){
-  const exp=addMonths(TODAY,0);exp.setDate(exp.getDate()+14);
-  return `<div style="margin-top:16px"><h2>What the client receives</h2><p class="sm muted">Sent to ${esc(o.client.email)}. The link needs no login and expires on ${fd(exp)}.</p>
+  const exp=new Date(TODAY);exp.setDate(exp.getDate()+14);
+  return `<div style="margin-top:16px"><h2>What the signatory receives</h2><p class="sm muted">Sent to ${esc(o.client.email)}. The link needs no login and expires on ${fd(exp)}.</p>
   <div class="email" style="margin-top:12px"><div class="eh"><div><b>From:</b> ${esc(o.owner)} at OOm</div><div><b>To:</b> ${esc(o.client.email)}</div><div><b>Subject:</b> Please review and sign your booking form (${esc(o.deal.title||'OOm')})</div></div><div class="eb">Hi ${esc(o.client.first)},
 
-Thank you for choosing OOm. Your booking form is ready for you to review and sign.
+Thank you for choosing OOm. Your booking form for ${esc(o.legal.name||o.deal.companyName)} is ready for you to review and sign.
 
 ${o.serviceKeys.map(k=>'- '+svcName(k)).join('\n')}
 Total payable: ${money2(oppRevenue(o)+oppGst(o))}
 
-It takes about two minutes. You will confirm your email with a one-time code, review the details, then sign by typing your name. If anything looks different from what we discussed, you can ask us to change it instead.
+It takes about two minutes. You will confirm your email with a one-time code, review the details, then sign. If anything looks different from what we discussed, you can ask us to change it instead.
 
 [ Review and sign ]   ${clientLink(o)}
 
@@ -1370,10 +1649,8 @@ ${esc(o.owner)}</div></div></div>`;
 }
 function emailDrafts(o){
   const ce=o.ce,list=o.serviceKeys.map(k=>'- '+svcName(k)).join('\n');
-  const fin=`Hi Finance,\n\nA new contract has been endorsed and converted.\n\nContract: ${ce.contractNo} (${o.deal.contractType}${o.deal.baseContract?' of '+o.deal.baseContract:''})\nClient: ${o.deal.companyName}\nServices:\n${list}\nTotal before GST: ${money2(oppRevenue(o))}\nPayment: ${o.comm.payMode}, ${o.comm.payTerm}, credit ${o.comm.credit}\nBill to: ${o.billing.company} (${o.billing.email})\n${o.conv.remFinance?'\nRemarks: '+o.conv.remFinance+'\n':''}\nSigned off by ${o.form.signedBy} on ${o.form.signedAt}. The signed booking form is attached.`;
-  const cl=`Hi ${o.client.first},\n\nThank you for endorsing your booking form. Your contract number is ${ce.contractNo}.\n\nServices:\n${list}\n\nYour account manager will be in touch shortly to arrange the kick-off meeting.\n\nBest regards,\n${o.owner}`;
-  const em=(to,sub,body,flag,label)=>`<div class="email" style="margin-top:12px"><div class="eh"><div><b>To:</b> ${esc(to)}</div><div><b>Subject:</b> ${esc(sub)}</div></div><div class="eb">${esc(body)}</div><div style="padding:10px 14px;border-top:1px solid var(--line)">${ce[flag]?`<span class="chip ok">${ic('check')}Sent</span>`:`<button class="btn primary sm" data-act="send-mail" data-f="${flag}">${ic('send')}${label}</button>`}</div></div>`;
-  return `<div style="margin-top:16px"><h2>Drafted for you</h2><p class="sm muted">Generated from the booking form, so nothing is re-typed.</p>${em('Finance team',`New contract ${ce.contractNo}: ${o.deal.companyName}`,fin,'financeSent','Send to finance')}${em(o.client.email,`Your contract ${ce.contractNo} with OOm`,cl,'clientSent','Send to client')}</div>`;
+  const cl=`Hi ${o.client.first},\n\nThank you for endorsing your booking form (version ${o.version}). Your contract number is ${ce.contractNo}.\n\nServices:\n${list}\n\nA signed copy is attached. Your account manager will be in touch shortly to arrange the kick-off meeting.\n\nBest regards,\n${o.owner}`;
+  return `<div style="margin-top:16px"><h2>Client confirmation</h2><p class="sm muted">Drafted from the booking form.</p><div class="email" style="margin-top:12px"><div class="eh"><div><b>To:</b> ${esc(o.client.email)}</div><div><b>Subject:</b> ${esc(`Your contract ${ce.contractNo} with OOm`)}</div></div><div class="eb">${esc(cl)}</div><div style="padding:10px 14px;border-top:1px solid var(--line)">${ce.clientSent?`<span class="chip ok">${ic('check')}Sent</span>`:`<button class="btn primary sm" data-act="send-mail" data-f="clientSent">${ic('send')}Send to client</button>`}</div></div></div>`;
 }
 
 /* ============ wizard refresh / events ============ */
@@ -1382,32 +1659,36 @@ function refresh(){
   $$('[data-show]',$('#wstep')).forEach(el=>el.hidden=!evalShow(o,el.dataset.show));
   const {issues,total}=validate(o);const byP={};issues.forEach(i=>{if(!byP[i.p])byP[i.p]=i});
   $$('[data-fp]',$('#wstep')).forEach(el=>{const p=el.dataset.fp,i=byP[p],show=i&&(W.touched.has(p)||W.showAll);el.classList.toggle('invalid',!!show);const sp=$('[data-err] span',el);if(sp)sp.textContent=i?i.msg:''});
-  // outputs
   const T=oppRevenue(o),G=oppGst(o);
   $$('[data-out]').forEach(el=>{const [t,a,b]=el.dataset.out.split(':');let v='';
     if(t==='svc'){const s=o.services[a];if(!s)return;const c=calcSvc(s);v=b==='end'?fd(c.end):b==='monthly'?money2(c.monthly):b==='weekly'?money2(c.weekly):b==='daily'?money2(c.daily):b==='rev'?money2(c.rev):b==='gst'?money2(o.comm.gst==='Yes'?c.rev*.09:0):money2(c.rev*(o.comm.gst==='Yes'?1.09:1))}
     else if(t==='sched'){if(a==='total')v=money2(o.comm.schedule.reduce((x,r)=>x+['media','am','setup','seo','other'].reduce((y,c)=>y+num(r[c]),0),0));else{const r=o.comm.schedule[+a];v=r?money2(['media','am','setup','seo','other'].reduce((y,c)=>y+num(r[c]),0)):''}}
     else if(t==='mp'){v=money2(calcSvc(o.services[a]).budget)}
     el.textContent=v});
-  o.serviceKeys.forEach(k=>{const s=o.services[k];if(s.auto){const t=$('#'+fid(`services.${k}.total`));if(t&&t!==document.activeElement){t.value=s.partner?num(s.partner).toLocaleString('en-SG',{minimumFractionDigits:2,maximumFractionDigits:2}):''}}});
-  // stepper
+  o.serviceKeys.forEach(k=>{const s=o.services[k];
+    if(s.auto){const t=$('#'+fid(`services.${k}.total`));if(t&&t!==document.activeElement){t.value=s.partner?num(s.partner).toLocaleString('en-SG',{minimumFractionDigits:2,maximumFractionDigits:2}):''}}
+    ['mgmt','setup','discount','combo'].forEach(f=>{const t=$('#'+fid(`services.${k}.${f}`));if(t&&t!==document.activeElement&&t.readOnly)t.value=s[f]||''});
+    const ci=$('#'+fid(`services.${k}.comboItems`));if(ci&&ci!==document.activeElement&&ci.readOnly)ci.value=s.comboItems||'';
+  });
+  const tn=$('#terms-note');if(tn)tn.innerHTML=nonStandardTerms(o)?`<div class="notice warn" style="margin-top:12px">${ic('alert')}<div><b>Non-standard payment terms.</b> This needs approval from the Head of Sales or CEO/COO before the booking form can be issued.</div></div>`:'';
+  const ap=$('#approvals-panel');if(ap)ap.innerHTML=approvalsHTML(o);
+  const bc=$('#bfchip');if(bc){const bi=bfInfo(o);bc.className='chip '+bi.cls;bc.textContent=bi.label}
   const st=$('#stepper');
   st.innerHTML=STEPS.map(([n,t,sub])=>{const m=issues.filter(i=>i.step===n).length;return `<button class="st ${m===0&&n<5?'done':''}" data-act="goto" data-n="${n}" ${o.step===n?'aria-current="step"':''}><span class="bubble">${m===0&&n<5?ic('check'):n}</span><span class="l"><b>${t}</b>${m?`<small class="miss">${m} missing</small>`:`<small>${n<5?'Complete':sub}</small>`}</span></button>`}).join('');
-  // tab chips + audience badge
   o.serviceKeys.forEach(k=>{const c=$(`[data-tabchip="${k}"]`);if(c){const m=issues.filter(i=>i.p.startsWith(`services.${k}.`)).length;c.className='chip '+(m?'bad':'ok');c.textContent=m?m+' missing':'Complete'}
     const a=$(`[data-audcount="${k}"]`);if(a){const s=o.services[k];const n=[...Object.values(s.core),...Object.values(s.cust),...Object.values(s.like)].filter(Boolean).length;a.textContent=n?n+' filled':'Optional'}});
-  // customisation cards
   $$('[data-card]').forEach(c=>c.classList.toggle('sel',o.form.custom===c.dataset.card));
-  // side panel
+  $$('[data-mcard]').forEach(c=>c.classList.toggle('sel',o.bf.method===c.dataset.mcard));
+  const out=approvalsOutstanding(o);
   const done=total-issues.length,pct=Math.round(done/total*100);
-  const sIssues=issues.filter(i=>i.step<=5);
   const grp=STEPS.map(([n,t])=>({n,t,list:issues.filter(i=>i.step===n)})).filter(g=>g.list.length);
-  $('#wside').innerHTML=`<div class="card"><div class="bd" style="display:flex;gap:12px;align-items:center"><div class="ring" style="--p:${pct}"><b>${pct}%</b></div><div><b>${issues.length?`${issues.length} item${issues.length>1?'s':''} to complete`:'Ready to sign'}</b><div class="sm muted">${done} of ${total} required checks done</div></div></div>
-   <div class="bd" style="padding-top:0">${grp.length?grp.map(g=>`<div class="miss-grp"><h4>${g.t}</h4>${g.list.slice(0,8).map(i=>`<button class="miss-item sm" data-act="jump" data-p="${esc(i.p)}" data-s="${i.step}">${ic('alert')}<span>${esc(i.label)}</span></button>`).join('')}${g.list.length>8?`<div class="xs muted" style="padding:2px 6px">and ${g.list.length-8} more</div>`:''}</div>`).join(''):`<div class="notice ok" style="margin-top:6px">${ic('check')}<div>Everything required is complete.${o.step<5&&!locked(o)?' <a href="#" data-act="goto" data-n="5">Go to sign-off</a>':''}</div></div>`}</div></div>
+  const draft=o.bf.state==='draft';
+  $('#wside').innerHTML=`<div class="card"><div class="bd" style="display:flex;gap:12px;align-items:center"><div class="ring" style="--p:${pct}"><b>${pct}%</b></div><div><b>${issues.length?`${issues.length} item${issues.length>1?'s':''} to complete`:draft?(out.length?'Complete, awaiting approvals':'Ready for issuance'):bfInfo(o).label}</b><div class="sm muted">${done} of ${total} required checks done</div></div></div>
+   <div class="bd" style="padding-top:0">${grp.length?grp.map(g=>`<div class="miss-grp"><h4>${g.t}</h4>${g.list.slice(0,8).map(i=>`<button class="miss-item sm" data-act="jump" data-p="${esc(i.p)}" data-s="${i.step}">${ic('alert')}<span>${esc(i.label)}</span></button>`).join('')}${g.list.length>8?`<div class="xs muted" style="padding:2px 6px">and ${g.list.length-8} more</div>`:''}</div>`).join(''):`<div class="notice ok" style="margin-top:6px">${ic('check')}<div>Everything required is complete.${o.step<5&&draft?' <a href="#" data-act="goto" data-n="5">Go to the booking form</a>':''}</div></div>`}
+   ${draft&&!issues.length&&out.length?`<div class="miss-grp"><h4>Approvals outstanding</h4>${out.map(a=>`<button class="miss-item sm" data-act="goto" data-n="5">${ic('clock')}<span>${esc(a.label)}</span></button>`).join('')}</div>`:''}</div></div>
    <div class="card"><div class="bd"><div class="totals"><div class="r"><span class="muted">Contract value</span><b class="num">${money2(T)}</b></div><div class="r"><span class="muted">GST</span><b class="num">${money2(G)}</b></div><div class="r big"><span>Total payable</span><span class="num">${money2(T+G)}</span></div></div></div></div>`;
-  // sign button
-  const sb=$('#signbtn');if(sb){const ok=issues.length===0&&nameOk(o);sb.disabled=!ok;const why=$('#signwhy');
-    why.textContent=issues.length?`${issues.length} required item${issues.length>1?'s':''} still missing. See the checklist.`:!nameOk(o)?`Type “${ME.name}” exactly to sign.`:'';}
+  const sb=$('#signbtn');if(sb){const ok=issues.length===0&&out.length===0&&nameOk(o);sb.disabled=!ok;const why=$('#signwhy');
+    why.textContent=issues.length?`${issues.length} required item${issues.length>1?'s':''} still missing. See the checklist.`:out.length?`${out.length} approval${out.length>1?'s':''} outstanding. The booking form cannot be issued until they are approved.`:!nameOk(o)?`Type “${ME.name}” exactly to sign.`:'';}
   const t=$('#wtitle');if(t)t.textContent=o.deal.title||'New opportunity';
 }
 function jumpTo(p,step){
@@ -1418,18 +1699,17 @@ function jumpTo(p,step){
 }
 function afterBind(p,el,isChange){
   const o=W.o;
-  if(p==='deal.companyId'){const co=CO(o.deal.companyId);o.deal.companyName=co?co.name:'';o.deal.baseContract='';if(co){const c=co.contacts[0];Object.assign(o.client,{id:c.id,first:c.first,last:c.last,email:c.email,cc:'',phone:c.phone,designation:c.designation});const b=co.billing[0];Object.assign(o.billing,{id:b.id,company:b.company,first:b.first,last:b.last,email:b.email,cc:'',phone:b.phone,address:b.address,postal:b.postal})}drawStep(true)}
+  if(p==='deal.companyId'){const co=CO(o.deal.companyId);if(co)fillOrg(o,co);else{o.deal.companyName='';o.deal.baseContract=''}drawStep(true)}
   else if(p==='deal.contractType'){if(!NEEDS_BASE.includes(o.deal.contractType))o.deal.baseContract='';drawStep(true)}
   else if(p==='deal.baseContract'){drawStep(true)}
-  else if(p==='client.id'){const co=CO(o.deal.companyId),c=co&&co.contacts.find(x=>x.id===o.client.id);if(c)Object.assign(o.client,{first:c.first,last:c.last,email:c.email,phone:c.phone,designation:c.designation});else if(o.client.id==='__new')Object.assign(o.client,{first:'',last:'',email:'',cc:'',phone:'',designation:''});drawStep(true)}
+  else if(p==='legal.noUen'){if(o.legal.noUen)o.legal.uen='';drawStep(true)}
+  else if(p==='client.id'){const co=CO(o.deal.companyId),c=co&&co.contacts.find(x=>x.id===o.client.id);if(c)Object.assign(o.client,{first:c.first,last:c.last,email:c.email,phone:c.phone,designation:c.designation,isSignatory:!!c.signatory});else if(o.client.id==='__new')Object.assign(o.client,{first:'',last:'',email:'',cc:'',phone:'',designation:'',isSignatory:false});drawStep(true)}
   else if(p==='billing.id'){const co=CO(o.deal.companyId),b=co&&co.billing.find(x=>x.id===o.billing.id);if(b)Object.assign(o.billing,{company:b.company,first:b.first,last:b.last,email:b.email,phone:b.phone,address:b.address,postal:b.postal});else if(o.billing.id==='__new')Object.assign(o.billing,{company:'',first:'',last:'',email:'',cc:'',phone:'',address:'',postal:''});drawStep(true)}
-  else if(/^services\.\w+\.package$/.test(p)){const k=p.split('.')[1];o.services[k].combo='';drawStep(true)}
   else if(/^services\.\w+\.auto$/.test(p)){drawStep(true)}
   else if(p==='conv.industry'){o.conv.sub='';drawStep(true)}
   else if(p==='comm.gst'||p==='deal.psg'){if(o.step===5)drawStep(true);else refresh()}
   else if(p==='form.custom'){drawStep(true)}
   else refresh();
-  if(/^services\.\w+\.partner$/.test(p)&&o.services[p.split('.')[1]].auto){}
   saveOpp();
 }
 function wizBind(el,ev){
@@ -1441,6 +1721,7 @@ function wizBind(el,ev){
   setP(o,p,v);
   if(/^services\.\w+\.partner$/.test(p)){const s=o.services[p.split('.')[1]];if(s.auto)s.total=el.value}
   if(/^services\.\w+\.auto$/.test(p)&&v){const s=o.services[p.split('.')[1]];s.total=s.partner}
+  let mm;if((mm=p.match(/^services\.(\w+)\.(duration|durLen|durUnit|discPct|mgmt|setup)$/)))syncFees(o.services[mm[1]]);
   const isChange=ev.type==='change';
   if(isChange||el.type==='radio'||el.type==='checkbox'||el.tagName==='SELECT'){W.touched.add(p);afterBind(p,el,true)}
   else{refresh();saveOpp()}
@@ -1450,11 +1731,14 @@ document.addEventListener('change',e=>{
   const el=e.target;
   if(el.matches&&el.matches('[data-multi-add]')){const o=W.o,p=el.dataset.multiAdd;if(!el.value||!o||locked(o))return;const a=getP(o,p)||[];a.push(el.value);setP(o,p,a);W.touched.add(p);const box=el.closest('.multi');box.innerHTML=multiInner(o,p,JSON.parse(box.dataset.opts));refresh();saveOpp();return}
   if(el.id==='addsvc'&&el.value){const o=W.o;addService(o,el.value);saveOpp();drawStep(true);return}
+  if(el.id==='off-input'){const lab=el.closest('.file');const n=el.files[0]?el.files[0].name:'';lab.classList.toggle('has',!!n);$('.fn',lab).textContent=n||'Choose the scanned or photographed signed form…';lab.dataset.name=n;return}
   if(el.dataset&&el.dataset.act==='inc-svc'){const o=W.o,k=el.dataset.k;o.conv.serviceIds=el.checked?[...new Set([...o.conv.serviceIds,k])]:o.conv.serviceIds.filter(x=>x!==k);W.touched.add('conv.serviceIds');refresh();saveOpp();return}
+  if(el.dataset&&el.dataset.act==='enq-toggle'){const o=W.o,id=el.dataset.id;o.opp.enquiries=el.checked?[...new Set([...o.opp.enquiries,id])]:o.opp.enquiries.filter(x=>x!==id);saveOpp();return}
+  if(el.dataset&&el.dataset.act==='cwhat'){const o=W.o,v=el.dataset.v;o.form.customWhat=el.checked?[...new Set([...o.form.customWhat,v])]:o.form.customWhat.filter(x=>x!==v);W.touched.add('form.customWhat');refresh();saveOpp();return}
   const b=el.closest&&el.closest('[data-bind]');if(b&&W.root&&W.root.contains(b))wizBind(b,e);
 });
 document.addEventListener('focusout',e=>{const el=e.target.closest&&e.target.closest('[data-bind]');if(!el||!W.root||!W.root.contains(el))return;const fp=el.closest('[data-fp]');if(fp&&el.type!=='radio'){W.touched.add(fp.dataset.fp);refresh()}
-  if(el.dataset.fmt==='money'&&el.value.trim()!==''){const n=num(el.value);el.value=n.toLocaleString('en-SG',{minimumFractionDigits:2,maximumFractionDigits:2});if(W.o)setP(W.o,el.dataset.bind,el.value);refresh();saveOpp()}});
+  if(el.dataset.fmt==='money'&&el.value.trim()!==''&&!el.readOnly){const n=num(el.value);el.value=n.toLocaleString('en-SG',{minimumFractionDigits:2,maximumFractionDigits:2});if(W.o)setP(W.o,el.dataset.bind,el.value);refresh();saveOpp()}});
 /* ============ budget reconciliation ============ */
 const RC={id:null};
 function nextReconDate(entries){
@@ -1542,10 +1826,19 @@ const ACT={
  'sched-add':()=>{W.o.comm.schedule.push({media:'',am:'',setup:'',seo:'',other:''});saveOpp();drawStep(true)},
  'sched-del':el=>{W.o.comm.schedule.splice(+el.dataset.i,1);saveOpp();drawStep(true)},
  'bill-same':()=>{const o=W.o,c=o.client;Object.assign(o.billing,{company:o.deal.companyName,first:c.first,last:c.last,email:c.email,cc:c.cc,phone:c.phone});saveOpp();drawStep(true)},
- 'do-sign':()=>{const o=W.o;if(validate(o).issues.length||!nameOk(o))return;sign(o);saveOpp();drawStep();toast(o.stage==='awaiting_approval'?'Signed. Sent to the Head of Department for approval':'Signed off. Endorsement link sent to the client','lock')},
- 'p-approve':()=>{const o=W.o;o.form.approvedAt=nowStamp();o.stage='awaiting_client';o.ce.sentAt=nowStamp();saveOpp();drawStep(true)},
+ 'do-sign':()=>{const o=W.o;if(validate(o).issues.length||approvalsOutstanding(o).length||!nameOk(o))return;issueBF(o,o.bf.method);saveOpp();drawStep();toast(o.bf.method==='offline'?'Issued for offline signature':'Issued. Endorsement link sent to the signatory','lock')},
  'p-resend':()=>{W.o.ce.sentAt=nowStamp();saveOpp();toast('Endorsement link resent','send')},
- 'revise':()=>{const o=W.o;o.stage='draft';o.version++;o.form.signName='';o.form.signedAt='';o.form.signedBy='';o.form.approvedAt='';o.ce={sentAt:'',viewedAt:'',endorsedAt:'',contractNo:'',financeSent:false,clientSent:false};o.changeRequest=null;saveOpp();drawStep();toast('Sign-off voided. Version '+o.version+' needs a fresh sign-off','info')},
+ 'ap-approve':el=>{const o=W.o;o.approvals[el.dataset.id]={status:'approved',key:approvalKey(o),at:nowStamp()};saveOpp();refresh()},
+ 'st-presented':()=>{const o=W.o;o.opp.presentedOn=iso(TODAY);setStage(o,'presented','Proposal presented to client');saveOpp();drawStageBar();drawStep(true);toast('Marked as presented','check')},
+ 'st-resume':()=>{const o=W.o;setStage(o,o.opp.prevStage||'prep','Pursuit resumed');saveOpp();drawStageBar();drawStep(true);toast('Pursuit resumed','check')},
+ 'st-lost':()=>stageDialog('lost'),'st-defer':()=>stageDialog('deferred'),
+ 'cat-open':el=>openCatalogue(el.dataset.k),
+ 'bi-more':el=>{const t=el.closest('.card,.sign,section')||document;const rows=$$('.bi-more',t);const hid=rows.length&&rows[0].hidden;rows.forEach(r=>r.hidden=!hid);el.textContent=hid?'Show fewer invoices':el.textContent.replace('Show fewer invoices','Show all')},
+ 'ver-view':el=>{const o=W.o,v=o.bf.versions.find(x=>x.v===+el.dataset.v);if(!v)return;dialog({title:`Booking form ${o.id}, version ${v.v}`,icon:'file',cls:'wide',body:`<div class="chips"><span class="chip ${VSTATUS_CLS[v.status]||''}">${esc(v.status)}</span><span class="chip outline">Issued ${esc(v.issuedAt)} by ${esc(v.issuedBy)}</span></div><p class="sm muted" style="margin:0">This is the version exactly as it was issued. Its pricing, scope and payment terms are not affected by later versions.</p>${bookingDoc(v.snap)}`,foot:`<button class="btn primary" data-act="dlg-close">Close</button>`})},
+ 'print-bf':()=>{const o=W.o;const d=dialog({title:'Print or save as PDF',icon:'file',cls:'wide print-dlg',body:`<p class="sm muted" style="margin:0">Use your browser's print dialog, and choose "Save as PDF" if you prefer a file.</p>${bookingDoc(o)}<div class="sign" style="margin-top:6px"><div class="sm">Signature: ____________________________  Name: ____________________________  Job title: ____________________  Date: ______________</div></div>`,foot:`<button class="btn" data-act="dlg-close">Close</button><button class="btn primary" id="pr-go">Print</button>`});$('#pr-go',d).onclick=()=>{document.body.classList.add('printing');window.print();setTimeout(()=>document.body.classList.remove('printing'),500)}},
+ 'off-submit':()=>offlineSubmit(),
+ 'off-verify':()=>{const o=W.o,of=o.ce.offline;if(!of)return;createContractFor(o,{name:of.name,title:of.title,sig:{type:'offline'}});o.ce.verifiedAt=nowStamp();saveOpp();drawStageBar();drawStep(true);toast(`Verified. Contract ${o.ce.contractNo} created`,'check')},
+ 'revise':()=>{const o=W.o;reviseBF(o,'Booking form withdrawn for revision');saveOpp();drawStep();toast(`Withdrawn. Version ${o.version} is a new draft`,'info')},
  'send-mail':el=>{W.o.ce[el.dataset.f]=true;saveOpp();drawStep(true);toast('Email sent (prototype)','send')},
  'r-up':el=>moveEntry(el,-1),'r-down':el=>moveEntry(el,1),
  'r-del':el=>{const r=reconOf(...el.dataset.key.split(':'));r.entries=r.entries.filter(x=>x.id!==el.dataset.id);persist();rePane()},
@@ -1558,6 +1851,44 @@ const ACT={
   $('#swok',d).onclick=()=>{const to=$('#swto',d).value;if(!to){toast('Choose the new channel','alert');return}r.entries.push({id:Math.random().toString(36).slice(2,8),sw:true,d:$('#swd',d).value,from:cur,to});r.label=to;persist();closeDialog();rePane()};
  }
 };
+
+function stageDialog(kind){
+  const o=W.o;
+  const body=kind==='lost'?`<div class="field" id="f-lr"><label for="lr">Reason <span class="req">*</span></label><select class="in" id="lr"><option value="">Select a reason</option>${LOST_REASONS.map(r=>`<option>${r}</option>`).join('')}</select><div class="err">${ic('alert')}<span>Choose a reason. It is required to mark an opportunity as lost.</span></div></div><div class="field"><label for="ln">Note</label><textarea class="in" id="ln" rows="3" placeholder="Anything the next person should know"></textarea></div>`:`<div class="notice">${ic('info')}<div>Deferred opportunities are excluded from the active forecast. You can resume the pursuit later.</div></div><div class="field"><label for="ln">Why is it deferred?</label><textarea class="in" id="ln" rows="3" placeholder="e.g. Client waiting for next quarter's budget"></textarea></div>`;
+  const d=dialog({title:kind==='lost'?'Mark as lost':'Defer this opportunity',icon:kind==='lost'?'alert':'clock',body,foot:`<button class="btn" data-act="dlg-close">Cancel</button><button class="btn primary" id="st-ok">${kind==='lost'?'Mark as lost':'Defer'}</button>`});
+  $('#st-ok',d).onclick=()=>{
+    const note=($('#ln',d)||{}).value||'';
+    if(kind==='lost'){const r=$('#lr',d).value;if(!r){$('#f-lr',d).classList.add('invalid');return}o.opp.lostReason=r;o.opp.lostNote=note;o.opp.closedAt=iso(TODAY);setStage(o,'lost',r+(note?': '+note:''))}
+    else{o.opp.prevStage=o.stage;o.opp.deferNote=note;setStage(o,'deferred',note||'Deferred')}
+    saveOpp();closeDialog();drawStageBar();drawStep(true);toast(kind==='lost'?'Marked as lost':'Deferred','check');
+  };
+}
+function openCatalogue(k){
+  const o=W.o,s=o.services[k],list=catFor(k);
+  let sel=s.pkg?(s.pkg.custom?'CUSTOM':s.pkg.id):'';
+  const card=p=>`<label class="catrow ${sel===p.id?'sel':''}" data-cid="${p.id}"><input type="radio" name="catp" value="${p.id}" ${sel===p.id?'checked':''}><div><div><b>${esc(p.name)}</b> <span class="chip">${p.version}</span> <span class="chip ok">Published</span></div><div class="sm muted">${esc(p.desc)}</div><div class="xs" style="margin:4px 0">${esc(p.items)}</div><div class="xs muted">${money(p.fee)}${p.basis==='One-time'?' one-time':' a month'}${p.setup?' + '+money(p.setup)+' setup':''} · discount cap ${p.cap}% · effective ${fd(p.eff)}</div></div></label>`;
+  const d=dialog({title:`Choose a ${svcName(k)} package`,icon:'layers',cls:'wide',body:`<p class="sm muted" style="margin:0">Only published package versions are shown. Draft and retired packages are hidden (PRD 6.3). Prices and discount caps are set by the catalogue, so they can't be typed over.</p>
+   <div class="catlist">${list.map(card).join('')}
+   <label class="catrow ${sel==='CUSTOM'?'sel':''}" data-cid="CUSTOM"><input type="radio" name="catp" value="CUSTOM" ${sel==='CUSTOM'?'checked':''}><div style="flex:1"><div><b>Custom package</b> <span class="chip warn">Needs approval</span></div><div class="sm muted">For scope the standard packages can't cover. It needs approval from ${esc(hodFor(k))} before the booking form can be issued, and its fees are typed.</div><div class="field" id="f-cs" style="margin-top:8px"><label for="cscope">Scope and deliverables <span class="req">*</span></label><textarea class="in" id="cscope" rows="3" placeholder="Describe the custom scope and deliverables">${s.pkg&&s.pkg.custom?esc(s.pkg.items):''}</textarea><div class="err">${ic('alert')}<span>Describe the custom scope.</span></div></div></div></label></div>`,
+   foot:`<button class="btn" data-act="dlg-close">Cancel</button><button class="btn primary" id="cat-ok" ${sel?'':'disabled'}>Use this package</button>`});
+  d.addEventListener('change',e=>{if(e.target.name==='catp'){sel=e.target.value;$$('.catrow',d).forEach(r=>r.classList.toggle('sel',r.dataset.cid===sel));$('#cat-ok',d).disabled=false}});
+  $('#cat-ok',d).onclick=()=>{
+    let pkg;
+    if(sel==='CUSTOM'){const t=$('#cscope',d).value.trim();if(!t){$('#f-cs',d).classList.add('invalid');return}pkg=customPkg(k,t)}
+    else pkg=list.find(x=>x.id===sel);
+    if(!pkg)return;applyPkg(s,pkg);saveOpp();closeDialog();drawStep(true);toast(`${pkg.name} selected`,'check');
+  };
+}
+function offlineSubmit(){
+  const o=W.o,get=id=>(($('#'+id)||{}).value||'').trim(),file=($('#offile')||{}).dataset;
+  const name=get('ofn'),title=get('oft'),date=get('ofd'),fname=file&&file.name?file.name:'';
+  const errs={'of-name':name?'':'Enter the name of the person who signed.','of-title':title?'':'Enter their job title.','of-date':date?'':'Enter the date it was signed.','of-file':fname?'':'Attach the signed copy.'};
+  let bad=false;Object.entries(errs).forEach(([id,m])=>{const f=$('#'+id);if(!f)return;f.classList.toggle('invalid',!!m);const sp=$('.err span',f);if(sp)sp.textContent=m;if(m)bad=true});
+  if(bad)return;
+  o.ce.offline={name,title,signedOn:date,file:fname,uploadedAt:nowStamp()};o.bf.state='pending_verification';
+  const ver=o.bf.versions.find(v=>v.v===o.version);if(ver)ver.status='Endorsed, Pending Verification';
+  saveOpp();drawStageBar();drawStep(true);toast('Submitted for verification','check');
+}
 function moveEntry(el,dir){const r=reconOf(...el.dataset.key.split(':')),i=r.entries.findIndex(x=>x.id===el.dataset.id),j=i+dir;if(j<0||j>=r.entries.length)return;[r.entries[i],r.entries[j]]=[r.entries[j],r.entries[i]];persist();rePane()}
 function rePane(after){const p=$('#rpane');if(!p)return;const y=window.scrollY;p.innerHTML=reconPane(CO(RC.id));const l=$('#rlist');if(l)l.innerHTML=reconList();window.scrollTo(0,y);if(after)after()}
 document.addEventListener('click',e=>{
@@ -1571,14 +1902,8 @@ const CL={sig:'',sigMode:'draw',preview:false,o:null,step:'verify',changing:fals
 const OTP='482915';
 const maskEmail=e=>{const x=String(e||'').split(',')[0].trim(),[u,d]=x.split('@');return u?u[0]+'***@'+(d||''):''};
 function endorseOpp(o,signer){
-  const ce=o.ce;
-  if(CL.preview){ce.endorsedAt=nowStamp();ce.signer=signer;ce.contractNo='PREVIEW';o.stage='won';return}ce.endorsedAt=nowStamp();ce.signer=signer;
-  ce.contractNo='26'+String(TODAY.getMonth()+1).padStart(2,'0')+'-'+String(S.nextContract++).padStart(3,'0');o.stage='won';
-  const co=CO(o.deal.companyId);
-  if(co){const starts=o.serviceKeys.map(k=>o.services[k].start).filter(Boolean).sort();const start=starts[0]||iso(TODAY);const ends=o.serviceKeys.map(k=>calcSvc(o.services[k]).end).filter(Boolean).sort();const end=ends.pop()||iso(addMonths(pd(start),12));
-   const contract={no:ce.contractNo,type:o.deal.contractType,parent:o.deal.baseContract||undefined,title:o.deal.title,start,end,value:oppRevenue(o),invoice:'Unpaid',psg:o.deal.psg==='Yes',svcs:o.serviceKeys.map(k=>({k,st:'Pending',paid:calcSvc(o.services[k]).budget}))};
-   co.contracts.push(contract);S.added=(S.added||[]).concat([{companyId:co.id,contract}])}
-  persist();
+  if(CL.preview){o.ce.endorsedAt=nowStamp();o.ce.signer=signer;o.ce.contractNo='PREVIEW';o.bf.state='contracted';return}
+  createContractFor(o,signer);persist();
 }
 function clientShell(inner,o){
   return `<div class="cl-proto"><span class="tag">Prototype preview only</span> ${CL.preview?'This is how a client will see the booking form. Nothing is saved or sent.':'You are viewing what the client sees.'} <a href="${CL.preview?'#/accounts':'#/opps/'+(o?o.id:'')}">${CL.preview?'Exit preview':'Back to the CRM'}</a></div>
@@ -1588,7 +1913,7 @@ function clientShell(inner,o){
 function previewOpp(){
   const keep=S.nextOpp;const o=newOpp();S.nextOpp=keep;
   demoFill(o,'northwind');o.deal.title='Always-on lead generation FY27';o.deal.contractType='Renewal';o.deal.baseContract='2608-031';
-  o.id='OPP-PREVIEW';o.form.custom='no';o.form.signName=ME.name;sign(o);o.ce.sentAt=nowStamp();return o;
+  o.id='OPP-PREVIEW';o.form.custom='no';o.form.signName=ME.name;issueBF(o,'digital');return o;
 }
 function previewIntro(){
   const steps=[
@@ -1604,14 +1929,17 @@ function previewIntro(){
    foot:`<button class="btn" data-act="dlg-close">Cancel</button><button class="btn primary" id="pvgo">View preview${ic('right')}</button>`});
   $('#pvgo',d).onclick=()=>{closeDialog();location.hash='#/preview/booking-form'};
 }
-function renderClient(root,id){
+function renderClient(root,id,ver){
   CL.preview=id==='PREVIEW';
   if(CL.preview){if(!CL.o||CL.o.id!=='OPP-PREVIEW'||CL.fresh){CL.o=previewOpp();CL.last=null}CL.fresh=false}
   const o=CL.preview?CL.o:S.opps.find(x=>x.id===id);if(!CL.preview)CL.o=o;
-  if(!o||(o.stage!=='awaiting_client'&&o.stage!=='won')){
-    root.innerHTML=clientShell(`<div class="cl-card"><h2>This link is not active</h2><p class="muted">${!o?'We could not find this booking form.':'This booking form has not been sent for signature yet, or has been withdrawn for changes. Please wait for a new link from your OOm contact.'}</p></div>`,o);return}
-  if(o.stage==='won'){CL.step='done'}
-  else if(CL.step==='done'||CL.last!==o.id+o.version){CL.step='verify';CL.last=o.id+o.version;CL.changing=false;CL.err={};CL.name='';CL.title='';CL.agree=false;CL.code='';CL.sig='';CL.sigMode='draw'}
+  const block=(t,m)=>{root.innerHTML=clientShell(`<div class="cl-card"><h2>${t}</h2><p class="muted">${m}</p></div>`,o)};
+  if(!o){block('This link is not active','We could not find this booking form.');return}
+  const issued=o.bf.state==='issued'&&o.bf.method==='digital',done=o.bf.state==='contracted';
+  if(ver!=null&&ver!==o.version){block('This booking form has been replaced',`This link is for version ${ver}, which has been replaced by a newer version of the booking form. It can no longer be signed. Please use the latest link from your OOm contact.`);return}
+  if(!issued&&!done){block('This link is not active',o.bf.method==='offline'&&o.bf.state!=='draft'?'This booking form is being signed offline.':'This booking form is not available for signature. It may have been withdrawn for changes. Please wait for a new link from your OOm contact.');return}
+  if(done){CL.step='done'}
+  else if(CL.step==='done'||CL.last!==o.id+o.version){CL.step='verify';CL.last=o.id+o.version;CL.changing=false;CL.changeKind='other';CL.err={};CL.agree=false;CL.code='';CL.sig='';CL.sigMode='draw'}
   drawClient(root);
 }
 function stepsBar(cur){
@@ -1640,16 +1968,15 @@ function drawClient(root){
       <li>OOm's <a href="#" data-act="cl-terms">Standard Terms of Service</a> apply.</li></ul>
       <p class="xs muted" style="margin-top:10px">Prepared and signed off by ${esc(f.signedBy)} at OOm on ${esc(f.signedAt)} (version ${o.version}).</p></div>
     <div class="cl-card" id="clsign"><h2>Sign</h2>
-      <div class="grid g2"><div class="field ${CL.err.name?'invalid':''}"><label for="clname">Your full name <span class="req">*</span></label><input class="in" id="clname" autocomplete="name" value="${esc(CL.name)}" placeholder="As it appears on your ID"><div class="err" style="display:${CL.err.name?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.name||'')}</span></div></div>
-      <div class="field ${CL.err.title?'invalid':''}"><label for="cltitle">Your job title <span class="req">*</span></label><input class="in" id="cltitle" autocomplete="organization-title" value="${esc(CL.title)}" placeholder="e.g. Marketing Director"><div class="err" style="display:${CL.err.title?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.title||'')}</span></div></div></div>
+      <div class="cl-who"><div><span class="xs muted">Signing as</span><div><b>${esc((c.first+' '+c.last).trim())}</b>, ${esc(c.designation)}</div><div class="xs muted">${esc(o.legal.name||o.deal.companyName)}${o.legal.noUen?'':o.legal.uen?' · UEN '+esc(o.legal.uen):''}</div></div><button class="btn sm" data-act="cl-not-me">I am not ${esc(c.first)}</button></div>
       <div class="field ${CL.err.sig?'invalid':''}"><label id="siglbl">Your signature <span class="req">*</span></label>
         <div class="seg" role="group" aria-label="Signature method"><button type="button" data-act="cl-sig-mode" data-m="draw" aria-pressed="${CL.sigMode==='draw'}">${ic('pen')}Draw</button><button type="button" data-act="cl-sig-mode" data-m="type" aria-pressed="${CL.sigMode==='type'}">Type</button></div>
-        ${CL.sigMode==='draw'?`<div class="sigpad-wrap ${CL.sig?'inked':''}"><canvas id="sigpad" role="img" aria-labelledby="siglbl" aria-label="Signature area. Draw with your finger, stylus or mouse."></canvas><span class="sig-hint">Sign here with your finger, stylus or mouse</span><span class="sig-line"></span><button type="button" class="btn sm" data-act="cl-sig-clear">Clear</button></div>`:`<div class="cl-sigprev" aria-live="polite"><span class="xs muted">Your signature</span><div class="nm" id="clprev">${CL.name?esc(CL.name):'<span class="muted">Type your name above</span>'}</div></div>`}
+        ${CL.sigMode==='draw'?`<div class="sigpad-wrap ${CL.sig?'inked':''}"><canvas id="sigpad" role="img" aria-labelledby="siglbl" aria-label="Signature area. Draw with your finger, stylus or mouse."></canvas><span class="sig-hint">Sign here with your finger, stylus or mouse</span><span class="sig-line"></span><button type="button" class="btn sm" data-act="cl-sig-clear">Clear</button></div>`:`<div class="cl-sigprev" aria-live="polite"><span class="xs muted">Your signature</span><div class="nm" id="clprev">${esc((c.first+' '+c.last).trim())}</div></div>`}
         <div class="err" style="display:${CL.err.sig?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.sig||'')}</span></div></div>
-      <div class="field ${CL.err.agree?'invalid':''}"><label class="cl-agree"><input type="checkbox" id="clagree" ${CL.agree?'checked':''}><span>I confirm that I am authorised to sign on behalf of <b>${esc(o.deal.companyName)}</b>, and that I accept this booking form and OOm's Standard Terms of Service.</span></label><div class="err" style="display:${CL.err.agree?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.agree||'')}</span></div></div>
+      <div class="field ${CL.err.agree?'invalid':''}"><label class="cl-agree"><input type="checkbox" id="clagree" ${CL.agree?'checked':''}><span>I am <b>${esc((c.first+' '+c.last).trim())}</b>, I am authorised to sign for <b>${esc(o.legal.name||o.deal.companyName)}</b>, and I accept this booking form and OOm's Standard Terms of Service.</span></label><div class="err" style="display:${CL.err.agree?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.agree||'')}</span></div></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn primary lg" data-act="cl-sign">${ic('pen')}Sign and endorse</button><button class="btn" data-act="cl-change">Something is not right</button></div>
-      ${CL.changing?`<div class="cl-change"><div class="field ${CL.err.change?'invalid':''}"><label for="clchg">What should we change? <span class="req">*</span></label><textarea class="in" id="clchg" rows="3" placeholder="e.g. The campaign start date should be 1 December.">${esc(CL.changeText||'')}</textarea><div class="err" style="display:${CL.err.change?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.change||'')}</span></div></div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary" data-act="cl-send-change">Send to ${esc(o.owner)}</button><button class="btn ghost" data-act="cl-cancel-change">Cancel</button></div><p class="xs muted" style="margin-top:8px">Nothing is signed. ${esc(o.owner)} will update the form and send you a new link.</p></div>`:''}
-      <p class="xs muted" style="margin-top:14px">Your name, job title and the time you sign are recorded with this booking form.</p></div>`;
+      ${CL.changing?`<div class="cl-change"><div class="field ${CL.err.change?'invalid':''}"><label for="clchg">${CL.changeKind==='signatory'?`Who should sign instead? <span class="req">*</span>`:`What should we change? <span class="req">*</span>`}</label><textarea class="in" id="clchg" rows="3" placeholder="${CL.changeKind==='signatory'?'Name, job title and email of the authorised signatory':'e.g. The campaign start date should be 1 December.'}">${esc(CL.changeText||'')}</textarea><div class="err" style="display:${CL.err.change?'flex':'none'}">${ic('alert')}<span>${esc(CL.err.change||'')}</span></div></div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary" data-act="cl-send-change">Send to ${esc(o.owner)}</button><button class="btn ghost" data-act="cl-cancel-change">Cancel</button></div><p class="xs muted" style="margin-top:8px">Nothing is signed. ${esc(o.owner)} will update the form and send you a new link.</p></div>`:''}
+      <p class="xs muted" style="margin-top:14px">Your name, job title, signature and the time you sign are recorded against booking form version ${o.version}.</p></div>`;
   }else if(CL.step==='changes'){
     inner=`<div class="cl-card"><div class="cl-done">${ic('send')}<h1>Your request has been sent</h1><p class="muted">${esc(o.owner)} will update the booking form and send you a new link. Nothing has been signed.</p></div></div>`;
   }else{
@@ -1676,28 +2003,28 @@ function initSigPad(clearOnly){
   const end=()=>{if(!drawing)return;drawing=false;CL.sig=cv.toDataURL('image/png');CL.err.sig='';const w=cv.closest('.sigpad-wrap');if(w)w.classList.add('inked');const f=cv.closest('.field');if(f)f.classList.remove('invalid')};
   ['pointerup','pointercancel','lostpointercapture'].forEach(n=>cv.addEventListener(n,end));
 }
-function clientVal(){
-  const o=CL.o;CL.name=($('#clname')||{}).value??CL.name;CL.title=($('#cltitle')||{}).value??CL.title;CL.agree=$('#clagree')?$('#clagree').checked:CL.agree;
-}
+function clientVal(){CL.agree=$('#clagree')?$('#clagree').checked:CL.agree;if($('#clchg'))CL.changeText=$('#clchg').value}
 Object.assign(ACT,{
  'cl-verify':()=>{const v=($('#clcode')||{}).value||'';CL.code=v;if(v.trim()!==OTP){CL.err={code:v.trim()?'That code does not match. Check the email and try again.':'Enter the 6-digit code from your email.'};drawClient();$('#clcode').focus();return}CL.err={};CL.step='review';drawClient();window.scrollTo(0,0)},
  'cl-resend':()=>toast('A new code has been sent (prototype)','send'),
  'cl-terms':(el,e)=>{e.preventDefault();toast('Standard Terms of Service would open here','file')},
- 'cl-sign':()=>{clientVal();const e={};if(CL.name.trim().split(/\s+/).filter(Boolean).length<2)e.name='Enter your full name (first and last name).';if(!CL.title.trim())e.title='Enter your job title.';if(CL.sigMode==='draw'&&!CL.sig)e.sig='Draw your signature in the box, or choose Type.';if(!CL.agree)e.agree='Tick this to confirm you are authorised and accept.';CL.err=e;
+ 'cl-sign':()=>{clientVal();const e={};if(CL.sigMode==='draw'&&!CL.sig)e.sig='Draw your signature in the box, or choose Type.';if(!CL.agree)e.agree='Tick this to confirm who you are and that you are authorised.';CL.err=e;
    if(Object.keys(e).length){drawClient();const first=$('.cl-card .invalid input,.cl-card .invalid textarea');if(first)first.focus();return}
-   endorseOpp(CL.o,{name:CL.name.trim(),title:CL.title.trim(),sig:CL.sigMode==='draw'?{type:'drawn',img:CL.sig}:{type:'typed'}});CL.step='done';drawClient();window.scrollTo(0,0)},
- 'cl-change':()=>{clientVal();CL.changing=true;CL.err={};drawClient();const t=$('#clchg');if(t)t.focus()},
+   const c=CL.o.client;endorseOpp(CL.o,{name:(c.first+' '+c.last).trim(),title:c.designation,sig:CL.sigMode==='draw'?{type:'drawn',img:CL.sig}:{type:'typed'}});CL.step='done';drawClient();window.scrollTo(0,0)},
+ 'cl-change':()=>{clientVal();CL.changing=true;CL.changeKind='other';CL.err={};drawClient();const t=$('#clchg');if(t)t.focus()},
+ 'cl-not-me':()=>{clientVal();CL.changing=true;CL.changeKind='signatory';CL.err={};drawClient();const t=$('#clchg');if(t)t.focus()},
  'cl-cancel-change':()=>{clientVal();CL.changing=false;CL.err={};drawClient()},
- 'cl-send-change':()=>{clientVal();const t=($('#clchg')||{}).value||'';CL.changeText=t;if(!t.trim()){CL.err={change:'Tell us what to change.'};drawClient();return}
+ 'cl-send-change':()=>{clientVal();const t=($('#clchg')||{}).value||'';CL.changeText=t;if(!t.trim()){CL.err={change:CL.changeKind==='signatory'?'Tell us who should sign.':'Tell us what to change.'};drawClient();return}
    const o=CL.o;if(CL.preview){CL.changeText='';CL.step='changes';CL.changing=false;CL.err={};drawClient();return}
-   o.changeRequest={text:t.trim(),by:(o.client.first+' '+o.client.last).trim(),at:nowStamp()};o.stage='draft';o.version++;o.form.signName='';o.form.signedAt='';o.form.signedBy='';o.form.approvedAt='';o.ce={sentAt:'',viewedAt:'',endorsedAt:'',contractNo:'',financeSent:false,clientSent:false};persist();CL.changeText='';CL.step='changes';CL.changing=false;CL.err={};drawClient()},
+   o.changeRequest={text:t.trim(),by:(o.client.first+' '+o.client.last).trim(),at:nowStamp(),kind:CL.changeKind};
+   reviseBF(o,'Client change request',CL.changeKind==='signatory'?'Signatory changed requested by client':'Client requested a change');
+   persist();CL.changeText='';CL.step='changes';CL.changing=false;CL.err={};drawClient()},
  'cl-download':()=>toast('Download is not part of this prototype','file')
 });
-document.addEventListener('input',e=>{if(e.target.id==='clname'){CL.name=e.target.value;const p=$('#clprev');if(p)p.innerHTML=CL.name?esc(CL.name):'<span class="muted">Type your name above</span>'}});
 
 /* ============ shell and router ============ */
 function buildNav(hash){
-  const open=(S.opps||[]).filter(o=>o.stage!=='won').length;
+  const open=(S.opps||[]).filter(o=>['prep','presented','bfpending'].includes(o.stage)).length;
   const item=(href,icon,label,key,cnt)=>`<a class="ni" href="${href}" ${hash.startsWith(key)?'aria-current="page"':''}>${ic(icon)}<span class="t">${label}</span>${cnt!=null?`<span class="cnt">${cnt}</span>`:''}</a>`;
   $('#nav').innerHTML=`<div class="brand"><div class="mark">O</div><span class="n">Agency CRM</span></div>
    <div class="nav-sec">Clients</div>${item('#/accounts','building','Accounts','#/accounts',COMPANIES.length)}${item('#/opps','board','Opportunities','#/opps',open)}${item('#/recon','chart','Budget reconciliation','#/recon')}
@@ -1720,23 +2047,25 @@ function notesPanel(tab){
   const li=a=>a.map(x=>`<li>${x}</li>`).join('');
   const rows=[
    ['Account Management &gt; Accounts','A list of contracts, one row each, with about 30 columns and more than a dozen filters. A client with several contracts appears many times, and the original contract is hard to identify.','One row per company. Contracts, renewals and top-ups are grouped into labelled cycles. Search works by name, alias, contract number or a near-miss spelling. Saved views replace most filters.','Contracts listed instead of accounts; hard to find the right account or the original contract'],
-   ['Opportunity &gt; My Accounts (list)','A flat list. Each row has up to seven text-link actions, and stage and next step are not obvious.','Opportunities are grouped by stage (Draft, Ready to sign, Awaiting client, Won). Each shows what is missing and one clear next action.','Chasing incomplete or unsigned forms'],
-   ['Opportunity create and manage','One long page. Required fields are marked only with an asterisk. Billing details are picked from a separate list, and missing details are flagged only at conversion.','A guided five-step flow with a live checklist of what is missing, inline validation and reusable billing entities.','Lost or repeated work; incomplete information at conversion'],
-   ['Service configuration (Facebook, LinkedIn, SEM)','About 30 fields in one scroll. Switching tabs without saving loses data. Some durations cannot be customised.','The same fields, grouped into collapsible sections, with each service keeping its own state. Custom durations are supported. <b>No fields are removed.</b>','Lost work; contracts that do not fit preset options'],
-   ['Convert and booking form','A modal with three separate "confirm" tick boxes. The booking form is a PDF upload, so customisation and PSG documents are optional extras.','A digital booking form generated from the opportunity, with a mandatory customisation statement, a named sign-off, client endorsement by link and mandatory PSG documents. Finance and client emails are drafted from it.','Missing, unsigned or inaccurate booking forms; unrecorded customisation; missing PSG documents; re-typing emails'],
+   ['Opportunity &gt; My Accounts (list)','A flat list. Each row has up to seven text-link actions, and stage and next step are not obvious.','Stages follow the PRD: Proposal Preparation, Presented / Consideration, Booking Form Pending and Won, with Lost and Deferred set aside. Each card shows its booking form status and one clear next action.','Chasing incomplete or unsigned forms'],
+   ['Opportunity create and manage','One long page. Required fields are marked only with an asterisk. Billing details are picked from a separate list, and missing details are flagged only at conversion.','A guided five-step flow with a live checklist of what is missing and inline validation. It captures the PRD opportunity fields, the legal contracting entity and an authorised signatory, and reuses billing entities.','Lost or repeated work; incomplete information at conversion'],
+   ['Service configuration (Facebook, LinkedIn, SEM)','About 30 fields in one scroll. Switching tabs without saving loses data. Some durations cannot be customised.','The same fields, grouped into collapsible sections, with each service keeping its own state. Packages, fees and discount caps are chosen from the catalogue, and custom durations are supported. <b>No fields are removed.</b>','Lost work; contracts that do not fit preset options'],
+   ['Convert and booking form','A modal with three separate "confirm" tick boxes. The booking form is a PDF upload, so customisation and PSG documents are optional extras.','A digital, versioned booking form generated from the opportunity, with approvals before issue, a mandatory customisation statement, a named sign-off, and digital or offline signing. Contract and billing instructions are created on verified endorsement.','Missing, unsigned or inaccurate booking forms; unrecorded customisation; missing PSG documents; re-typing emails'],
    ['Budget Recon (list and edit)','A table of about 30 columns. Saving returns to the contract, rows cannot be reordered, and a top-up can make an account look overspent.','One screen per contract with every service on it. Top-ups roll into their base contract, rows are editable in place and reorderable, and a mid-contract channel switch can be recorded.','Clumsy reconciliation; misleading overspend flags']];
     if(tab==='form')return `<section><h2>Digital booking form</h2>
     <p>We want to stop using PDF booking forms. A digital form lets the system check completeness before anything is sent, so account managers no longer have to chase.</p>
     <ul class="alist">${li([
-     '<b>Generated from the opportunity.</b> Nothing is re-keyed and no dummy files are uploaded.',
-     '<b>Mandatory customisation statement.</b> Sales must choose either "Strictly no customisation" or "Customisation required". The second requires a description and attachment, and goes for approval.',
-     '<b>Named sign-off.</b> Sales signs off by name (for example, as Hannah Tan) instead of ticking "confirm everything is accurate".',
-     '<b>Client endorsement by link,</b> after sales sign-off. The client opens a personal link, confirms their email with a one-time code, reviews the same form, then signs by typing their name and job title and confirming they are authorised to sign. They can instead ask for a change, which returns the form to sales as a new version. The contract number is issued only when both are complete.',
+     '<b>Generated from the opportunity.</b> Nothing is re-keyed and no dummy files are uploaded. The legal contracting entity and the authorised signatory are named on the form, and sales confirms both.',
+     '<b>Prices come from the catalogue.</b> Fees and discount caps are set by published package versions. A discount above the cap, a custom package or non-standard payment terms need approval first, and the form is blocked until they are given. A later change to what was approved asks for approval again.',
+     '<b>Mandatory customisation statement.</b> Sales must choose "Strictly no customisation" or "Customisation required". The second says what is customised, which decides who approves, and requires a description and attachment.',
+     '<b>Named sign-off.</b> Sales signs off by name (for example, as Hannah Tan) instead of ticking "confirm everything is accurate", and issues the form.',
+     '<b>Two ways to sign.</b> Digitally, the named signatory gets a personal link, confirms their email with a one-time code, reviews the form, and signs by drawing or typing. Offline, the form is printed, signed and uploaded, then authorised staff verify it. If someone else should sign, the signatory can say so and the form returns to sales as a new version.',
+     '<b>Versioned.</b> Every issued version stays viewable with its original terms. A change creates a new version, the old link stops working, and the contract records the exact version that was endorsed.',
      '<b>PSG documents are mandatory</b> where they apply, so submissions are never held up by missing files.',
-     '<b>Signed record kept on the contract:</b> who signed for OOm and for the client, their roles, the time and the form version. Any later change needs a new version and fresh signatures.','<b>Emails are drafted from the form</b> for finance and the client.'])}</ul></section>`;
+     '<b>Billing instructions are generated.</b> On endorsement the system creates structured billing instructions from the agreed payment terms and notifies Finance. Official invoices and payment status stay in QBB.'])}</ul></section>`;
   if(tab==='changes')return `<section><h2>In scope: previous and new behaviour</h2>
     <div class="pn-table"><table class="tbl"><thead><tr><th>Screen</th><th>Previous behaviour</th><th>New behaviour</th><th>Feedback addressed</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</tbody></table></div>
-    <p class="xs muted" style="margin-top:10px">Not shown as working: automatic ad-platform spend retrieval, and the CRM modules not listed above.</p></section>`;
+    <p class="xs muted" style="margin-top:10px">Not shown as working: automatic ad-platform spend retrieval, and the CRM modules not listed above.</p><h3 style="margin-top:18px">Shown as notes only (PRD alignment)</h3><ul class="alist">${li(['Approvals are simulated with buttons. The central approval queue, delegation and role-based permissions (PRD 2.3.5, 12.3.4) are not built.','Pausing or ending a service applies immediately here. In the live system suspension needs Service HOD or CEO/COO approval, and early cancellation needs COO approval.','Opportunity decay after 90 days, lead and enquiry capture, and commercial ownership entitlement rules are not shown (PRD 4 and 5.3.4).','Who counts as authorised staff for verifying offline signatures, who approves discounts above a package cap, and what counts as non-standard payment terms are still open in the PRD.'])}</ul></section>`;
   return `<section><h2>Our goal</h2><p>We are rebuilding the CRM to make everyday work faster, clearer and less error-prone. This first look covers the screens most often named in user feedback. The remaining screens will follow on the same principles, with new features to come after the rebuild.</p></section><section><h2>User feedback we are addressing</h2>
     <p class="muted">From two feedback sessions with six members of the account management team and its leads.</p>
     <ul class="alist">${li([
@@ -1763,7 +2092,7 @@ function route(){
   const full=location.hash||'#/accounts',h=full.split('?')[0],root=$('#page');let m;
   W.root=null;
   const pv=h==='#/preview/booking-form';const cm=h.startsWith('#/client/')||pv;$('.app').classList.toggle('client',cm);
-  if(cm){if(pv)CL.fresh=true;const mm=h.match(/^#\/client\/([\w-]+)$/);renderClient(root,pv?'PREVIEW':(mm?mm[1]:''));window.scrollTo(0,0);document.title='Booking form';return}
+  if(cm){if(pv)CL.fresh=true;const mm=h.match(/^#\/client\/([\w-]+)(?:\/v(\d+))?$/);renderClient(root,pv?'PREVIEW':(mm?mm[1]:''),mm&&mm[2]?+mm[2]:null);window.scrollTo(0,0);document.title='Booking form';return}
   buildNav(h);
   if(h==='#/product-notes'){location.replace('#/accounts');return}
   if((m=h.match(/^#\/accounts\/([\w-]+)$/))){renderCompany(root,m[1])}
