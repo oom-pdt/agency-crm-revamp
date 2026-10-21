@@ -1077,7 +1077,8 @@ mark{background:#fff0b8;border-radius:4px}
 .n-sub{display:block;color:var(--n-ink3);font-size:13px;margin-top:2px;font-weight:450}
 .n-sub.bad{color:var(--n-bad);font-weight:600}.n-sub.warn{color:var(--n-warn);font-weight:600}
 .n-att{display:grid;gap:5px;font-size:13px}
-.n-more{display:inline-block;margin-left:6px;font-size:12px;font-weight:600;color:var(--n-ink2);background:#eef0f5;border-radius:99px;padding:0 6px}
+.n-more{color:var(--n-ink2);background:#eef0f5;justify-content:center;white-space:nowrap}
+.n-attr{display:inline-flex;align-items:center;gap:6px}
 .n-chev{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:var(--n-ink3);border:1px solid var(--n-line2);background:#fff;margin-left:auto;padding:0}
 .n-chev:hover{border-color:var(--accent);color:var(--accent-ink)}
 .n-ra{display:flex;gap:10px;align-items:center;justify-content:flex-end}
@@ -1859,7 +1860,7 @@ function drawAccounts(facts){
       <td>${svcs.length?`<div class="n-pills" title="${esc(svcs.join(', '))}">${f.services.slice(0,2).map(svcPill).join('')}${svcs.length>2?`<span class="n-more">+${svcs.length-2}</span>`:''}</div>`:'<span class="n-mut">None live</span>'}</td>
       <td class="n-val">${f.liveValue?money(f.liveValue):'<span class="n-mut">–</span>'}</td>
       <td>${f.nextEnd?`${fd(f.nextEnd)}${daysSub(f.daysLeft)}${(r=>r?`<div style="margin-top:6px;font-size:13px">${r}</div>`:'')(renewalStatus(co,f))}`:`<span class="n-mut">No live contract</span>`}</td>
-      <td>${att.length?`<div class="n-att">${att.slice(0,2).map((a,i)=>`<span class="n-st ${a[0]}">${esc(a[1])}${i===1&&att.length>2?`<span class="n-more">+${att.length-2}</span>`:''}</span>`).join('')}</div>`:'<span class="n-mut">All clear</span>'}</td>
+      <td>${att.length?`<div class="n-att">${att.slice(0,2).map((a,i)=>i===1&&att.length>2?`<span class="n-attr"><span class="n-st ${a[0]}">${esc(a[1])}</span><span class="n-more" title="${esc(att.slice(2).map(x=>x[1]).join(', '))}">+${att.length-2}</span></span>`:`<span class="n-st ${a[0]}">${esc(a[1])}</span>`).join('')}</div>`:'<span class="n-mut">All clear</span>'}</td>
       <td><div class="n-ra"><div class="n-st2"><a class="btn sm" href="#/accounts/${co.id}" aria-label="View account ${esc(co.name)}">View account</a><a class="btn sm" href="#/accounts/${co.id}/media" aria-label="Reconcile budget for ${esc(co.name)}">Reconcile budget</a></div><button class="n-chev" data-act="toggle-co2" data-id="${co.id}" aria-expanded="${open}" aria-label="${open?'Hide':'Show'} contracts for ${esc(co.name)}">${ic(open?'down':'right')}</button></div></td></tr>
       ${open?`<tr><td colspan="7" class="n-trayc">${contractsTray(co)}</td></tr>`:''}`;
   }).join('');
