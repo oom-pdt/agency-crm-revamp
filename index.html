@@ -980,6 +980,45 @@ mark{background:#fff0b8;border-radius:4px}
 .n-pde .n-sub{margin-top:1px}
 .n-pdg{display:flex;align-items:center;gap:10px;white-space:nowrap;color:var(--n-ink2)}
 .n-pdmore{margin:6px 0 2px}
+.miss-item.todo{color:var(--fg-2)}
+.miss-item .dotc{width:10px;height:10px;border-radius:50%;border:1.5px solid #b7bccb;flex:none;margin:0 3px}
+.stg{display:grid;grid-template-columns:auto minmax(260px,1fr) auto;gap:10px 28px;align-items:center;margin:0 0 16px;padding:14px 20px;background:#fff;border:1px solid var(--n-line,#e7e9ef);border-radius:14px}
+.stg-cur{display:grid;gap:1px}
+.stg-l{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--n-ink3,#626880)}
+.stg-v{display:flex;gap:8px;align-items:center}.stg-v b{font-size:16px}
+.stg-s{font-size:12px;color:var(--n-ink3,#626880)}
+.stg-track{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);pointer-events:none}
+.stg-track li{position:relative;display:grid;justify-items:center;gap:6px;font-size:11.5px;color:var(--n-ink3,#626880);text-align:center}
+.stg-track li::before{content:"";position:absolute;top:5px;left:-50%;right:50%;height:2px;background:#e3e5ec}
+.stg-track li:first-child::before{display:none}
+.stg-track li i{position:relative;z-index:1;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 2px #d3d8e3}
+.stg-track li.done i{background:var(--accent);box-shadow:none}
+.stg-track li.done::before,.stg-track li.cur::before{background:var(--accent)}
+.stg-track li.cur i{background:#fff;box-shadow:inset 0 0 0 3px var(--accent),0 0 0 4px #eceaff}
+.stg-track li.cur span{color:var(--n-ink,#14172b);font-weight:700}
+.stg-track.closed{opacity:.45}
+.stg-act{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.stg-note{grid-column:1/-1;display:flex;gap:6px;align-items:center;font-size:12px;color:var(--n-ink3,#626880);padding-top:8px;border-top:1px solid var(--n-line,#e7e9ef)}
+.stg-note svg{width:13px;height:13px}
+@media (max-width:1000px){.stg{grid-template-columns:1fr}.stg-act{justify-content:flex-start}}
+#svctabs{padding:14px 18px 0;border-bottom:1px solid var(--n-line,#e7e9ef);gap:22px}
+#svctabs .tab{padding:0 2px 12px;font-size:14px}
+#svctabs .tab .chip{font-size:11.5px}
+.bf-wait{border:2px dashed #d3d8e3;border-radius:16px;background:#fbfbfd;padding:40px 24px;text-align:center;display:grid;justify-items:center;gap:8px}
+.bf-wait-ic{width:48px;height:48px;border-radius:50%;background:#eceaff;color:var(--accent-ink);display:grid;place-items:center}
+.bf-wait h3{margin:4px 0 0;font-size:17px}
+.bf-wait p{margin:0;color:var(--fg-3);font-size:13px}
+.bf-wait-l{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+.wiz-guide{display:flex;gap:10px;align-items:flex-start;margin:0 0 16px;padding:12px 16px;border-radius:12px;background:#eceaff;font-size:13px;color:#444a63}
+.wiz-guide>svg{color:var(--accent-ink);flex:none;margin-top:2px}
+.wiz-guide b{color:#14172b}
+.wiz-resume{display:flex;gap:6px;align-items:center;margin-top:6px}
+.wiz-resume svg{width:13px;height:13px}
+.sec-st{margin-left:auto;font-size:12px}
+.sec>.sh h3{flex:0 1 auto}
+.sec-ft{display:flex;gap:12px;align-items:center;justify-content:flex-end;padding-top:12px;margin-top:4px;border-top:1px solid var(--line)}
+.st .l small.todo{color:var(--fg-3);font-weight:500}
+.wiz-foot{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
 .n-hbtime{background:#fbfbfd}
 .n-sr .n-st,.n-ct td .n-st,.n-att .n-st{justify-self:start;width:max-content}
 .n-ptime i{background:#9aa0b5!important}
@@ -1311,6 +1350,7 @@ mark{background:#fff0b8;border-radius:4px}
 .n-ground .in[readonly],.n-ground .in:disabled{background:#eceef4;color:var(--n-ink2)}
 .n-ground .field>label,.n-ground .lbl{color:var(--n-ink2);font-weight:600}
 .n-ground .sec .multi,.n-ground .card .multi,.n-ground .sec .file,.n-ground .sec .radio span,.n-ground .card .radio span{background:#f4f5f8}
+.n-ground .sec .radio input:checked+span,.n-ground .card .radio input:checked+span{background:var(--accent);color:#fff}
 .n-ground .field.invalid .in,.n-ground .field.invalid .multi{border-color:var(--n-bad)}
 .n-ground .optcard{background:#fff;border:1.5px solid var(--n-line);border-radius:14px}
 .n-ground .optcard.sel{background:var(--n-soft);border-color:var(--accent)}
@@ -2180,13 +2220,24 @@ function syncFx(o){const r=o.comm.mediaCurrency==='Singapore Dollar'?1:(num(o.co
 function addService(o,k){if(!o.serviceKeys.includes(k)){o.serviceKeys.push(k);o.services[k]=o.services[k]||newSvc();syncFx(o);if(!o.conv.serviceIds.includes(k))o.conv.serviceIds.push(k)}o.tab=k}
 function removeService(o,k){o.serviceKeys=o.serviceKeys.filter(x=>x!==k);delete o.services[k];o.conv.serviceIds=o.conv.serviceIds.filter(x=>x!==k);delete o.comm.mediaPay[k];if(o.tab===k)o.tab=o.serviceKeys[0]||''}
 function svcMonths(s){const m=DUR_M[s.duration];if(m)return m;if(s.duration==='Others'){const n=num(s.durLen);return s.durUnit==='Months'?n:s.durUnit==='Weeks'?n/4.345:n/30.4}return 0}
+/* one contract total: fees and media budget are entered once for the whole contract (legacy 'Shared Media Budget' / split fee) */
+const grouped=o=>o.comm.shared==='Yes'&&o.serviceKeys.length>1;
+const mediaKeys=o=>o.serviceKeys.filter(k=>TG[k]==='media');
+function groupSync(o){
+  o.grp=o.grp||{fee:'',setup:'',discount:'',media:'',split:{}};
+  o.serviceKeys.forEach(k=>{if(o.services[k])delete o.services[k]._g});
+  if(!grouped(o))return;
+  const g=o.grp,keys=o.serviceKeys,mk=mediaKeys(o),M=num(g.media),sp=mk.map(k=>num((g.split||{})[k])),spT=sp.reduce((a,b)=>a+b,0),useSplit=spT>0&&Math.abs(spT-M)<0.01;
+  keys.forEach(k=>{const i=mk.indexOf(k);o.services[k]._g={budget:i<0?0:useSplit?sp[i]:M/mk.length,mgmt:num(g.fee)/keys.length,setup:num(g.setup)/keys.length,disc:num(g.discount)/keys.length}});
+}
 function calcSvc(s){
-  const months=svcMonths(s),fx=num(s.fx)||1,budget=(s.auto?num(s.partner):num(s.total))/fx,monthly=months?budget/months:0;
-  const mgmt=num(s.mgmt),setup=num(s.setup),disc=num(s.discount),billed=s.payment==='Pay via client card'?0:budget,rev=billed+mgmt+setup-disc;
+  const G=s._g,months=svcMonths(s),fx=num(s.fx)||1,budget=G?G.budget:(s.auto?num(s.partner):num(s.total))/fx,monthly=months?budget/months:0;
+  const mgmt=G?G.mgmt:num(s.mgmt),setup=G?G.setup:num(s.setup),disc=G?G.disc:num(s.discount),billed=s.payment==='Pay via client card'?0:budget,rev=billed+mgmt+setup-disc;
   let end='';if(s.start&&months){const e=addMonths(pd(s.start),Math.round(months));e.setDate(e.getDate()-1);end=iso(e)}
   return {months,budget,billed,monthly,weekly:monthly*12/52,daily:monthly*12/365,mgmt,setup,disc,rev,end};
 }
-const oppRevenue=o=>o.serviceKeys.reduce((a,k)=>a+calcSvc(o.services[k]).rev,0);
+const oppRevenue=o=>{groupSync(o);return o.serviceKeys.reduce((a,k)=>a+calcSvc(o.services[k]).rev,0)};
+const oppMedia=o=>{groupSync(o);return o.serviceKeys.reduce((a,k)=>a+calcSvc(o.services[k]).budget,0)};
 const oppGst=o=>o.comm.gst==='Yes'?oppRevenue(o)*0.09:0;
 const oppTax=o=>{const t=o.comm.ptax;if(!t||!t.on)return 0;return (t.svcs||[]).reduce((a,k)=>o.services[k]?a+calcSvc(o.services[k]).budget*num(t.rate)/100:a,0)};
 const oppTotal=o=>oppRevenue(o)+oppGst(o)+oppTax(o);
@@ -2234,7 +2285,7 @@ function multiInner(o,p,opts){const vals=getP(o,p)||[];const rest=opts.filter(x=
 function catField(o,p,d){
   const k=p.split('.')[1],s=o.services[k],pkg=s.pkg;
   const card=pkg?`<div class="pkgcard"><div style="min-width:0"><div><b>${esc(pkg.name)}</b> ${pkg.custom?'<span class="chip warn">Custom package</span>':`<span class="chip">${esc(pkg.version)}</span> <span class="chip ok">Published</span>`}</div><div class="sm muted">${esc(pkg.desc||'Scope described below.')}</div><div class="xs muted" style="margin-top:4px">${pkg.custom?`Needs approval from ${esc(hodFor(k))} before the booking form can be issued.`:`${money(pkg.fee)}${pkg.basis==='One-time'?' one-time':' a month'}${pkg.setup?' + '+money(pkg.setup)+' setup':''} · discount cap ${pkg.cap}% · effective ${fd(pkg.eff)}`}</div></div><button type="button" class="btn sm" data-act="cat-open" data-k="${k}">Change package</button></div>`:`<button type="button" class="btn" data-act="cat-open" data-k="${k}">${ic('layers')}Choose from catalogue</button>`;
-  return `<div class="field ${d.cls||''}" data-fp="${p}"><label>${esc(d.label)}${d.req?' <span class="req" title="Required">*</span>':''}</label>${card}<div class="hint">Prices, deliverables and discount caps come from the published catalogue. The package version is kept on the booking form.</div><div class="err" data-err>${ic('alert')}<span></span></div></div>`;
+  return `<div class="field ${d.cls||''}" data-fp="${p}"><label>${esc(d.label)}${d.req?' <span class="req" title="Needed before the booking form is issued">*</span>':''}</label>${card}<div class="hint">Prices, deliverables and discount caps come from the published catalogue. The package version is kept on the booking form.</div><div class="err" data-err>${ic('alert')}<span></span></div></div>`;
 }
 function fld(o,d){
   const {p,label,type='text',req=false,opts=[],ph='',hint='',cls='',show,blank,quick,rows,ro=false,multiple=false}=d;
@@ -2249,9 +2300,12 @@ function fld(o,d){
   else if(type==='file'){const has=Array.isArray(v)?v.length:!!v;ctl=`<label class="file ${has?'has':''}"><input type="file" data-bind="${p}" data-file="1" ${multiple?'multiple':''}><span class="fn">${esc(Array.isArray(v)?v.join(', '):v)||esc(ph||'Choose a file…')}</span><span class="btn sm" aria-hidden="true">${ic('clip')}Browse</span></label>`}
   else if(type==='check')return `<label class="${cls}" ${show?`data-show="${esc(show)}"`:''} style="display:flex;gap:8px;align-items:center"><input type="checkbox" data-bind="${p}" ${v?'checked':''} ${ro?'disabled':''}> ${esc(label)}</label>`;
   else ctl=`<input class="in ${type==='number'?'num':''}" id="${id}" type="${type}" data-bind="${p}" value="${esc(v)}" placeholder="${esc(ph)}" ${ro?'readonly':''}>`;
-  return `<div class="field ${cls}" data-fp="${p}" ${show?`data-show="${esc(show)}"`:''}><label ${type==='radio'?`id="${id}_l"`:`for="${id}"`}>${esc(label)}${req?' <span class="req" title="Required">*</span>':''}</label>${ctl}${quick?`<div><button type="button" class="btn sm" data-act="quick" data-p="${p}" data-v="${esc(quick)}">${esc(quick)}</button></div>`:''}${hint?`<div class="hint">${hint}</div>`:''}<div class="err" data-err>${ic('alert')}<span></span></div></div>`;
+  return `<div class="field ${cls}" data-fp="${p}" ${show?`data-show="${esc(show)}"`:''}><label ${type==='radio'?`id="${id}_l"`:`for="${id}"`}>${esc(label)}${req?' <span class="req" title="Needed before the booking form is issued">*</span>':''}</label>${ctl}${quick?`<div><button type="button" class="btn sm" data-act="quick" data-p="${p}" data-v="${esc(quick)}">${esc(quick)}</button></div>`:''}${hint?`<div class="hint">${hint}</div>`:''}<div class="err" data-err>${ic('alert')}<span></span></div></div>`;
 }
-const sec=(id,title,body,{open=true,badge='',key}={})=>`<section class="sec collapsible ${open?'':'closed'}" data-sec="${key||id}"><button type="button" class="sh" data-act="sec-toggle" data-key="${key||id}" aria-expanded="${open}">${ic('down','chev')}<h3>${esc(title)}</h3>${badge}</button><div class="sb">${body}</div></section>`;
+const SEC_NOSAVE=['hist','apr','meth'];
+const sec=(id,title,body,{open=true,badge='',key}={})=>{const K=key||id,o=W.o,can=o&&!locked(o)&&!SEC_NOSAVE.includes(id),sv=o&&o.secSaved&&o.secSaved[K];
+  if(W.closed[K]!==undefined)open=!W.closed[K];
+  return `<section class="sec collapsible ${open?'':'closed'}" data-sec="${K}"><button type="button" class="sh" data-act="sec-toggle" data-key="${K}" aria-expanded="${open}">${ic('down','chev')}<h3>${esc(title)}</h3>${badge}${can?'<span class="sec-st" data-secst></span>':''}</button><div class="sb">${body}${can?`<div class="sec-ft"><span class="xs muted">${sv?`Saved ${esc(sv.at)} by ${esc(sv.by)}`:'Not saved yet'}</span><button type="button" class="btn sm" data-act="sec-save" data-key="${K}">${ic('check')}Save section</button></div>`:''}</div></section>`};
 
 /* ============ service field layout (single source for render + validation) ============ */
 function svcSections(k,o){
@@ -2315,6 +2369,7 @@ function svcSections(k,o){
 
 /* ============ validation ============ */
 function validate(o){
+  groupSync(o);const GR=grouped(o);
   const I=[];let total=0;
   const chk=(step,p,label,ok,msg)=>{total++;if(!ok)I.push({step,p,label,msg:msg||'Required'})};
   const has=v=>String(v??'').trim()!=='';
@@ -2336,7 +2391,9 @@ function validate(o){
   if(has(c.cc))chk(1,'client.cc','Signatory cc email',emailsOk(c.cc),'Enter valid email addresses, separated by commas');
   chk(1,'client.phone','Signatory contact number',has(c.phone));
   chk(2,'serviceKeys','At least one service',o.serviceKeys.length>0,'Add at least one service');
-  o.serviceKeys.forEach(k=>svcSections(k,o).forEach(sc=>sc.fields.forEach(fl=>{
+  if(GR){chk(2,'grp.fee','Contract agency fee',has(o.grp.fee),'Enter the agency fee for the whole contract, or 0');if(mediaKeys(o).length)chk(2,'grp.media','Contract media budget',has(o.grp.media),'Enter the total media budget, or 0');
+    const sp=mediaKeys(o).map(k=>num((o.grp.split||{})[k])),spT=sp.reduce((a,b)=>a+b,0);if(spT>0)chk(2,'grp.split','Media budget split',Math.abs(spT-num(o.grp.media))<0.01,`The split adds up to ${money2(spT)}, not the total of ${money2(num(o.grp.media))}`)}
+  o.serviceKeys.forEach(k=>svcSections(k,o).filter(sc=>!(GR&&sc.id==='budget')).forEach(sc=>sc.fields.forEach(fl=>{
     if(!fl.req)return;if(fl.show&&!evalShow(o,fl.show))return;
     const v=getP(o,fl.p);chk(2,fl.p,`${svcName(k)}: ${fl.label.replace(' (custom package)','')}`,Array.isArray(v)?v.length>0:has(v));
   })));
@@ -2348,7 +2405,7 @@ function validate(o){
   if(m.credit==='Others')chk(3,'comm.creditLen','Credit term length',has(m.creditLen));
   if(m.mediaCurrency!=='Singapore Dollar')chk(3,'comm.fxRate','Exchange rate',num(m.fxRate)>0,'Enter how many '+(CUR_CODE[m.mediaCurrency]||'')+' equal 1 SGD');
   if(m.ptax.on){chk(3,'comm.ptax.rate','Platform tax rate',num(m.ptax.rate)>0,'Enter the tax rate');chk(3,'comm.ptax.svcs','Services the platform tax applies to',m.ptax.svcs.length>0,'Choose the services it applies to')}
-  o.serviceKeys.forEach(k=>{const s=o.services[k];if(calcSvc(s).budget>0){const mp=m.mediaPay[k]||{};chk(3,`comm.mediaPay.${k}.mode`,`${svcName(k)} media payment mode`,has(mp.mode));chk(3,`comm.mediaPay.${k}.term`,`${svcName(k)} media payment term`,has(mp.term));chk(3,`comm.mediaPay.${k}.credit`,`${svcName(k)} media credit term`,has(mp.credit))}});
+  (GR?(oppMedia(o)>0?['all']:[]):o.serviceKeys.filter(k=>calcSvc(o.services[k]).budget>0)).forEach(k=>{const s=o.services[k]||{};if(true){const mp=m.mediaPay[k]||{};chk(3,`comm.mediaPay.${k}.mode`,`${k==='all'?'Contract':svcName(k)} media payment mode`,has(mp.mode));chk(3,`comm.mediaPay.${k}.term`,`${k==='all'?'Contract':svcName(k)} media payment term`,has(mp.term));chk(3,`comm.mediaPay.${k}.credit`,`${k==='all'?'Contract':svcName(k)} media credit term`,has(mp.credit))}});
   chk(3,'billing.company','Billing company name',has(bl.company));chk(3,'billing.first','Billing contact',has(bl.first));
   chk(3,'billing.email','Billing email',emailsOk(bl.email),has(bl.email)?'Enter valid email addresses, separated by commas':'Required');
   if(has(bl.cc))chk(3,'billing.cc','Billing cc email',emailsOk(bl.cc),'Enter valid email addresses, separated by commas');
@@ -2414,6 +2471,13 @@ function genBilling(o){
     o.comm.schedule.forEach((r,i)=>{const amt=['media','am','setup','seo','other'].reduce((a,c)=>a+num(r[c]),0);if(amt<=0)return;const inv=addMonths(start,i),due=new Date(inv);due.setDate(due.getDate()+cd);rows.push({svc:'all',desc:'Customised schedule',n:i+1,of:o.comm.schedule.length,amount:+amt.toFixed(2),invoiceOn:iso(inv),due:iso(due),cond:i===0?'On commencement':'Fixed date',status:i===0?'Ready for Review':'Pending Trigger'})});
     return rows;
   }
+  groupSync(o);
+  if(grouped(o)){const keys=o.serviceKeys,starts=keys.map(k=>o.services[k].start).filter(Boolean).sort(),start=starts[0]?pd(starts[0]):TODAY,months=Math.max(1,...keys.map(k=>calcSvc(o.services[k]).months||1));
+    const mkA=(desc,total,term,cr)=>{if(total<=0)return;let acc=0;const ins=instalments(term,months);ins.forEach((x,i)=>{const amt=i===ins.length-1?+(total-acc).toFixed(2):+(total*x.f).toFixed(2);acc+=amt;const inv=addMonths(start,x.off),due=new Date(inv);due.setDate(due.getDate()+cr);rows.push({svc:'all',desc,n:i+1,of:ins.length,amount:amt,invoiceOn:iso(inv),due:iso(due),cond:i===0?'On commencement':'Fixed date',status:i===0?'Ready for Review':'Pending Trigger'})})};
+    mkA('Agency fees (whole contract)',num(o.grp.fee)+num(o.grp.setup)-num(o.grp.discount),o.comm.payTerm,cd);
+    const billedMedia=keys.filter(k=>o.services[k].payment!=='Pay via client card').reduce((a,k)=>a+calcSvc(o.services[k]).budget,0),mp=o.comm.mediaPay.all||{};
+    mkA('Media budget (whole contract)',billedMedia,mp.term||o.comm.payTerm,creditDays(mp.credit||o.comm.credit,o.comm.creditLen));
+  } else
   o.serviceKeys.forEach(k=>{const s=o.services[k],c=calcSvc(s),start=s.start?pd(s.start):TODAY;
     const mk=(desc,total,term,cr)=>{if(total<=0)return;let acc=0;const ins=instalments(term,c.months||1);
       ins.forEach((x,i)=>{const amt=i===ins.length-1?+(total-acc).toFixed(2):+(total*x.f).toFixed(2);acc+=amt;const inv=addMonths(start,x.off),due=new Date(inv);due.setDate(due.getDate()+cr);
@@ -2445,13 +2509,30 @@ function demoFill(o,coId){
   Object.assign(o.opp,{executive:STAFF[0].name,expectedClose:'2026-11-15',nextAction:'Send booking form to client',nextDue:'2026-10-26',enquiries:co.enquiries.slice(0,1).map(e=>e.id)});
   Object.assign(o.legal,{name:co.name,uen:co.uen,noUen:!co.uen,address:co.address,website:co.website||'',confirmed:true});
   const ct=co.contacts.find(c=>c.signatory)||co.contacts[0];Object.assign(o.client,{id:ct.id,first:ct.first,last:ct.last,email:ct.email,phone:ct.phone,mobile:'(+65) 9000 0100',designation:ct.designation,isSignatory:true});
-  ['facebook','sem'].forEach(k=>{addService(o,k);const s=o.services[k];Object.assign(s,{accountType:'Existing',cms:'Shopify',payment:'Pay via OOm',duration:'12 Months',dateSet:'Yes',start:'2026-11-01',partner:k==='sem'?'24,000.00':'12,000.00',brief:'Increase qualified enquiries while holding cost per lead steady.',adSched:'No',gender:'All'});s.channels=k==='sem'?['Search']:['Lead Generation'];applyPkg(s,catFor(k)[1])});
-  o.tab='facebook';
+  if(!o.serviceKeys.length)['facebook','sem'].forEach(k=>{addService(o,k);const s=o.services[k];Object.assign(s,{accountType:'Existing',cms:'Shopify',payment:'Pay via OOm',duration:'12 Months',dateSet:'Yes',start:'2026-11-01',partner:k==='sem'?'24,000.00':'12,000.00',brief:'Increase qualified enquiries while holding cost per lead steady.',adSched:'No',gender:'All'});s.channels=k==='sem'?['Search']:['Lead Generation'];applyPkg(s,catFor(k)[1])});
+  o.tab=o.serviceKeys[0];
   Object.assign(o.comm,{payMode:'Cheque / Bank Transfer',payTerm:'Monthly',credit:'14 Days',gst:'Yes'});
   o.serviceKeys.forEach(k=>o.comm.mediaPay[k]={mode:'Cheque / Bank Transfer',term:'Monthly',credit:'14 Days'});
   const b=co.billing[0];Object.assign(o.billing,{id:b.id,company:b.company,first:b.first,last:b.last,email:b.email,phone:b.phone,address:b.address,postal:b.postal});
   Object.assign(o.conv,{source:'Referral',industry:co.industry in INDUSTRIES?co.industry:'Retail',model:'B2C (Business to Consumer)',ecom:'No',restrict:'No',nda:'No'});
   o.conv.sub=INDUSTRIES[o.conv.industry][0];o.conv.serviceIds=o.serviceKeys.slice();o.conv.split=[ME.name];
+  fillRemaining(o);
+}
+/* prototype aid: fill any required field still empty, for whatever services the opportunity has */
+function fillRemaining(o){
+  const val=(f,k)=>{const t=f.type||'text',op=(f.opts||[]).map(x=>Array.isArray(x)?x[0]:x).filter(x=>x!=='');
+    if(t==='select'||t==='radio')return op[0]||'';if(t==='multi')return op.length?[op[0]]:[];if(t==='money')return k==='sem'||TG[k]==='media'?'12,000.00':'1,000.00';
+    if(t==='number')return '1';if(t==='date')return '2026-11-01';if(t==='file')return 'sample-document.pdf';if(t==='check')return true;return 'Sample details'};
+  for(let pass=0;pass<3;pass++)o.serviceKeys.forEach(k=>{const s=o.services[k];if(!s.pkg){const c=catFor(k);applyPkg(s,c[1]||c[0])}
+    if(!s.start)s.start='2026-11-01';if(!s.payment)s.payment='Pay via OOm';
+    svcSections(k,o).forEach(sc=>sc.fields.forEach(f=>{if(!f.req||f.type==='catalogue'||f.type==='out'||f.ro)return;if(f.show&&!evalShow(o,f.show))return;const v=getP(o,f.p);if(Array.isArray(v)?v.length:String(v??'').trim()!=='')return;setP(o,f.p,val(f,k))}))});
+  o.serviceKeys.forEach(k=>{const c=calcSvc(o.services[k]);if(c.budget>0&&!o.comm.mediaPay[k])o.comm.mediaPay[k]={mode:'Cheque / Bank Transfer',term:'Monthly',credit:'14 Days'}});
+  o.comm.mediaPay.all=o.comm.mediaPay.all||{mode:'Cheque / Bank Transfer',term:'Monthly',credit:'14 Days'};
+  if(grouped(o)){o.grp=o.grp||{split:{}};if(!String(o.grp.fee||'').trim())o.grp.fee='9,600.00';if(mediaKeys(o).length&&!String(o.grp.media||'').trim())o.grp.media='36,000.00'}
+  if(o.deal.psg==='Yes'){Object.assign(o.deal,{psgType:o.deal.psgType||PSG_TYPES[0],psgPackage:o.deal.psgPackage||PSG_PACKAGES[0],psgPay:o.deal.psgPay||PSG_PAY[0],psgBudget:o.deal.psgBudget||'5,000.00',grant:o.deal.grant||'PSG'});o.form.psgQuote=o.form.psgQuote||'psg-quotation.pdf';o.form.psgSla=o.form.psgSla||'psg-sla.pdf'}
+  if(NEEDS_BASE.includes(o.deal.contractType)&&!o.deal.baseContract){const co=CO(o.deal.companyId),b=co&&co.contracts.find(x=>x.type!=='Top Up');if(b)o.deal.baseContract=b.no}
+  if(!o.form.custom)o.form.custom='no';
+  o.conv.serviceIds=o.serviceKeys.slice();
 }
 const approveAll=o=>approvalsFor(o).forEach(a=>{o.approvals[a.id]={status:'approved',key:approvalKey(o),by:'Approver (prototype)',at:nowStamp()}});
 function seedOpps(){
@@ -2486,7 +2567,7 @@ function oppNext(o){
 function oppCard(o){
   const si=stageInfo(o),bf=bfInfo(o),rev=oppRevenue(o),co=o.deal.companyName||'No organisation yet',next=oppNext(o);
   const miss=bf.key==='draft'&&['prep','presented'].includes(o.stage)?validate(o).issues.length:0;
-  return `<article class="ocard"><div class="meta"><span class="chip ${bf.cls}" title="Booking form status">${bf.label}</span>${o.deal.status?`<span class="chip outline" title="Deal temperature">${esc(o.deal.status)}</span>`:''}</div><div><div class="t">${esc(o.deal.title||'Untitled opportunity')}</div><div class="sm muted">${esc(co)} · ${esc(o.deal.contractType)}${o.deal.baseContract?' of '+o.deal.baseContract:''}</div></div>
+  return `<article class="ocard"><div class="meta"><span class="chip ${bf.cls}" title="Booking form status">${bf.label}</span>${o.deal.status?`<span class="chip outline" title="Deal temperature">${esc(o.deal.status)}</span>`:''}</div><div><div class="t">${esc(o.deal.title||'Untitled opportunity')}</div><div class="sm muted">${esc(co)} · ${esc(o.deal.contractType)}${o.deal.baseContract?' of '+o.deal.baseContract:''}</div>${o.lastSaved?`<div class="xs muted" style="margin-top:2px">Last edited ${esc(o.lastSaved.slice(0,10))}</div>`:''}</div>
    <div class="chips">${o.serviceKeys.map(k=>`<span class="chip">${esc(svcName(k))}</span>`).join('')||'<span class="xs muted">No services yet</span>'}</div>
    ${o.opp.nextAction?`<div class="xs muted">Next: ${esc(o.opp.nextAction)}${o.opp.nextDue?' · due '+fd(o.opp.nextDue):''}</div>`:''}
    <div class="meta"><b class="num">${rev?money(rev):'–'}</b><a class="btn sm ${next[1]}" href="#/opps/${o.id}">${next[0]}</a></div>
@@ -2508,7 +2589,7 @@ function renderOpps(root){
 }
 /* ============ wizard ============ */
 const W={o:null,touched:new Set(),showAll:false,closed:{},root:null};
-const saveOpp=()=>{persist();const el=$('#savestate');if(el)el.innerHTML=ic('check')+' Draft saved '+new Date().toTimeString().slice(0,5)};
+const saveOpp=()=>{if(W.o){W.o.lastSaved=nowStamp();W.o.stepsSeen=[...new Set([...(W.o.stepsSeen||[]),W.o.step])]}persist();const el=$('#savestate');if(el)el.innerHTML=ic('check')+' Saved '+new Date().toTimeString().slice(0,5)};
 const locked=o=>o.bf.state!=='draft';
 const stampDate=t=>{const m=String(t||'').match(/^(\d\d)\/(\d\d)\/(\d{4})/);return m?`${m[3]}-${m[2]}-${m[1]}`:''};
 const lastEngagement=o=>[o.created,o.opp.presentedOn,...o.stageLog.map(l=>stampDate(l.t))].filter(Boolean).sort().pop();
@@ -2531,13 +2612,14 @@ function renderWizard(root,id){
   }
   const o=S.opps.find(x=>x.id===id);
   if(!o){root.innerHTML='<div class="empty">Opportunity not found. <a href="#/opps">Back to opportunities</a></div>';return}
-  W.o=o;W.root=root;W.touched=new Set();W.showAll=false;
+  W.o=o;W.root=root;W.touched=new Set();W.showAll=false;W.closed={};const resume=!!o.lastSaved&&o.step>1;o.stepsSeen=[...new Set([...(o.stepsSeen||[]),o.step])];
   if(locked(o)||['lost','deferred','decayed'].includes(o.stage)&&o.step<1)o.step=5;
   if(locked(o))o.step=5;
   root.innerHTML=`<div class="crumbs"><a href="#/opps">Opportunities</a>${ic('right')}<span>${o.id}</span></div>
   <div class="pagehead"><div><h1 id="wtitle">${esc(o.deal.title||'New opportunity')}</h1><div class="sub">${esc(o.deal.companyName||'No organisation yet')} · ${o.id} · Booking form version ${o.version}</div></div>
-   <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="savestate" id="savestate">${ic('check')} Changes save automatically</span>${locked(o)?'':`<button class="btn sm" data-act="demo-fill" title="Prototype aid">${ic('pen')}Fill sample data</button>`}</div></div>
+   <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="savestate" id="savestate">${ic('check')} ${o.lastSaved?`Last saved ${esc(o.lastSaved)}`:'Saved automatically as you type'}</span>${locked(o)?'':`<button class="btn sm" data-act="demo-fill" title="Prototype aid">${ic('pen')}Fill sample data</button>`}</div></div>
   <div id="stagebar"></div>
+  ${locked(o)?'':`<div class="wiz-guide">${ic('info')}<div><b>Build this up as the conversation progresses.</b> Fill in what you know now and come back to the rest later. Every change is saved, sections can be saved with blanks, and you can edit any section again at any time. Fields marked <span class="req">*</span> are only needed before you issue the booking form.${resume?`<div class="wiz-resume">${ic('clock')}Picking up where you left off: <b>${esc(STEPS[o.step-1][1])}</b>${o.lastSaved?` · last saved ${esc(o.lastSaved)}`:''}</div>`:''}</div></div>`}
   <div class="wiz"><nav class="stepper" id="stepper" aria-label="Steps"></nav><div id="wmain"><div id="wstep"></div><div class="wiz-foot" id="wfoot"></div></div><aside class="side-r" id="wside" aria-label="Readiness"></aside></div>`;
   root.onclick=null;
   drawStep();
@@ -2546,20 +2628,25 @@ function renderWizard(root,id){
 function drawStageBar(){
   const o=W.o,el=$('#stagebar');if(!el)return;
   const idx=STAGES.findIndex(s=>s[0]===o.stage),closed=['lost','deferred','decayed'].includes(o.stage);
-  const path=STAGES.map((s,i)=>`<li class="${!closed&&i<idx?'done':!closed&&i===idx?'cur':''}"><span>${!closed&&i<idx?ic('check'):i+1}</span>${s[1]}</li>`).join('');
+  const since=(o.stageLog.filter(l=>l.to===o.stage).pop()||{}).t||'';
+  const track=STAGES.map((s,i)=>`<li class="${closed?'':i<idx?'done':i===idx?'cur':''}" title="${esc(s[2]||'')}"><i></i><span>${s[1]}</span></li>`).join('');
   let acts='';
-  if(o.stage==='prep')acts+=`<button class="btn sm" data-act="st-presented">Mark as presented</button>`;
-  if(['prep','presented'].includes(o.stage))acts+=`<button class="btn sm" data-act="st-defer">Defer</button><button class="btn sm danger" data-act="st-lost">Mark as lost</button>`;
+  if(o.stage==='prep')acts+=`<button class="btn sm" data-act="st-presented">${ic('right')}Move to Presented</button>`;
+  if(o.stage==='presented')acts+=`<button class="btn sm ghost" data-act="st-back">Move back</button>`;
+  if(['prep','presented'].includes(o.stage))acts+=`<button class="btn sm ghost" data-act="st-defer">Defer</button><button class="btn sm ghost danger" data-act="st-lost">Mark as lost</button>`;
   if(o.stage==='deferred')acts+=`<button class="btn sm primary" data-act="st-resume">Resume pursuit</button>`;
-  const note=o.stage==='bfpending'?'Booking form issued. To change the stage, withdraw the booking form first.':o.stage==='won'?'Won follows verified endorsement only.':o.stage==='lost'?`Lost: ${esc(o.opp.lostReason)}${o.opp.lostNote?' · '+esc(o.opp.lostNote):''}. To pursue this client again, create a new opportunity.`:o.stage==='deferred'?`Deferred: ${esc(o.opp.deferNote||'no note')}. Excluded from the active forecast.`:'';
-  el.innerHTML=`<div class="stagebar"><ol class="stagepath ${closed?'closed':''}" aria-label="Opportunity stage">${path}</ol>${closed?`<span class="chip ${STAGE_CLS[o.stage]}">${STAGE_LABEL[o.stage]}</span>`:''}<div class="stage-actions">${acts}</div>${note?`<div class="xs muted" style="flex-basis:100%">${note}</div>`:''}</div>`;
+  const auto=o.stage==='presented'?'Moves to Booking Form Pending when you issue the booking form.':o.stage==='bfpending'?'Booking form issued. Withdraw it to change the stage. Moves to Won once the signature is verified.':o.stage==='won'?'Won follows verified endorsement only.':'';
+  const note=o.stage==='lost'?`Lost: ${esc(o.opp.lostReason)}${o.opp.lostNote?' · '+esc(o.opp.lostNote):''}. To pursue this client again, create a new opportunity.`:o.stage==='deferred'?`Deferred: ${esc(o.opp.deferNote||'no note')}. Excluded from the active forecast.`:auto;
+  el.innerHTML=`<div class="stg"><div class="stg-cur"><span class="stg-l">Pipeline stage</span><div class="stg-v"><b>${esc(STAGE_LABEL[o.stage])}</b>${closed?`<span class="chip ${STAGE_CLS[o.stage]}">${o.stage==='deferred'?'Deferred':'Closed'}</span>`:''}</div><span class="stg-s">${since?`Since ${esc(String(since).slice(0,10))}`:''}</span></div>
+    <ol class="stg-track ${closed?'closed':''}" aria-label="Pipeline progress, for information">${track}</ol>
+    <div class="stg-act">${acts}</div>${note?`<div class="stg-note">${ic('info')}${note}</div>`:''}</div>`;
 }
 function drawStep(keepScroll){
   const o=W.o,y=window.scrollY;
   const fn=[null,stepDeal,stepServices,stepCommercials,stepConversion,stepForm][o.step];
   const cr=o.changeRequest&&!locked(o)?`<div class="notice warn" style="margin-bottom:14px">${ic('alert')}<div><b>${esc(o.changeRequest.by)} asked for a change on ${esc(o.changeRequest.at)}${o.changeRequest.kind==='signatory'?' (different signatory)':''}:</b> ${esc(o.changeRequest.text)}<div class="xs muted" style="margin-top:4px">Update the details, then issue the booking form again. It is a new version, and the previous link no longer works.</div></div></div>`:'';
   $('#wstep').innerHTML=cr+`<fieldset ${locked(o)&&o.step<5?'disabled':''} style="border:0;margin:0;padding:0;min-width:0">${fn(o)}</fieldset>`;
-  $('#wfoot').innerHTML=`<button class="btn" data-act="wstep" data-d="-1" ${o.step===1?'disabled':''}>Back</button>${o.step<5?`<button class="btn primary" data-act="wstep" data-d="1">Continue to ${esc(STEPS[o.step][1])}${ic('right')}</button>`:'<span></span>'}`;
+  $('#wfoot').innerHTML=`<button class="btn" data-act="wstep" data-d="-1" ${o.step===1?'disabled':''}>Back</button><span class="xs muted" style="text-align:center">${locked(o)?'':'Everything is saved. You don\'t need to finish this step before moving on.'}</span>${o.step<5?`<button class="btn" data-act="wstep" data-d="1">Next: ${esc(STEPS[o.step][1])}${ic('right')}</button>`:'<span></span>'}`;
   drawStageBar();refresh();if(keepScroll)window.scrollTo(0,y);else window.scrollTo({top:0});
 }
 /* ---- step 1: opportunity, parties (PRD 5.3.1, 3.3.1, 3.3.2, 6.4.1) ---- */
@@ -2629,23 +2716,32 @@ function stepServices(o){
   const head=`<div class="card" style="margin-bottom:14px"><div class="bd" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><b>Services in this contract</b>
     <div class="chips">${o.serviceKeys.map(k=>`<span class="chip accent">${esc(svcName(k))}<button class="iconbtn" style="width:18px;height:18px" data-act="svc-del" data-k="${k}" aria-label="Remove ${esc(svcName(k))}">${ic('x')}</button></span>`).join('')||'<span class="muted">None yet</span>'}</div>
     <span style="flex:1"></span><select class="in" id="addsvc" style="width:auto" aria-label="Add a service"><option value="">Add a service…</option>${avail.map(k=>`<option value="${k}">${esc(svcName(k))}</option>`).join('')}</select></div>
-    <div data-fp="serviceKeys" class="field" style="padding:0 16px 12px"><div class="err" data-err>${ic('alert')}<span></span></div></div></div>`;
+    <div data-fp="serviceKeys" class="field" style="padding:0 16px 12px"><div class="err" data-err>${ic('alert')}<span></span></div></div>
+    ${o.serviceKeys.length>1?`<div class="bd" style="border-top:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div><b>How is this contract priced?</b><div class="xs muted">Per service: each service has its own package fees and media budget. One contract total: enter the agency fee and media budget once for the whole contract.</div></div><span style="flex:1"></span><div class="seg" role="group" aria-label="Pricing"><button type="button" data-act="grp-mode" data-v="No" aria-pressed="${!grouped(o)}">Per service</button><button type="button" data-act="grp-mode" data-v="Yes" aria-pressed="${grouped(o)}">One contract total</button></div></div>`:''}</div>
+    ${grouped(o)?sec('grpprice','Contract pricing',`<div class="grid g3">
+      ${fld(o,{p:'grp.fee',label:'Agency fee (whole contract)',type:'money',req:true,hint:'Management and service fees for all services'})}
+      ${fld(o,{p:'grp.setup',label:'Setup fee',type:'money'})}
+      ${fld(o,{p:'grp.discount',label:'Discount',type:'money'})}
+      ${mediaKeys(o).length?fld(o,{p:'grp.media',label:'Total media budget',type:'money',req:true,hint:`Across ${mediaKeys(o).map(svcName).join(', ')}`}):''}
+     </div>
+     ${mediaKeys(o).length>1?`<div class="field" data-fp="grp.split"><label>Split by platform (optional)</label><div class="grid g3">${mediaKeys(o).map(k=>fld(o,{p:`grp.split.${k}`,label:svcName(k),type:'money',ph:'Leave blank to share'})).join('')}</div><div class="hint">Printed on the booking form as a breakdown. If left blank, the budget is shared and the account manager allocates it.</div><div class="err" data-err>${ic('alert')}<span></span></div></div>`:''}
+     <div class="totals" style="margin-top:4px"><div class="r"><span class="muted">Contract value before tax</span><b class="num" data-out="grp:total"></b></div></div>`,{open:true}):''}`;
   if(!tab)return head+`<div class="card"><div class="empty"><b>Add the first service</b><div class="sm" style="margin:4px 0 12px">Each service has its own package from the catalogue and keeps its own state. You can switch between them without losing anything.</div><div class="chips" style="justify-content:center">${['facebook','linkedin','sem','seo','content'].map(k=>`<button class="btn" data-act="svc-add" data-k="${k}">${ic('plus')}${esc(svcName(k))}</button>`).join('')}</div></div></div>`;
   const tabs=`<div class="tabs" role="tablist" id="svctabs">${o.serviceKeys.map(k=>`<button class="tab" role="tab" data-act="svc-tab" data-k="${k}" aria-selected="${k===tab}"><span>${esc(svcName(k))}</span><span class="chip" data-tabchip="${k}"></span></button>`).join('')}</div>`;
-  const secs=svcSections(tab,o).map(sc=>{
+  const secs=svcSections(tab,o).filter(sc=>!(grouped(o)&&sc.id==='budget')).map(sc=>{
     const key=tab+':'+sc.id,open=W.closed[key]===undefined?sc.open:!W.closed[key];
     const body=`<div class="grid ${sc.cols}">${sc.fields.map(f=>f.type==='out'?`<div class="field" data-show="${f.show}"><label>${f.label}</label><div class="in num" style="background:var(--surface-2)" data-out="svc:${tab}:end">–</div><div class="hint">Calculated from start date and duration.</div></div>`:fld(o,f)).join('')}${sc.id==='budget'?`<div class="spanall totals" style="grid-column:1/-1"><div class="r"><span class="muted">Monthly campaign budget</span><b class="num" data-out="svc:${tab}:monthly"></b></div><div class="r"><span class="muted">Weekly campaign budget</span><b class="num" data-out="svc:${tab}:weekly"></b></div><div class="r"><span class="muted">Daily campaign budget</span><b class="num" data-out="svc:${tab}:daily"></b></div><div class="r"><span class="muted">Total revenue before GST</span><b class="num" data-out="svc:${tab}:rev"></b></div><div class="r"><span class="muted">GST (9%)${o.comm.gst==='Yes'?'':' · not applied'}</span><b class="num" data-out="svc:${tab}:gst"></b></div><div class="r big"><span>Total revenue with GST</span><span class="num" data-out="svc:${tab}:revgst"></span></div></div>`:''}</div>`;
     const badge=sc.id==='aud'?`<span class="chip" data-audcount="${tab}"></span>`:'';
     return sec(sc.id,sc.title,body,{open,key,badge});
   }).join('');
   const copy=o.serviceKeys.length>1?`<button class="btn sm" data-act="svc-copy" title="Copy shared fields from another service">${ic('layers')}Copy shared fields from ${esc(svcName(o.serviceKeys.find(x=>x!==tab)))}</button>`:'';
-  return head+`<div class="card" style="margin-bottom:14px">${tabs}<div class="bd" style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 16px"><span class="sm muted">${esc(SVC[tab].full||SVC[tab].name)}: every field is kept. Optional groups are collapsed.</span>${copy}</div></div>${secs}`;
+  return head+`<div class="card" style="margin-bottom:14px">${tabs}<div class="bd" style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 16px"><span class="sm muted">${esc(SVC[tab].full||SVC[tab].name)}: every field is kept. Optional groups are collapsed.${grouped(o)?' Fees and media budget are set once for the whole contract, above.':''}</span>${copy}</div></div>${secs}`;
 }
 /* ---- step 3 ---- */
 function stepCommercials(o){
   const co=CO(o.deal.companyId),bil=co?[...co.billing.map(b=>[b.id,`${b.company} (${b.first} ${b.last})`]),['__new','Add new billing details']]:[];
   const sched=o.comm.schedule;
-  const mediaSvcs=o.serviceKeys.filter(k=>calcSvc(o.services[k]).budget>0);
+  const mediaSvcs=grouped(o)?(oppMedia(o)>0?['all']:[]):o.serviceKeys.filter(k=>calcSvc(o.services[k]).budget>0);
   return `${sec('pay','Payment details',`<div class="grid g3">
    ${fld(o,{p:'comm.currency',label:'Currency',type:'select',opts:CURRENCIES,blank:false})}
    ${fld(o,{p:'comm.payMode',label:'Payment mode',type:'select',opts:PAY_MODES,req:true})}
@@ -2654,8 +2750,8 @@ function stepCommercials(o){
    ${fld(o,{p:'comm.creditLen',label:'Credit term length (days)',type:'number',req:true,show:'comm.credit=Others'})}
    ${fld(o,{p:'comm.billDay',label:'Bill every nth day of the month',type:'number'})}
    ${fld(o,{p:'comm.gst',label:'Include GST',type:'radio',opts:['Yes','No']})}
-   ${fld(o,{p:'comm.shared',label:'Shared media budget',type:'radio',opts:['Yes','No'],hint:'Yes merges the media budget across every service on this contract. Budget, balance and pacing are then tracked for the whole contract. Account managers can change this later on the Media budget tab.'})}
-   ${fld(o,{p:'comm.merge',label:'Merge invoices',type:'radio',opts:['Yes','No'],hint:'Consolidate all service invoices.'})}
+   ${fld(o,{p:'comm.shared',label:'Shared media budget',type:'radio',opts:['Yes','No'],hint:o.serviceKeys.length>1?'Same as choosing "One contract total" on the Services step. Fees and media budget are entered once, invoices are merged, and the media budget is reconciled for the whole contract.':'Only applies when the contract has more than one service.'})}
+   ${fld(o,{p:'comm.merge',label:'Merge invoices',type:'radio',opts:['Yes','No'],hint:grouped(o)?'Always merged when the contract is priced as one total.':'Consolidate all service invoices.'})}
    ${fld(o,{p:'comm.discType',label:'Discount type',type:'select',opts:DISC_TYPES})}
   </div><div id="terms-note"></div>`)}
   ${sec('fx','Currency and platform tax',`<p class="sm muted">For campaigns paid in another currency, enter the media budget in that currency on the service. It is converted to SGD at this rate. Platform tax (for example SST) is shown on the booking form, whether it is paid through OOm or directly on the platform.</p><div class="grid g3">
@@ -2679,7 +2775,7 @@ function stepCommercials(o){
   ${sec('sched','Customised payment schedule',`<p class="sm muted">Optional. Leave empty to invoice by the payment term above. A customised schedule counts as non-standard payment terms and needs approval before the booking form is issued.</p>
    ${sched.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>No.</th><th>Media budget</th><th>AM fee</th><th>Setup fee</th><th>SEO fee</th><th>Other</th><th class="r">Subtotal</th><th></th></tr></thead><tbody>${sched.map((r,i)=>`<tr><td>${i+1}</td>${['media','am','setup','seo','other'].map(c=>`<td><input class="in num" style="min-width:90px" inputmode="decimal" data-bind="comm.schedule.${i}.${c}" data-fmt="money" value="${esc(r[c])}" placeholder="0.00" aria-label="${c} for instalment ${i+1}"></td>`).join('')}<td class="r num" data-out="sched:${i}"></td><td><button class="iconbtn" data-act="sched-del" data-i="${i}" aria-label="Remove instalment ${i+1}">${ic('trash')}</button></td></tr>`).join('')}</tbody><tfoot><tr><td colspan="6" class="r"><b>Total</b></td><td class="r num"><b data-out="sched:total"></b></td><td></td></tr></tfoot></table></div>`:''}
    <div><button class="btn sm" data-act="sched-add">${ic('plus')}Add instalment</button></div>`,{open:sched.length>0})}
-  ${mediaSvcs.length?sec('media','Media budget payment',`<div style="display:grid;gap:14px">${mediaSvcs.map(k=>`<div><div class="sub-h">${esc(svcName(k))} · <span class="num" data-out="mp:${k}"></span></div><div class="grid g3" style="margin-top:8px">${fld(o,{p:`comm.mediaPay.${k}.mode`,label:'Payment mode',type:'select',opts:PAY_MODES,req:true})}${fld(o,{p:`comm.mediaPay.${k}.term`,label:'Payment term',type:'select',opts:PAY_TERMS,req:true})}${fld(o,{p:`comm.mediaPay.${k}.credit`,label:'Credit term',type:'select',opts:CREDIT,req:true})}</div></div>`).join('')}</div>`):''}
+  ${mediaSvcs.length?sec('media','Media budget payment',`<div style="display:grid;gap:14px">${mediaSvcs.map(k=>`<div><div class="sub-h">${k==='all'?'All media (one contract total)':esc(svcName(k))} · <span class="num" data-out="mp:${k}"></span></div><div class="grid g3" style="margin-top:8px">${fld(o,{p:`comm.mediaPay.${k}.mode`,label:'Payment mode',type:'select',opts:PAY_MODES,req:true})}${fld(o,{p:`comm.mediaPay.${k}.term`,label:'Payment term',type:'select',opts:PAY_TERMS,req:true})}${fld(o,{p:`comm.mediaPay.${k}.credit`,label:'Credit term',type:'select',opts:CREDIT,req:true})}</div></div>`).join('')}</div>`):''}
   ${sec('bill','Billing details (billing entity)',`<div class="grid g2">
    ${co?fld(o,{p:'billing.id',label:'Billing entity',type:'select',opts:bil,cls:'spanall',hint:'The legal entity responsible for payment. Reuse one from this account. Editing it here updates every contract that uses it.'}):''}
    ${fld(o,{p:'billing.company',label:'Billing company name',req:true})}
@@ -2722,6 +2818,7 @@ const cb=b=>`<span class="cb ${b?'on':''}" role="img" aria-label="${b?'ticked':'
 function ownerContact(o){const n=o.owner||ME.name;if(n===ME.name)return {email:ME.email,office:ME.office,mobile:ME.mobile};const s=STAFF.find(x=>x.name===n)||{};return {email:s.email||'',office:OOM.tel,mobile:s.mobile||''}}
 /* shared content: used by the on-screen view and by the PDF */
 function orderBlocks(o,paper){
+  groupSync(o);
   const keys=o.serviceKeys,sv=k=>o.services[k],cur=o.comm.mediaCurrency||'Singapore Dollar',code=CUR_CODE[cur]||'SGD',fxOn=cur!=='Singapore Dollar';
   const groups=[...new Set(keys.map(k=>TG[k]))];
   const starts=keys.map(k=>sv(k).start).filter(Boolean).sort(),ends=keys.map(k=>calcSvc(sv(k)).end).filter(Boolean).sort();
@@ -2745,7 +2842,11 @@ function orderBlocks(o,paper){
   return out;
 }
 function payLines(o){
-  const lines=[];
+  const lines=[];groupSync(o);
+  if(grouped(o)){const g=o.grp,mk=mediaKeys(o),sp=mk.map(k=>num((g.split||{})[k])),spOk=sp.reduce((a,b)=>a+b,0)>0;
+    if(num(g.fee))lines.push([`Agency fee for ${o.serviceKeys.map(k=>esc(svcName(k))).join(', ')}`,num(g.fee)]);if(num(g.setup))lines.push(['Setup fee',num(g.setup)]);if(num(g.discount))lines.push(['Discount',-num(g.discount)]);
+    if(num(g.media))lines.push([`Total media budget <span class="muted">(payable via OOm${spOk?': '+mk.map((k,i)=>`${esc(svcName(k))} ${money2(sp[i])}`).join(', '):', shared across '+mk.map(k=>esc(svcName(k))).join(', ')})</span>`,num(g.media)]);
+    return lines}
   o.serviceKeys.forEach(k=>{const s=o.services[k],c=calcSvc(s),nm=svcName(k)+(s.pkg?' · '+s.pkg.name:'');
     if(c.mgmt+c.setup>0)lines.push([`${esc(nm)}: fees`,c.mgmt+c.setup]);
     if(c.disc>0)lines.push([`Discount ${esc(s.discPct)}% (${esc(svcName(k))})`,-c.disc]);
@@ -2807,7 +2908,7 @@ function versionsCard(o){
 function stepForm(o){
   const L=locked(o),f=o.form,bf=bfInfo(o),latest=o.bf.versions.length?o.bf.versions[o.bf.versions.length-1].v:null;
   const what=[['scope','Custom package or scope'],['terms','Non-standard payment terms'],['other','Other commercial terms']];
-  const cust=`<div class="field" data-fp="form.custom"><label id="cust_l">Customisation statement <span class="req" title="Required">*</span></label><div class="optcards" role="radiogroup" aria-labelledby="cust_l" style="display:grid;gap:10px">
+  const cust=`<div class="field" data-fp="form.custom"><label id="cust_l">Customisation statement <span class="req" title="Needed before the booking form is issued">*</span></label><div class="optcards" role="radiogroup" aria-labelledby="cust_l" style="display:grid;gap:10px">
    <label class="optcard" data-card="no"><input type="radio" name="form.custom" data-bind="form.custom" value="no" ${f.custom==='no'?'checked':''}><div><b>Strictly no customisation</b><span class="sm muted">The client has agreed to our standard terms only. No customised quotation, scope or clause was promised. Signing off confirms this.</span></div></label>
    <label class="optcard" data-card="yes"><input type="radio" name="form.custom" data-bind="form.custom" value="yes" ${f.custom==='yes'?'checked':''}><div><b>Customisation required</b><span class="sm muted">The client was promised something that differs from standard terms. Say what, and attach the evidence. The booking form cannot be issued until the right approvers agree.</span></div></label></div><div class="err" data-err>${ic('alert')}<span></span></div></div>
    <div data-show="form.custom=yes" style="display:grid;gap:14px"><div class="field" data-fp="form.customWhat"><label>What is customised? <span class="req">*</span></label><div class="radios">${what.map(w=>`<label class="radio"><input type="checkbox" data-act="cwhat" data-v="${w[0]}" ${f.customWhat.includes(w[0])?'checked':''}><span>${w[1]}</span></label>`).join('')}</div><div class="hint">This decides who approves: custom scope goes to the relevant Service HOD(s), and payment terms go to the Head of Sales or CEO/COO.</div><div class="err" data-err>${ic('alert')}<span></span></div></div>
@@ -2816,9 +2917,11 @@ function stepForm(o){
   const methods=`<div class="field"><label id="meth_l">How will the client sign?</label><div class="optcards" role="radiogroup" aria-labelledby="meth_l" style="display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
    <label class="optcard" data-mcard="digital"><input type="radio" name="bf.method" data-bind="bf.method" value="digital" ${o.bf.method==='digital'?'checked':''}><div><b>Digital link</b><span class="sm muted">The client gets a secure link by email and signs online. No CRM account needed.</span></div></label>
    <label class="optcard" data-mcard="offline"><input type="radio" name="bf.method" data-bind="bf.method" value="offline" ${o.bf.method==='offline'?'checked':''}><div><b>Offline signature</b><span class="sm muted">Print the form, get it signed, then upload the signed copy. Authorised staff verify it before the contract is created.</span></div></label></div></div>`;
-  return `<div class="bfhead"><span class="chip ${bf.cls}" id="bfchip">${bf.label}</span><b>Booking form ${o.id}</b><span class="muted">Version ${o.version}</span><span class="muted">Latest issued: ${latest?'v'+latest:'none yet'}</span><span style="flex:1"></span><button class="btn sm" data-act="print-bf">${ic('file')}Generate PDF</button></div>
-  ${templatesCard(o)}
-  ${bookingDoc(o,{signing:false})}
+  return `<div class="bfhead"><span class="chip ${bf.cls}" id="bfchip">${bf.label}</span><b>Booking form ${o.id}</b><span class="muted">Version ${o.version}</span><span class="muted">Latest issued: ${latest?'v'+latest:'none yet'}</span><span style="flex:1"></span>${L||!STEPS.slice(0,4).some(([n])=>validate(o).issues.some(i=>i.step===n))?`<button class="btn sm" data-act="print-bf">${ic('file')}Generate PDF</button>`:''}</div>
+  ${(()=>{if(L)return templatesCard(o)+bookingDoc(o,{signing:false});const {issues}=validate(o),pre=STEPS.slice(0,4).map(([n,t])=>({n,t,m:issues.filter(i=>i.step===n).length})).filter(x=>x.m);
+    if(!pre.length)return templatesCard(o)+bookingDoc(o,{signing:false});
+    const tot=pre.reduce((a,x)=>a+x.m,0);
+    return `<div class="bf-wait"><div class="bf-wait-ic">${ic('file')}</div><h3>The booking form will be generated once the details are complete</h3><p>${tot} field${tot>1?'s':''} still to fill. Nothing is sent to the client until you issue it.</p><div class="bf-wait-l">${pre.map(x=>`<button class="btn sm" data-act="goto" data-n="${x.n}">${esc(x.t)} · ${x.m} to fill${ic('right')}</button>`).join('')}</div></div>`})()}
   ${L?`<div style="margin-top:16px">${sec('cust','Customisation',`<div class="notice ${f.custom==='yes'?'warn':'ok'}">${ic(f.custom==='yes'?'alert':'check')}<div>${f.custom==='yes'?`<b>Customisation required.</b> ${esc(f.customDesc)} <span class="muted">(${esc(f.customFile)})</span>`:'<b>Strictly no customisation.</b> Standard terms only.'}</div></div>`)}</div>`
    :`<div style="margin-top:16px">${sec('cust','Customisation',cust)}</div>${o.deal.psg==='Yes'?sec('psgd','PSG documents',psg):''}${sec('apr','Approvals required before issuing','<div id="approvals-panel"></div>')}${sec('meth','Signing method',methods)}`}
   <div id="signblock" style="margin-top:16px">${signBlock(o)}</div>
@@ -2914,12 +3017,13 @@ function refresh(){
   const o=W.o;if(!o||!$('#wstep'))return;
   $$('[data-show]',$('#wstep')).forEach(el=>el.hidden=!evalShow(o,el.dataset.show));
   const {issues,total}=validate(o);const byP={};issues.forEach(i=>{if(!byP[i.p])byP[i.p]=i});
-  $$('[data-fp]',$('#wstep')).forEach(el=>{const p=el.dataset.fp,i=byP[p],show=i&&(W.touched.has(p)||W.showAll);el.classList.toggle('invalid',!!show);const sp=$('[data-err] span',el);if(sp)sp.textContent=i?i.msg:''});
+  $$('[data-fp]',$('#wstep')).forEach(el=>{const p=el.dataset.fp,i=byP[p],show=i&&(W.showAll||(W.touched.has(p)&&(()=>{const v0=getP(o,p);return Array.isArray(v0)?v0.length>0:String(v0??'').trim()!==''})()));el.classList.toggle('invalid',!!show);const sp=$('[data-err] span',el);if(sp)sp.textContent=i?i.msg:''});
   const T=oppRevenue(o),G=oppGst(o)+oppTax(o);
   $$('[data-out]').forEach(el=>{const [t,a,b]=el.dataset.out.split(':');let v='';
     if(t==='svc'){const s=o.services[a];if(!s)return;const c=calcSvc(s);v=b==='end'?fd(c.end):b==='monthly'?money2(c.monthly):b==='weekly'?money2(c.weekly):b==='daily'?money2(c.daily):b==='rev'?money2(c.rev):b==='gst'?money2(o.comm.gst==='Yes'?c.rev*.09:0):money2(c.rev*(o.comm.gst==='Yes'?1.09:1))}
     else if(t==='sched'){if(a==='total')v=money2(o.comm.schedule.reduce((x,r)=>x+['media','am','setup','seo','other'].reduce((y,c)=>y+num(r[c]),0),0));else{const r=o.comm.schedule[+a];v=r?money2(['media','am','setup','seo','other'].reduce((y,c)=>y+num(r[c]),0)):''}}
-    else if(t==='mp'){v=money2(calcSvc(o.services[a]).budget)}
+    else if(t==='mp'){v=money2(a==='all'?oppMedia(o):calcSvc(o.services[a]).budget)}
+    else if(t==='grp'){v=money2(oppRevenue(o))}
     el.textContent=v});
   o.serviceKeys.forEach(k=>{const s=o.services[k];
     if(s.auto){const t=$('#'+fid(`services.${k}.total`));if(t&&t!==document.activeElement){t.value=s.partner?num(s.partner).toLocaleString('en-SG',{minimumFractionDigits:2,maximumFractionDigits:2}):''}}
@@ -2929,9 +3033,12 @@ function refresh(){
   const tn=$('#terms-note');if(tn)tn.innerHTML=nonStandardTerms(o)?`<div class="notice warn" style="margin-top:12px">${ic('alert')}<div><b>Non-standard payment terms.</b> This needs approval from the Head of Sales or CEO/COO before the booking form can be issued.</div></div>`:'';
   const ap=$('#approvals-panel');if(ap)ap.innerHTML=approvalsHTML(o);
   const bc=$('#bfchip');if(bc){const bi=bfInfo(o);bc.className='chip '+bi.cls;bc.textContent=bi.label}
+  $$('[data-secst]',$('#wstep')).forEach(ch=>{const secEl=ch.closest('.sec');const fps=[...new Set($$('[data-fp]',secEl).filter(x=>!x.closest('[hidden]')).map(x=>x.dataset.fp))];if(!fps.length){ch.textContent='';ch.className='sec-st';return}
+    const miss=fps.filter(f=>byP[f]).length,filled=fps.filter(f=>{const v=getP(o,f);return Array.isArray(v)?v.length:String(v??'').trim()!==''&&v!==false}).length;
+    ch.className='sec-st chip '+(miss===0?'ok':filled?'warn':'');ch.textContent=miss===0?'Complete':filled?`In progress · ${miss} to fill`:'Not started'});
   const st=$('#stepper');
-  st.innerHTML=STEPS.map(([n,t,sub])=>{const m=issues.filter(i=>i.step===n).length;return `<button class="st ${m===0&&n<5?'done':''}" data-act="goto" data-n="${n}" ${o.step===n?'aria-current="step"':''}><span class="bubble">${m===0&&n<5?ic('check'):n}</span><span class="l"><b>${t}</b>${m?`<small class="miss">${m} missing</small>`:`<small>${n<5?'Complete':sub}</small>`}</span></button>`}).join('');
-  o.serviceKeys.forEach(k=>{const c=$(`[data-tabchip="${k}"]`);if(c){const m=issues.filter(i=>i.p.startsWith(`services.${k}.`)).length;c.className='chip '+(m?'bad':'ok');c.textContent=m?m+' missing':'Complete'}
+  st.innerHTML=STEPS.map(([n,t,sub])=>{const m=issues.filter(i=>i.step===n).length,touched=(o.stepsSeen||[]).includes(n);return `<button class="st ${m===0&&n<5?'done':''}" data-act="goto" data-n="${n}" ${o.step===n?'aria-current="step"':''}><span class="bubble">${m===0&&n<5?ic('check'):n}</span><span class="l"><b>${t}</b>${n===5?`<small>${sub}</small>`:m?`<small class="todo">${m} to fill</small>`:'<small>Complete</small>'}</span></button>`}).join('');
+  o.serviceKeys.forEach(k=>{const c=$(`[data-tabchip="${k}"]`);if(c){const m=issues.filter(i=>i.p.startsWith(`services.${k}.`)).length;c.className='chip '+(m?'warn':'ok');c.textContent=m?m+' to fill':'Complete'}
     const a=$(`[data-audcount="${k}"]`);if(a){const s=o.services[k];const n=[...Object.values(s.core),...Object.values(s.cust),...Object.values(s.like)].filter(Boolean).length;a.textContent=n?n+' filled':'Optional'}});
   $$('[data-card]').forEach(c=>c.classList.toggle('sel',o.form.custom===c.dataset.card));
   $$('[data-mcard]').forEach(c=>c.classList.toggle('sel',o.bf.method===c.dataset.mcard));
@@ -2939,8 +3046,8 @@ function refresh(){
   const done=total-issues.length,pct=Math.round(done/total*100);
   const grp=STEPS.map(([n,t])=>({n,t,list:issues.filter(i=>i.step===n)})).filter(g=>g.list.length);
   const draft=o.bf.state==='draft';
-  $('#wside').innerHTML=`<div class="card"><div class="bd" style="display:flex;gap:12px;align-items:center"><div class="ring" style="--p:${pct}"><b>${pct}%</b></div><div><b>${issues.length?`${issues.length} item${issues.length>1?'s':''} to complete`:draft?(out.length?'Complete, awaiting approvals':'Ready for issuance'):bfInfo(o).label}</b><div class="sm muted">${done} of ${total} required checks done</div></div></div>
-   <div class="bd" style="padding-top:0">${grp.length?grp.map(g=>`<div class="miss-grp"><h4>${g.t}</h4>${g.list.slice(0,8).map(i=>`<button class="miss-item sm" data-act="jump" data-p="${esc(i.p)}" data-s="${i.step}">${ic('alert')}<span>${esc(i.label)}</span></button>`).join('')}${g.list.length>8?`<div class="xs muted" style="padding:2px 6px">and ${g.list.length-8} more</div>`:''}</div>`).join(''):`<div class="notice ok" style="margin-top:6px">${ic('check')}<div>Everything required is complete.${o.step<5&&draft?' <a href="#" data-act="goto" data-n="5">Go to the booking form</a>':''}</div></div>`}
+  $('#wside').innerHTML=`<div class="card"><div class="bd" style="display:flex;gap:12px;align-items:center"><div class="ring" style="--p:${pct}"><b>${pct}%</b></div><div><b>${issues.length?`${pct}% ready for the booking form`:draft?(out.length?'Complete, awaiting approvals':'Ready for issuance'):bfInfo(o).label}</b><div class="sm muted">${issues.length?`${issues.length} field${issues.length>1?'s':''} still to fill. Only needed when you issue the booking form.`:`${done} of ${total} required checks done`}</div></div></div>
+   <div class="bd" style="padding-top:0">${grp.length?`<div class="xs muted" style="margin:2px 0 6px">Still to fill</div>`+grp.map(g=>`<div class="miss-grp"><h4>${g.t}</h4>${g.list.slice(0,8).map(i=>`<button class="miss-item sm todo" data-act="jump" data-p="${esc(i.p)}" data-s="${i.step}"><span class="dotc"></span><span>${esc(i.label)}</span></button>`).join('')}${g.list.length>8?`<div class="xs muted" style="padding:2px 6px">and ${g.list.length-8} more</div>`:''}</div>`).join(''):`<div class="notice ok" style="margin-top:6px">${ic('check')}<div>Everything required is complete.${o.step<5&&draft?' <a href="#" data-act="goto" data-n="5">Go to the booking form</a>':''}</div></div>`}
    ${draft&&!issues.length&&out.length?`<div class="miss-grp"><h4>Approvals outstanding</h4>${out.map(a=>`<button class="miss-item sm" data-act="goto" data-n="5">${ic('clock')}<span>${esc(a.label)}</span></button>`).join('')}</div>`:''}</div></div>
    <div class="card"><div class="bd"><div class="totals"><div class="r"><span class="muted">Contract value</span><b class="num">${money2(T)}</b></div><div class="r"><span class="muted">GST and tax</span><b class="num">${money2(G)}</b></div><div class="r big"><span>Total payable</span><span class="num">${money2(T+G)}</span></div></div></div></div>`;
   const sb=$('#signbtn');if(sb){const ok=issues.length===0&&out.length===0&&nameOk(o);sb.disabled=!ok;const why=$('#signwhy');
@@ -2963,6 +3070,8 @@ function afterBind(p,el,isChange){
   else if(p==='billing.id'){const co=CO(o.deal.companyId),b=co&&co.billing.find(x=>x.id===o.billing.id);if(b)Object.assign(o.billing,{company:b.company,first:b.first,last:b.last,email:b.email,phone:b.phone,address:b.address,postal:b.postal});else if(o.billing.id==='__new')Object.assign(o.billing,{company:'',first:'',last:'',email:'',cc:'',phone:'',address:'',postal:''});drawStep(true)}
   else if(/^services\.\w+\.auto$/.test(p)){drawStep(true)}
   else if(p==='billing.same'){if(o.billing.same){const c=o.client;Object.assign(o.billing,{company:o.legal.name||o.deal.companyName,first:c.first,last:c.last,email:c.email,phone:c.phone,address:o.legal.address||o.billing.address})}drawStep(true)}
+  else if(p==='comm.shared'){if(o.comm.shared==='Yes')o.comm.merge='Yes';drawStep(true)}
+  else if(p.startsWith('grp.')){refresh()}
   else if(p==='comm.ptax.on'){if(o.comm.ptax.on&&!o.comm.ptax.svcs.length)o.comm.ptax.svcs=o.serviceKeys.filter(k=>calcSvc(o.services[k]).budget>0);drawStep(true)}
   else if(p==='conv.industry'){o.conv.sub='';drawStep(true)}
   else if(p==='comm.gst'||p==='deal.psg'){if(o.step===5)drawStep(true);else refresh()}
@@ -3016,10 +3125,14 @@ const ACT={
  'pd-more':el=>{const k=el.dataset.key;CV.open.has(k)?CV.open.delete(k):CV.open.add(k);const y=window.scrollY;route();window.scrollTo(0,y)},
  'svc-pause':el=>svcPauseDialog(el.dataset.no,el.dataset.k),'svc-resume':el=>svcResumeDialog(el.dataset.no,el.dataset.k),'svc-end':el=>svcEndDialog(el.dataset.no,el.dataset.k),'ess-edit':el=>essEdit(el.dataset.f),
  'omode':el=>{OV.mode=el.dataset.m;route()},
- 'demo-fill':()=>{demoFill(W.o,W.o.deal.companyId);saveOpp();drawStep(true);toast('Sample data filled in. Customisation and sign-off are still yours to complete.','pen')},
+ 'demo-fill':()=>{demoFill(W.o,W.o.deal.companyId);saveOpp();drawStep(true);toast('Sample data filled in. Approvals and sign-off are still yours to complete.','pen')},
  'wstep':el=>{W.o.step=Math.max(1,Math.min(5,W.o.step+ +el.dataset.d));W.showAll=false;saveOpp();drawStep()},
  'goto':(el,e)=>{e.preventDefault();W.o.step=+el.dataset.n;saveOpp();drawStep()},
  'jump':el=>jumpTo(el.dataset.p,+el.dataset.s),
+ 'grp-mode':el=>{const o=W.o;if(locked(o))return;o.comm.shared=el.dataset.v;if(o.comm.shared==='Yes'){o.comm.merge='Yes';o.grp=o.grp||{fee:'',setup:'',discount:'',media:'',split:{}};if(!o.grp.fee&&!o.grp.media){groupSync({...o,comm:{...o.comm,shared:'No'}});const base=o.serviceKeys.map(k=>{const s=o.services[k];delete s._g;return calcSvc(s)});const f=base.reduce((a,c)=>a+c.mgmt,0),u=base.reduce((a,c)=>a+c.setup,0),d=base.reduce((a,c)=>a+c.disc,0),m=base.reduce((a,c)=>a+c.budget,0);o.grp.fee=f?fm2(f):'';o.grp.setup=u?fm2(u):'';o.grp.discount=d?fm2(d):'';o.grp.media=m?fm2(m):''}}saveOpp();drawStep(true)},
+ 'sec-save':el=>{const o=W.o,k=el.dataset.key,secEl=el.closest('.sec');o.secSaved=o.secSaved||{};o.secSaved[k]={at:nowStamp(),by:ME.name};saveOpp();
+   const {issues}=validate(o),fps=$$('[data-fp]',secEl).filter(x=>!x.closest('[hidden]')).map(x=>x.dataset.fp),miss=issues.filter(i=>fps.includes(i.p)).length;
+   W.closed[k]=true;drawStep(true);toast(miss?`Section saved. ${miss} field${miss>1?'s':''} left to fill later.`:'Section saved','check')},
  'sec-toggle':el=>{const k=el.dataset.key,s=el.closest('.sec'),closed=!s.classList.contains('closed');s.classList.toggle('closed',closed);el.setAttribute('aria-expanded',!closed);W.closed[k]=closed},
  'quick':el=>{const o=W.o;setP(o,el.dataset.p,el.dataset.v);W.touched.add(el.dataset.p);const ta=$(`#${fid(el.dataset.p)}`);if(ta)ta.value=el.dataset.v;refresh();saveOpp()},
  'multi-rm':el=>{const o=W.o;if(locked(o))return;const p=el.dataset.p,a=(getP(o,p)||[]).filter(x=>x!==el.dataset.v);setP(o,p,a);const box=el.closest('.multi');box.innerHTML=multiInner(o,p,JSON.parse(box.dataset.opts));refresh();saveOpp()},
@@ -3033,7 +3146,20 @@ const ACT={
  'do-sign':()=>{const o=W.o;if(validate(o).issues.length||approvalsOutstanding(o).length||!nameOk(o))return;issueBF(o,o.bf.method);saveOpp();drawStep();toast(o.bf.method==='offline'?'Issued for offline signature':'Issued. Endorsement link sent to the signatory','lock')},
  'p-resend':()=>{W.o.ce.sentAt=nowStamp();saveOpp();toast('Endorsement link resent','send')},
  'ap-approve':el=>{const o=W.o;o.approvals[el.dataset.id]={status:'approved',key:approvalKey(o),at:nowStamp()};saveOpp();refresh()},
- 'st-presented':()=>{const o=W.o;o.opp.presentedOn=iso(TODAY);setStage(o,'presented','Proposal presented to client');saveOpp();drawStageBar();drawStep(true);toast('Marked as presented','check')},
+ 'st-presented':()=>{const o=W.o;
+   const d=dialog({title:'Move to Presented / Consideration',icon:'right',body:`<p class="sm" style="margin:0">Only move this on once the client has actually seen the proposal. Before you confirm, check that:</p>
+    <ul class="sm" style="margin:0;padding-left:18px;display:grid;gap:4px"><li>The proposal or pricing has been shared with the client, in a meeting, a call or by email</li><li>The client is now considering it or negotiating</li><li>The services and estimated value on this opportunity reflect what was presented</li></ul>
+    <div class="grid g2"><div class="field" id="f-pdt"><label for="pdt">Date presented <span class="req">*</span></label><input type="date" class="in" id="pdt" value="${iso(TODAY)}" max="${iso(TODAY)}" min="${o.created}"><div class="err">${ic('alert')}<span>Choose a date between when the opportunity was created and today.</span></div></div>
+     <div class="field"><label for="phow">How it was presented</label><select class="in" id="phow"><option>Meeting</option><option>Video call</option><option>Phone call</option><option>Email</option></select></div></div>
+    <p class="xs muted" style="margin:0">If this was a mistake, you can move it back to Proposal Preparation afterwards. The change is logged.</p>`,
+    foot:`<button class="btn" data-act="dlg-close">Cancel</button><button class="btn primary" id="p-go">Move to Presented</button>`});
+   $('#p-go',d).onclick=()=>{const dt=$('#pdt',d).value,okD=dt&&dt<=iso(TODAY)&&dt>=o.created;$('#f-pdt',d).classList.toggle('invalid',!okD);if(!okD)return;
+    o.opp.presentedOn=dt;setStage(o,'presented',`Proposal presented (${$('#phow',d).value}) on ${fd(dt)}`);saveOpp();closeDialog();drawStageBar();drawStep(true);toast('Moved to Presented / Consideration','check')}},
+ 'st-back':()=>{const o=W.o;
+   const d=dialog({title:'Move back to Proposal Preparation',icon:'refresh',body:`<p class="sm" style="margin:0">Use this if the opportunity was moved on by mistake, or the proposal is being reworked before the client sees it again. The move is recorded in the stage history.</p>
+    <div class="field" id="f-bwhy"><label for="bwhy">Reason <span class="req">*</span></label><select class="in" id="bwhy"><option value="">Select a reason</option><option>Moved on by mistake</option><option>Proposal being reworked</option><option>Other</option></select><div class="err">${ic('alert')}<span>Choose a reason.</span></div></div>`,
+    foot:`<button class="btn" data-act="dlg-close">Cancel</button><button class="btn primary" id="b-go">Move back</button>`});
+   $('#b-go',d).onclick=()=>{const r=$('#bwhy',d).value;$('#f-bwhy',d).classList.toggle('invalid',!r);if(!r)return;o.opp.presentedOn='';setStage(o,'prep',`Moved back: ${r}`);saveOpp();closeDialog();drawStageBar();drawStep(true);toast('Moved back to Proposal Preparation','check')}},
  'st-resume':()=>{const o=W.o;setStage(o,o.opp.prevStage||'prep','Pursuit resumed');saveOpp();drawStageBar();drawStep(true);toast('Pursuit resumed','check')},
  'st-lost':()=>stageDialog('lost'),'st-defer':()=>stageDialog('deferred'),
  'cat-open':el=>openCatalogue(el.dataset.k),
